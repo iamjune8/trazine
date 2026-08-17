@@ -1,0 +1,142 @@
+ITINERARY SECTION — IMAGE GENERATION PROMPTS
+Travel Magazine — Destination Itinerary Imagery
+
+Shared style suffix (append to every prompt):
+, photorealistic, editorial travel magazine photography, warm golden-hour light, rich saturated colors, professional DSLR quality, no text, no watermark, no people looking at camera
+
+Each destination below has 8 prompts covering a typical itinerary arc: arrival, stay, landmark, activity, culture, food, nature/relaxation, departure. Use in order for a "Day 1, Day 2..." style itinerary layout, or pick individually for itinerary cards.
+
+===========================================
+THAILAND
+===========================================
+1. Airport arrival hall with tropical plants and warm lighting, Bangkok, welcoming atmosphere
+2. Luxury resort pool villa with palm trees and lounge chairs, Phuket, late afternoon light
+3. Grand golden Buddhist temple complex with intricate spires, Bangkok, clear blue sky
+4. Longtail boat tour through emerald water past limestone karsts, Krabi, midday sun
+5. Traditional Thai dancers in ornate costumes performing at a cultural show, evening
+6. Street food night market stall with grilled skewers and steaming noodle bowls, Chiang Mai
+7. White sand beach cove with turquoise water and dramatic cliffs, Railay Beach, sunset
+8. Rooftop bar overlooking the Bangkok skyline at night, city lights, departure evening
+
+===========================================
+BALI
+===========================================
+1. Denpasar airport arrival with tropical garden entrance, warm afternoon light
+2. Private pool villa surrounded by jungle and palm trees, Ubud, soft morning light
+3. Ancient stone water temple on a lake with misty mountains behind it
+4. Terraced emerald rice paddies with a narrow walking path, Tegallalang, morning
+5. Traditional Balinese offering ceremony with flowers and incense, close-up detail
+6. Open-air café with fresh tropical fruit bowls and coconut drinks, jungle view
+7. Cliffside temple perched above crashing ocean waves, Uluwatu, golden hour
+8. Beach bonfire and lounge chairs at sunset, Seminyak, departure evening
+
+===========================================
+MALDIVES
+===========================================
+1. Seaplane landing on turquoise lagoon water, aerial view, arrival
+2. Overwater bungalow bedroom with glass floor panel showing the ocean below
+3. Private overwater deck with a plunge pool and ocean horizon view
+4. Snorkeling scene with colorful coral reef and tropical fish, crystal clear water
+5. Traditional Maldivian dhoni boat sailing at sunset
+6. Private beachside dinner table set on the sand with candles, evening
+7. Aerial view of a coral atoll ring surrounding a turquoise lagoon
+8. Overwater walkway silhouette at dusk, departure evening
+
+===========================================
+KENYA
+===========================================
+1. Small bush plane landing on a dirt airstrip, Maasai Mara, dusty golden light
+2. Luxury safari tented camp with canvas tents overlooking the savanna, dawn
+3. Herd of elephants walking across open grassland at sunset
+4. Open-top safari jeep on a game drive with lions resting nearby, midday
+5. Maasai warriors in traditional red shuka cloth performing a jumping dance
+6. Outdoor bush dinner under string lights with a campfire, evening
+7. Hot air balloons floating over golden savanna at sunrise, acacia trees below
+8. Silhouette of giraffes against an orange African sunset, departure evening
+
+===========================================
+JAPAN
+===========================================
+1. Narita or Haneda airport arrival with clean modern architecture, soft daylight
+2. Traditional ryokan inn room with tatami mats and a low table, evening
+3. Mount Fuji framed by blooming cherry blossoms, clear sky, morning
+4. Bullet train speeding past a rural landscape, motion blur, daytime
+5. Tea ceremony scene with a kimono-clad host preparing matcha, close-up
+6. Bowl of fresh sushi and ramen on a wooden counter, Tokyo izakaya
+7. Row of red torii gates leading up a forested hillside, Kyoto, soft light
+8. Neon-lit Shibuya crossing at night, umbrellas and city energy, departure evening
+
+===========================================
+SOUTH KOREA
+===========================================
+1. Incheon airport arrival hall with modern glass architecture, daylight
+2. Boutique hotel room with city skyline view, Seoul, evening light
+3. Gyeongbokgung Palace traditional architecture with guards in ceremonial dress
+4. Colorful hanok village rooftops on a hillside, Bukchon, golden hour
+5. Korean BBQ table with grilling meat and side dishes, warm restaurant light
+6. Traditional hanbok-clad visitors walking through a palace courtyard
+7. Cherry blossom trees lining a riverside park in spring
+8. Seoul city skyline and Han River at night, illuminated bridge, departure evening
+
+===========================================
+DOMESTIC INDIA
+===========================================
+1. Domestic airport terminal arrival with travelers and luggage, warm daylight
+2. Heritage palace hotel courtyard with fountains, Rajasthan, golden afternoon
+3. Taj Mahal at sunrise reflected in the water, soft pastel sky
+4. Camel safari crossing golden desert dunes at sunset, Jaisalmer
+5. Traditional Rajasthani folk dancers in vibrant costumes, evening performance
+6. Kerala houseboat drifting through calm backwaters lined with palm trees
+7. Snow-capped Himalayan peaks with colorful prayer flags, Ladakh, clear sky
+8. Rooftop restaurant overlooking a lit-up fort at night, departure evening
+
+===========================================
+DUBAI
+===========================================
+1. Dubai International Airport arrival hall with sleek modern architecture, daylight
+2. Infinity pool at a luxury high-rise hotel overlooking the Dubai skyline, evening
+3. Burj Khalifa towering over the city skyline at golden hour
+4. Desert dune bashing in a 4x4 with a trail of sand dust, late afternoon sun
+5. Traditional Arabian majlis tent with cushions and lanterns, desert camp evening
+6. Gold souk market stalls with ornate jewelry displays, warm lantern light
+7. Camel caravan crossing rippled desert dunes at sunset
+8. Dubai Marina skyline reflected on water at night, illuminated skyscrapers, departure evening
+
+===========================================
+EUROPE
+===========================================
+1. Charles de Gaulle or Heathrow airport arrival hall with travelers and luggage, daylight
+2. Boutique hotel room with wrought-iron balcony overlooking a cobblestone street, Paris
+3. Eiffel Tower framed by tree-lined avenue, soft morning light
+4. Gondola drifting through a narrow Venice canal past colorful buildings
+5. Outdoor café terrace with pastries and coffee on a cobblestone piazza, Rome
+6. Vineyard-covered rolling hills with a stone villa, Tuscany, golden afternoon
+7. Swiss Alps mountain village with snow-capped peaks and a cable car, clear sky
+8. Illuminated European old-town square at night with string lights, departure evening
+
+===========================================
+SRI LANKA
+===========================================
+1. Colombo airport arrival with tropical palm trees, warm daylight
+2. Hillside tea plantation bungalow with misty mountain views, Nuwara Eliya, morning
+3. Ancient rock fortress rising above lush jungle, Sigiriya, clear sky
+4. Blue whale breaching near a wildlife safari boat off the southern coast
+5. Traditional stilt fishermen silhouetted against the ocean at sunset, Weligama
+6. Sri Lankan rice and curry spread on banana leaf, colorful and vibrant
+7. Tea pickers in colorful sarees working across emerald green tea terraces
+8. Golden coastal train winding along the beach at sunset, departure evening
+
+===========================================
+NEPAL
+===========================================
+1. Kathmandu airport arrival with prayer flags visible in the distance, daylight
+2. Cozy mountain lodge room with wooden interiors and a view of snow peaks
+3. Everest and the Himalayan range at sunrise, dramatic golden light
+4. Trekkers crossing a suspension bridge over a deep valley, mountain trail
+5. Buddhist monks in maroon robes at a monastery courtyard, prayer flags fluttering
+6. Steaming momo dumplings and butter tea served in a mountain teahouse
+7. Ancient pagoda-style temple with intricate wood carvings, Bhaktapur, golden hour
+8. Sunset silhouette of the Annapurna range from a hillside viewpoint, departure evening
+
+---
+Tip: Generate at 16:9 for itinerary banner/hero use per day, or 4:3 for itinerary timeline cards. Keep the same style suffix across all destinations so the itinerary section feels visually unified.

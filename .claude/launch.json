@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "travel-magazine",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "admanco",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd '/Users/apple/Desktop/gulf-manpower-recruitment' && python3 -m http.server ${PORT:-8931}"],
+      "port": 8931,
+      "autoPort": true
+    }
+  ]
+}
