@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { ButtonLink } from "@/components/ui/Button";
+import { PageHeader } from "@/components/admin/ui/PageHeader";
+import { Card } from "@/components/admin/ui/Card";
+import { AdminButtonLink } from "@/components/admin/ui/AdminButton";
+import { MotionStagger, MotionStaggerItem } from "@/components/admin/ui/MotionIn";
+import { Icon } from "@/components/ui/Icon";
 
 export const dynamic = "force-dynamic";
 
-export default async function FaqsPage() {
+export default async function FaqsAdminPage() {
   const supabase = await createClient();
   const { data: faqs, error } = await supabase
     .from("faqs")
@@ -13,43 +17,54 @@ export default async function FaqsPage() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-3xl text-ink">FAQs</h1>
-          <p className="mt-2 text-ink-2">Shown on the homepage, /services and /contact.</p>
-        </div>
-        <ButtonLink href="/admin/faqs/new" withArrow>
-          Add FAQ
-        </ButtonLink>
-      </div>
+      <PageHeader
+        eyebrow="Content"
+        title="FAQs"
+        description="The question list shown across the site."
+        actions={
+          <AdminButtonLink href="/admin/faqs/new" icon="plus" withArrow>
+            Add FAQ
+          </AdminButtonLink>
+        }
+      />
 
       {error ? (
-        <p className="mt-8 border-l-2 border-danger bg-danger/5 px-4 py-3 text-sm text-danger">
+        <p className="mt-8 rounded-xl border border-admin-danger/30 bg-admin-danger/10 px-4 py-3 text-sm text-admin-danger">
           Couldn&rsquo;t load FAQs: {error.message}
         </p>
       ) : null}
 
-      <div className="mt-8 border border-line bg-paper">
+      <Card className="mt-8 overflow-hidden">
         {!faqs || faqs.length === 0 ? (
-          <p className="p-8 text-ink-2">No FAQs yet.</p>
+          <p className="p-8 text-admin-text-3">No FAQs yet.</p>
         ) : (
-          <ul>
-            {faqs.map((faq) => (
-              <li key={faq.id} className="border-b border-line last:border-b-0">
-                <Link
-                  href={`/admin/faqs/${faq.id}`}
-                  className="flex items-center justify-between gap-4 px-6 py-5 transition-colors duration-200 hover:bg-paper-2"
-                >
-                  <span className="text-ink">{faq.question}</span>
-                  <span className="shrink-0 text-sm text-ink-3">
-                    Order {faq.display_order}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <MotionStagger>
+            <ul>
+              {faqs.map((f, i) => (
+                <MotionStaggerItem key={f.id}>
+                  <li className={i !== faqs.length - 1 ? "border-b border-admin-border-soft" : ""}>
+                    <Link
+                      href={`/admin/faqs/${f.id}`}
+                      className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 transition-colors duration-200 hover:bg-white/[0.03]"
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-admin-text-3">
+                          <Icon name="help-circle" size={15} />
+                        </span>
+                        <span className="text-sm font-medium text-admin-text">{f.question}</span>
+                      </span>
+                      <span className="flex items-center gap-3 shrink-0 text-xs text-admin-text-3">
+                        Order {f.display_order}
+                        <Icon name="chevron-right" size={16} />
+                      </span>
+                    </Link>
+                  </li>
+                </MotionStaggerItem>
+              ))}
+            </ul>
+          </MotionStagger>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

@@ -12,6 +12,30 @@
  */
 
 @theme {
+  /* ── Admin (dark, vibrant control-panel theme) ──────────────────────────
+   * Deliberately its own palette, not a dark-mode variant of the public
+   * site's paper/brass tokens — the admin panel has its own document root
+   * (src/app/admin/layout.tsx), so nothing here ever touches the site the
+   * visitor sees. Near-black surfaces with a layered violet→cyan→pink
+   * gradient accent, used sparingly (one glow per view) so it reads as
+   * "futuristic control room", not neon soup. */
+  --color-admin-bg: #05060d;
+  --color-admin-surface: #0d1020;
+  --color-admin-surface-2: #131728;
+  --color-admin-surface-3: #1b2036;
+  --color-admin-border: #23283f;
+  --color-admin-border-soft: #191d31;
+  --color-admin-text: #f2f3fb;
+  --color-admin-text-2: #a3a8c6;
+  --color-admin-text-3: #6b7093;
+  --color-admin-violet: #8b5cf6;
+  --color-admin-indigo: #6366f1;
+  --color-admin-cyan: #22d3ee;
+  --color-admin-pink: #f472b6;
+  --color-admin-success: #34d399;
+  --color-admin-danger: #fb7185;
+  --color-admin-warning: #fbbf24;
+
   /* ── Paper (light surfaces) ── */
   --color-paper: #fbf9f5; /* page background */
   --color-paper-2: #f4f0e8; /* alternating section band */
@@ -545,5 +569,86 @@ body {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+}
+
+/* ── Admin control panel ─────────────────────────────────────────────────
+ * Scoped to the /admin document root only (its own <body>, see
+ * src/app/admin/layout.tsx) — everything below is unreachable from the
+ * public site's markup, so it is safe to be as opinionated as it likes. */
+
+.admin-root {
+  background-color: var(--color-admin-bg);
+  color: var(--color-admin-text);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: clip;
+}
+
+/* Soft, fixed aurora glow behind everything — one radial per accent hue,
+   very low opacity, blurred hard. Reads as "ambient light", not a graphic. */
+.admin-aurora {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 34rem at 12% -10%, color-mix(in oklab, var(--color-admin-violet) 22%, transparent), transparent 60%),
+    radial-gradient(46rem 30rem at 105% 10%, color-mix(in oklab, var(--color-admin-cyan) 16%, transparent), transparent 60%),
+    radial-gradient(50rem 32rem at 50% 115%, color-mix(in oklab, var(--color-admin-pink) 14%, transparent), transparent 60%);
+}
+
+.admin-grid-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-admin-text) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-admin-text) 4%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, black 0%, transparent 75%);
+}
+
+.admin-gradient-text {
+  background: linear-gradient(90deg, var(--color-admin-cyan), var(--color-admin-violet) 55%, var(--color-admin-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.admin-glass {
+  background: color-mix(in oklab, var(--color-admin-surface) 92%, transparent);
+  border: 1px solid var(--color-admin-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.admin-glow-ring {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--color-admin-violet) 35%, transparent),
+    0 0 32px -8px color-mix(in oklab, var(--color-admin-violet) 55%, transparent);
+}
+
+.admin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-admin-border) transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .admin-shimmer {
+    background-size: 200% 100%;
+    animation: admin-shimmer 6s linear infinite;
+  }
+}
+
+@keyframes admin-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon";
 import { DestinationForm } from "../DestinationForm";
 import { createDestination } from "../actions";
 
@@ -9,11 +10,12 @@ export default function NewDestinationPage() {
     <div>
       <Link
         href="/admin/destinations"
-        className="text-sm text-ink-3 transition-colors duration-200 hover:text-ink"
+        className="inline-flex items-center gap-1.5 text-sm text-admin-text-3 transition-colors duration-200 hover:text-admin-text"
       >
-        ← All destinations
+        <Icon name="chevron-left" size={15} />
+        All destinations
       </Link>
-      <h1 className="font-display mt-4 text-3xl text-ink">Add destination</h1>
+      <h1 className="mt-4 text-2xl font-semibold text-admin-text sm:text-3xl">Add destination</h1>
       <DestinationForm action={createDestination} submitLabel="Create destination" />
     </div>
   );

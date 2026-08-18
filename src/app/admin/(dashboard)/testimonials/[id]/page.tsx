@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AdminDeleteButton } from "@/components/admin/ui/AdminDeleteButton";
+import { Icon } from "@/components/ui/Icon";
 import { TestimonialForm } from "../TestimonialForm";
 import { updateTestimonial, deleteTestimonial } from "../actions";
 
@@ -27,23 +28,22 @@ export default async function EditTestimonialPage({ params }: Props) {
     <div>
       <Link
         href="/admin/testimonials"
-        className="text-sm text-ink-3 transition-colors duration-200 hover:text-ink"
+        className="inline-flex items-center gap-1.5 text-sm text-admin-text-3 transition-colors duration-200 hover:text-admin-text"
       >
-        ← All testimonials
+        <Icon name="chevron-left" size={15} />
+        All testimonials
       </Link>
 
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="font-display mt-4 text-3xl text-ink">Edit testimonial</h1>
+      <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+        <h1 className="text-2xl font-semibold text-admin-text sm:text-3xl">
+          Edit {testimonial.name}
+        </h1>
         <form action={boundDelete}>
-          <DeleteButton confirmText="Delete this testimonial? This can't be undone." />
+          <AdminDeleteButton confirmText={`Delete this testimonial from ${testimonial.name}? This can't be undone.`} />
         </form>
       </div>
 
-      <TestimonialForm
-        action={boundUpdate}
-        defaultValues={testimonial}
-        submitLabel="Save changes"
-      />
+      <TestimonialForm action={boundUpdate} defaultValues={testimonial} submitLabel="Save changes" />
     </div>
   );
 }

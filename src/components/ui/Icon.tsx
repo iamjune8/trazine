@@ -41,7 +41,16 @@ export type IconName =
   | "users"
   | "bed"
   | "map-route"
-  | "receipt";
+  | "receipt"
+  | "grid"
+  | "suitcase"
+  | "wrench"
+  | "help-circle"
+  | "logout"
+  | "search"
+  | "sparkle"
+  | "trend-up"
+  | "eye";
 
 const paths: Record<IconName, React.ReactNode> = {
   compass: (
@@ -206,6 +215,59 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M8.5 12h7" />
     </>
   ),
+  grid: (
+    <>
+      <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13" y="3.5" width="7.5" height="7.5" rx="1.5" />
+      <rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13" y="13" width="7.5" height="7.5" rx="1.5" />
+    </>
+  ),
+  suitcase: (
+    <>
+      <rect x="3" y="7.5" width="18" height="12" rx="2" />
+      <path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5" />
+      <path d="M3 13h18" />
+    </>
+  ),
+  wrench: (
+    <path d="M14.7 6.3a4 4 0 0 0-5.4 4.9L4 16.5V20h3.5l5.3-5.3a4 4 0 0 0 4.9-5.4l-2.6 2.6-2-2z" />
+  ),
+  "help-circle": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.5 9.2a2.5 2.5 0 1 1 3.7 2.2c-.9.5-1.2 1-1.2 1.9" />
+      <circle cx="12" cy="16.6" r="0.15" fill="currentColor" stroke="none" />
+    </>
+  ),
+  logout: (
+    <>
+      <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3" />
+      <path d="M15 8l4 4-4 4" />
+      <path d="M19 12H9" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m20 20-4.35-4.35" />
+    </>
+  ),
+  sparkle: (
+    <path d="M12 3.5c.6 3 1.9 4.3 4.9 4.9-3 .6-4.3 1.9-4.9 4.9-.6-3-1.9-4.3-4.9-4.9 3-.6 4.3-1.9 4.9-4.9zM19 14.5c.35 1.7 1.05 2.4 2.75 2.75-1.7.35-2.4 1.05-2.75 2.75-.35-1.7-1.05-2.4-2.75-2.75 1.7-.35 2.4-1.05 2.75-2.75z" />
+  ),
+  "trend-up": (
+    <>
+      <path d="m4 16 6-6 4 4 6-7" />
+      <path d="M15 7h5v5" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
 };
 
 /** Icons that read better filled than stroked. */
@@ -216,6 +278,7 @@ const filled = new Set<IconName>([
   "whatsapp",
   "play",
   "pause",
+  "sparkle",
 ]);
 
 export function Icon({

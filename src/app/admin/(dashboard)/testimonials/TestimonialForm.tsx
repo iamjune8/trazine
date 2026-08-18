@@ -1,5 +1,6 @@
-import { TextField, TextAreaField } from "@/components/ui/Field";
-import { Button } from "@/components/ui/Button";
+import { AdminTextField, AdminTextAreaField } from "@/components/admin/ui/AdminField";
+import { AdminButton } from "@/components/admin/ui/AdminButton";
+import { Card } from "@/components/admin/ui/Card";
 
 export function TestimonialForm({
   action,
@@ -17,41 +18,43 @@ export function TestimonialForm({
   submitLabel: string;
 }) {
   return (
-    <form action={action} className="mt-8 max-w-2xl space-y-6">
-      <TextAreaField
-        label="Quote"
-        name="quote"
-        required
-        rows={5}
-        defaultValue={defaultValues?.quote}
-      />
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <TextField label="Name" name="name" required defaultValue={defaultValues?.name} />
-        <TextField
-          label="Role / location"
-          name="role"
+    <Card className="mt-8 max-w-2xl p-6 sm:p-8">
+      <form action={action} className="space-y-6">
+        <AdminTextAreaField
+          label="Quote"
+          name="quote"
           required
-          placeholder="e.g. Bandra, Mumbai"
-          defaultValue={defaultValues?.role}
+          rows={5}
+          defaultValue={defaultValues?.quote}
         />
-      </div>
-      <TextField
-        label="Trip"
-        name="trip"
-        required
-        placeholder="e.g. Paris & Switzerland, 11 nights"
-        defaultValue={defaultValues?.trip}
-      />
-      <TextField
-        label="Display order"
-        name="display_order"
-        type="number"
-        defaultValue={defaultValues?.display_order ?? 0}
-        hint="Lower numbers show first."
-      />
-      <Button type="submit" size="lg">
-        {submitLabel}
-      </Button>
-    </form>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <AdminTextField label="Name" name="name" required defaultValue={defaultValues?.name} />
+          <AdminTextField
+            label="Role / location"
+            name="role"
+            required
+            placeholder="e.g. Bandra, Mumbai"
+            defaultValue={defaultValues?.role}
+          />
+        </div>
+        <AdminTextField
+          label="Trip"
+          name="trip"
+          required
+          placeholder="e.g. Paris & Switzerland, 11 nights"
+          defaultValue={defaultValues?.trip}
+        />
+        <AdminTextField
+          label="Display order"
+          name="display_order"
+          type="number"
+          defaultValue={defaultValues?.display_order ?? 0}
+          hint="Lower numbers show first."
+        />
+        <AdminButton type="submit" size="lg">
+          {submitLabel}
+        </AdminButton>
+      </form>
+    </Card>
   );
 }
