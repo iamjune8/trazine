@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 
 const navLinks: NavLink[] = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
+  { href: "/admin/analytics", label: "Analytics", icon: "activity" },
   { href: "/admin/leads", label: "Leads", icon: "mail" },
   { href: "/admin/destinations", label: "Destinations", icon: "pin" },
   { href: "/admin/packages", label: "Packages", icon: "suitcase" },

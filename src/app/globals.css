@@ -36,6 +36,20 @@
   --color-admin-danger: #fb7185;
   --color-admin-warning: #fbbf24;
 
+  /* Chart series — a separate, CVD-validated categorical set (dataviz skill,
+   * validated against --color-admin-surface: worst adjacent CVD ΔE 8.4,
+   * worst adjacent normal-vision ΔE 19.3, both ≥ target). Deliberately not
+   * the brand violet/indigo/cyan/pink above — that set fails as chart data
+   * (indigo↔violet measure ΔE 6.3, well under the 15 floor). Order is the
+   * safety mechanism: assign in this order, never re-cycle or swap. */
+  --chart-1: #3987e5; /* blue — sequential/primary series (single-line charts) */
+  --chart-2: #d95926; /* orange */
+  --chart-3: #199e70; /* aqua */
+  --chart-4: #c98500; /* yellow */
+  --chart-5: #d55181; /* magenta */
+  --chart-6: #008300; /* green */
+  --chart-grid: #23283f; /* hairline gridlines/axes — one step off the surface */
+
   /* ── Paper (light surfaces) ── */
   --color-paper: #fbf9f5; /* page background */
   --color-paper-2: #f4f0e8; /* alternating section band */

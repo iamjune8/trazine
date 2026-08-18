@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { DestinationCard } from "@/components/DestinationCard";
+import { DestinationsElasticGallery } from "@/components/sections/DestinationsElasticGallery";
 import { CTABand } from "@/components/sections/CTABand";
 import { Container, Section } from "@/components/ui/Layout";
 import { Stagger, StaggerItem, Reveal } from "@/components/motion/Reveal";
@@ -98,16 +99,9 @@ export default async function DestinationsPage() {
             </p>
           </Reveal>
 
-          <Stagger
-            as="ul"
-            className="mt-16 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:mt-20"
-          >
-            {easyDestinations.map((destination) => (
-              <StaggerItem as="li" key={destination.slug}>
-                <DestinationCard destination={destination} aspect="aspect-[4/5]" />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <Reveal delay={0.1} className="mt-16 lg:mt-20">
+            <DestinationsElasticGallery destinations={easyDestinations} />
+          </Reveal>
         </Container>
       </Section>
 
