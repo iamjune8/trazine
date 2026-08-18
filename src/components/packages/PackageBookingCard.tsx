@@ -1,10 +1,9 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
-import { useEnquiry } from "@/components/enquiry/EnquiryContext";
-import { trackEvent } from "@/lib/analytics";
+import { PackageEnquiryModal, type PackageEnquirySummary } from "./PackageEnquiryModal";
 import { cn } from "@/lib/utils";
 import type { PackageDeparture } from "@/lib/content/packages";
 
@@ -40,6 +39,7 @@ function seatsLabel(departure: PackageDeparture) {
  */
 export function PackageBookingCard({
   packageName,
+  departureCode,
   slug,
   departureCity,
   departureAirportCode,
@@ -48,6 +48,7 @@ export function PackageBookingCard({
   departures,
 }: {
   packageName: string;
+  departureCode: string;
   slug: string;
   departureCity: string;
   departureAirportCode: string;
@@ -55,8 +56,8 @@ export function PackageBookingCard({
   currency: string;
   departures: PackageDeparture[];
 }) {
-  const { open } = useEnquiry();
   const dateSelectId = useId();
+  const enquiryCount = useRef(0);
 
   const bookable = useMemo(
     () => departures.filter((d) => !d.soldOut && d.seatsLeft > 0),
@@ -64,18 +65,25 @@ export function PackageBookingCard({
   );
   const [selectedId, setSelectedId] = useState<string>(bookable[0]?.id ?? "");
   const [adults, setAdults] = useState(1);
+  const [enquirySummary, setEnquirySummary] = useState<PackageEnquirySummary | null>(null);
 
   const selected = departures.find((d) => d.id === selectedId);
   const unitPrice = selected?.priceOverride ?? basePrice;
   const total = unitPrice * adults;
 
   function handleEnquire() {
-    trackEvent("package_enquire_click", {
-      package: slug,
-      departure_date: selected?.date ?? "",
-      adults: String(adults),
+    setEnquirySummary({
+      packageName,
+      departureCode,
+      departureDateLabel: selected ? formatDate(selected.date) : "To be confirmed",
+      departureDateISO: selected?.date ?? "",
+      pax: adults,
+      estTotalLabel: formatMoney(total, currency),
+      estTotal: total,
+      currency,
+      slug,
+      openedAt: (enquiryCount.current += 1),
     });
-    open({ destination: packageName, source: `package-${slug}` });
   }
 
   return (
@@ -200,6 +208,8 @@ export function PackageBookingCard({
         No payment here — a consultant confirms this exact date and seat
         count before anything is booked.
       </p>
+
+      <PackageEnquiryModal summary={enquirySummary} onClose={() => setEnquirySummary(null)} />
     </div>
   );
 }

@@ -311,6 +311,7 @@ export default async function PackagePage({ params }: Params) {
               <Reveal delay={0.05} className="lg:sticky lg:top-28">
                 <PackageBookingCard
                   packageName={pkg.name}
+                  departureCode={pkg.departureCode}
                   slug={pkg.slug}
                   departureCity={pkg.departureCity}
                   departureAirportCode={pkg.departureAirportCode}
