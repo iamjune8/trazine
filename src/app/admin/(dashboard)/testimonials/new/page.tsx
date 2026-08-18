@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon";
 import { TestimonialForm } from "../TestimonialForm";
 import { createTestimonial } from "../actions";
 
@@ -9,11 +10,12 @@ export default function NewTestimonialPage() {
     <div>
       <Link
         href="/admin/testimonials"
-        className="text-sm text-ink-3 transition-colors duration-200 hover:text-ink"
+        className="inline-flex items-center gap-1.5 text-sm text-admin-text-3 transition-colors duration-200 hover:text-admin-text"
       >
-        ← All testimonials
+        <Icon name="chevron-left" size={15} />
+        All testimonials
       </Link>
-      <h1 className="font-display mt-4 text-3xl text-ink">Add testimonial</h1>
+      <h1 className="mt-4 text-2xl font-semibold text-admin-text sm:text-3xl">Add testimonial</h1>
       <TestimonialForm action={createTestimonial} submitLabel="Create testimonial" />
     </div>
   );

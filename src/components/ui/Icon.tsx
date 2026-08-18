@@ -34,7 +34,29 @@ export type IconName =
   | "whatsapp"
   | "instagram"
   | "facebook"
-  | "linkedin";
+  | "linkedin"
+  | "plus"
+  | "minus"
+  | "calendar"
+  | "users"
+  | "bed"
+  | "map-route"
+  | "receipt"
+  | "grid"
+  | "suitcase"
+  | "wrench"
+  | "help-circle"
+  | "logout"
+  | "search"
+  | "sparkle"
+  | "trend-up"
+  | "trend-down"
+  | "eye"
+  | "activity"
+  | "monitor"
+  | "smartphone"
+  | "tablet"
+  | "globe";
 
 const paths: Record<IconName, React.ReactNode> = {
   compass: (
@@ -154,6 +176,137 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M12 10.5V17" />
     </>
   ),
+  plus: (
+    <>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </>
+  ),
+  minus: <path d="M5 12h14" />,
+  calendar: (
+    <>
+      <rect x="3.5" y="5" width="17" height="16" rx="2" />
+      <path d="M3.5 10h17" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+    </>
+  ),
+  users: (
+    <>
+      <circle cx="9" cy="8.5" r="3" />
+      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+      <path d="M15.5 6.2a3 3 0 0 1 0 5.7" />
+      <path d="M17.5 13.3a5.5 5.5 0 0 1 3 5.2" />
+    </>
+  ),
+  bed: (
+    <>
+      <path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7" />
+      <path d="M3 18v2" />
+      <path d="M21 18v2" />
+      <path d="M3 13v-1a2 2 0 0 1 2-2h6v4" />
+    </>
+  ),
+  "map-route": (
+    <>
+      <circle cx="6" cy="7" r="2.2" />
+      <circle cx="18" cy="17" r="2.2" />
+      <path d="M6 9.2V13a3 3 0 0 0 3 3h6" />
+    </>
+  ),
+  receipt: (
+    <>
+      <path d="M6 3h12v18l-2.5-1.6L13 21l-1-1.6L10 21l-2.5-1.6L5 21V3z" />
+      <path d="M8.5 8h7" />
+      <path d="M8.5 12h7" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13" y="3.5" width="7.5" height="7.5" rx="1.5" />
+      <rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13" y="13" width="7.5" height="7.5" rx="1.5" />
+    </>
+  ),
+  suitcase: (
+    <>
+      <rect x="3" y="7.5" width="18" height="12" rx="2" />
+      <path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5" />
+      <path d="M3 13h18" />
+    </>
+  ),
+  wrench: (
+    <path d="M14.7 6.3a4 4 0 0 0-5.4 4.9L4 16.5V20h3.5l5.3-5.3a4 4 0 0 0 4.9-5.4l-2.6 2.6-2-2z" />
+  ),
+  "help-circle": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.5 9.2a2.5 2.5 0 1 1 3.7 2.2c-.9.5-1.2 1-1.2 1.9" />
+      <circle cx="12" cy="16.6" r="0.15" fill="currentColor" stroke="none" />
+    </>
+  ),
+  logout: (
+    <>
+      <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3" />
+      <path d="M15 8l4 4-4 4" />
+      <path d="M19 12H9" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m20 20-4.35-4.35" />
+    </>
+  ),
+  sparkle: (
+    <path d="M12 3.5c.6 3 1.9 4.3 4.9 4.9-3 .6-4.3 1.9-4.9 4.9-.6-3-1.9-4.3-4.9-4.9 3-.6 4.3-1.9 4.9-4.9zM19 14.5c.35 1.7 1.05 2.4 2.75 2.75-1.7.35-2.4 1.05-2.75 2.75-.35-1.7-1.05-2.4-2.75-2.75 1.7-.35 2.4-1.05 2.75-2.75z" />
+  ),
+  "trend-up": (
+    <>
+      <path d="m4 16 6-6 4 4 6-7" />
+      <path d="M15 7h5v5" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  "trend-down": (
+    <>
+      <path d="m4 8 6 6 4-4 6 7" />
+      <path d="M15 17h5v-5" />
+    </>
+  ),
+  activity: <path d="M3 12h4l2.5-7L13 19l2.5-7H21" />,
+  monitor: (
+    <>
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8" />
+      <path d="M12 17v4" />
+    </>
+  ),
+  smartphone: (
+    <>
+      <rect x="6.5" y="2.5" width="11" height="19" rx="2.5" />
+      <path d="M11 18.5h2" />
+    </>
+  ),
+  tablet: (
+    <>
+      <rect x="4" y="3" width="16" height="18" rx="2.5" />
+      <path d="M11 18h2" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.8 2.6 4.3 5.7 4.3 9s-1.5 6.4-4.3 9c-2.8-2.6-4.3-5.7-4.3-9S9.2 5.6 12 3z" />
+    </>
+  ),
 };
 
 /** Icons that read better filled than stroked. */
@@ -164,6 +317,7 @@ const filled = new Set<IconName>([
   "whatsapp",
   "play",
   "pause",
+  "sparkle",
 ]);
 
 export function Icon({

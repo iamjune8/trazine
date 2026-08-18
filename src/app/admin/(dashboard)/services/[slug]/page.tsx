@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AdminDeleteButton } from "@/components/admin/ui/AdminDeleteButton";
+import { Icon } from "@/components/ui/Icon";
 import { ServiceForm } from "../ServiceForm";
 import { updateService, deleteService } from "../actions";
 
@@ -12,11 +13,7 @@ type Props = { params: Promise<{ slug: string }> };
 export default async function EditServicePage({ params }: Props) {
   const { slug } = await params;
   const supabase = await createClient();
-  const { data: service } = await supabase
-    .from("services")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  const { data: service } = await supabase.from("services").select("*").eq("slug", slug).single();
 
   if (!service) notFound();
 
@@ -27,24 +24,22 @@ export default async function EditServicePage({ params }: Props) {
     <div>
       <Link
         href="/admin/services"
-        className="text-sm text-ink-3 transition-colors duration-200 hover:text-ink"
+        className="inline-flex items-center gap-1.5 text-sm text-admin-text-3 transition-colors duration-200 hover:text-admin-text"
       >
-        ← All services
+        <Icon name="chevron-left" size={15} />
+        All services
       </Link>
 
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="font-display mt-4 text-3xl text-ink">Edit service</h1>
+      <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+        <h1 className="text-2xl font-semibold text-admin-text sm:text-3xl">
+          Edit {service.title}
+        </h1>
         <form action={boundDelete}>
-          <DeleteButton confirmText="Delete this service? This can't be undone." />
+          <AdminDeleteButton confirmText={`Delete ${service.title}? This can't be undone.`} />
         </form>
       </div>
 
-      <ServiceForm
-        action={boundUpdate}
-        defaultValues={service}
-        submitLabel="Save changes"
-        lockSlug
-      />
+      <ServiceForm action={boundUpdate} defaultValues={service} submitLabel="Save changes" lockSlug />
     </div>
   );
 }

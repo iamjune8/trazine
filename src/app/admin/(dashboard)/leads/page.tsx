@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { PageHeader } from "@/components/admin/ui/PageHeader";
+import { Card } from "@/components/admin/ui/Card";
+import { Badge } from "@/components/admin/ui/Badge";
+import { MotionStagger, MotionStaggerItem } from "@/components/admin/ui/MotionIn";
+import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -14,11 +19,11 @@ const STATUS_LABEL: Record<Status, string> = {
   lost: "Lost",
 };
 
-const STATUS_STYLE: Record<Status, string> = {
-  new: "bg-brass-light/25 text-brass-deep",
-  contacted: "bg-line-2/60 text-ink-2",
-  won: "bg-success/15 text-success",
-  lost: "bg-danger/10 text-danger",
+const STATUS_TONE: Record<Status, "violet" | "cyan" | "success" | "danger"> = {
+  new: "violet",
+  contacted: "cyan",
+  won: "success",
+  lost: "danger",
 };
 
 type Props = { searchParams: Promise<{ status?: string }> };
@@ -39,90 +44,95 @@ export default async function LeadsPage({ searchParams }: Props) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-3xl text-ink">Leads</h1>
-          <p className="mt-2 text-ink-2">Every enquiry submitted through the website.</p>
-        </div>
-
-        <nav aria-label="Filter by status" className="flex flex-wrap gap-2">
-          <Link
-            href="/admin/leads"
-            className={cn(
-              "border px-4 py-2 text-sm font-medium uppercase tracking-[0.08em] transition-colors duration-200",
-              !activeStatus
-                ? "border-ink bg-ink text-paper"
-                : "border-line-2 text-ink-2 hover:border-ink",
-            )}
-          >
-            All
-          </Link>
-          {STATUSES.map((s) => (
+      <PageHeader
+        eyebrow="Pipeline"
+        title="Leads"
+        description="Every enquiry submitted through the website."
+        actions={
+          <nav aria-label="Filter by status" className="flex flex-wrap gap-2">
             <Link
-              key={s}
-              href={`/admin/leads?status=${s}`}
+              href="/admin/leads"
               className={cn(
-                "border px-4 py-2 text-sm font-medium uppercase tracking-[0.08em] transition-colors duration-200",
-                activeStatus === s
-                  ? "border-ink bg-ink text-paper"
-                  : "border-line-2 text-ink-2 hover:border-ink",
+                "rounded-xl border px-3.5 py-2 text-xs font-medium uppercase tracking-[0.08em] transition-colors duration-200",
+                !activeStatus
+                  ? "border-admin-violet/50 bg-admin-violet/15 text-admin-text"
+                  : "border-admin-border text-admin-text-2 hover:border-admin-violet/40",
               )}
             >
-              {STATUS_LABEL[s]}
+              All
             </Link>
-          ))}
-        </nav>
-      </div>
+            {STATUSES.map((s) => (
+              <Link
+                key={s}
+                href={`/admin/leads?status=${s}`}
+                className={cn(
+                  "rounded-xl border px-3.5 py-2 text-xs font-medium uppercase tracking-[0.08em] transition-colors duration-200",
+                  activeStatus === s
+                    ? "border-admin-violet/50 bg-admin-violet/15 text-admin-text"
+                    : "border-admin-border text-admin-text-2 hover:border-admin-violet/40",
+                )}
+              >
+                {STATUS_LABEL[s]}
+              </Link>
+            ))}
+          </nav>
+        }
+      />
 
       {error ? (
-        <p className="mt-8 border-l-2 border-danger bg-danger/5 px-4 py-3 text-sm text-danger">
+        <p className="mt-8 rounded-xl border border-admin-danger/30 bg-admin-danger/10 px-4 py-3 text-sm text-admin-danger">
           Couldn&rsquo;t load leads: {error.message}
         </p>
       ) : null}
 
-      <div className="mt-8 border border-line bg-paper">
+      <Card className="mt-8 overflow-hidden">
         {!leads || leads.length === 0 ? (
-          <p className="p-8 text-ink-2">
+          <p className="p-8 text-admin-text-3">
             {activeStatus ? `No ${STATUS_LABEL[activeStatus].toLowerCase()} leads yet.` : "No enquiries yet."}
           </p>
         ) : (
-          <ul>
-            {leads.map((lead) => (
-              <li key={lead.id} className="border-b border-line last:border-b-0">
-                <Link
-                  href={`/admin/leads/${lead.id}`}
-                  className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 transition-colors duration-200 hover:bg-paper-2"
-                >
-                  <div className="min-w-0">
-                    <p className="font-display text-lg text-ink">{lead.name}</p>
-                    <p className="mt-1 text-sm text-ink-3">
-                      {lead.email} · {lead.phone}
-                      {lead.destination ? ` · ${lead.destination}` : ""}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-4">
-                    <span className="text-sm text-ink-3">
-                      {new Date(lead.received_at).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                    <span
-                      className={cn(
-                        "px-3 py-1 text-xs font-medium uppercase tracking-[0.08em]",
-                        STATUS_STYLE[lead.status as Status] ?? STATUS_STYLE.new,
-                      )}
+          <MotionStagger>
+            <ul>
+              {leads.map((lead, i) => (
+                <MotionStaggerItem key={lead.id}>
+                  <li className={cn("border-admin-border-soft", i !== leads.length - 1 && "border-b")}>
+                    <Link
+                      href={`/admin/leads/${lead.id}`}
+                      className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 transition-colors duration-200 hover:bg-white/[0.03]"
                     >
-                      {STATUS_LABEL[lead.status as Status] ?? lead.status}
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                      <div className="flex min-w-0 items-center gap-3">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-admin-violet/25 to-admin-cyan/15 text-xs font-semibold text-admin-text">
+                          {lead.name.slice(0, 1).toUpperCase()}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium text-admin-text">{lead.name}</p>
+                          <p className="mt-0.5 truncate text-xs text-admin-text-3">
+                            {lead.email} &middot; {lead.phone}
+                            {lead.destination ? ` · ${lead.destination}` : ""}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-4">
+                        <span className="hidden text-xs text-admin-text-3 sm:inline">
+                          {new Date(lead.received_at).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                        <Badge tone={STATUS_TONE[lead.status as Status] ?? "violet"}>
+                          {STATUS_LABEL[lead.status as Status] ?? lead.status}
+                        </Badge>
+                        <Icon name="chevron-right" size={16} className="text-admin-text-3" />
+                      </div>
+                    </Link>
+                  </li>
+                </MotionStaggerItem>
+              ))}
+            </ul>
+          </MotionStagger>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

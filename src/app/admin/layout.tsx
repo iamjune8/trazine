@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../globals.css";
 
 /**
  * A second, separate root layout — Next.js App Router supports multiple
  * root layouts via route groups, and the admin panel deliberately doesn't
- * share the marketing site's header, footer or enquiry modal. It reuses the
- * same design tokens (globals.css, the same two fonts) so it reads as the
- * same product, just a different room.
+ * share the marketing site's header, footer or enquiry modal — or its warm
+ * paper/brass palette. This is its own dark, vibrant control-room theme
+ * (see the `.admin-*` tokens and utilities in globals.css), scoped entirely
+ * to this document root so none of it can leak into the public site.
  */
 
 export const metadata: Metadata = {
@@ -15,13 +16,6 @@ export const metadata: Metadata = {
   // Never indexed — this is a login-gated internal tool, not a public page.
   robots: { index: false, follow: false },
 };
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  display: "swap",
-  style: ["normal", "italic"],
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,8 +29,12 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-IN" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-dvh bg-paper text-ink">{children}</body>
+    <html lang="en-IN" className={inter.variable}>
+      <body className="admin-root">
+        <div className="admin-aurora" />
+        <div className="admin-grid-overlay" />
+        <div className="relative z-10">{children}</div>
+      </body>
     </html>
   );
 }
