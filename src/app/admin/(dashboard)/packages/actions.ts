@@ -179,3 +179,28 @@ export async function deleteDeparture(id: string, slug: string) {
   revalidatePackages(slug);
   redirect(`/admin/packages/${slug}`);
 }
+
+/**
+ * Sets the same price override on every departure date for this package in
+ * one go — the alternative is opening and saving each row by hand, which
+ * doesn't scale once a package has more than a couple of dates.
+ */
+export async function copyPriceToAllDepartures(slug: string, formData: FormData) {
+  const priceRaw = String(formData.get("bulk_price_override") ?? "").trim();
+  const price = priceRaw ? Number(priceRaw) : null;
+
+  if (priceRaw && (!Number.isFinite(price) || (price ?? 0) < 0)) {
+    throw new Error("Price must be zero or a positive number.");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("package_departures")
+    .update({ price_override: price, updated_at: new Date().toISOString() })
+    .eq("package_slug", slug);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePackages(slug);
+  redirect(`/admin/packages/${slug}`);
+}

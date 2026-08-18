@@ -70,7 +70,7 @@ export function StatCard({
       href={href}
       onMouseMove={handleMouseMove}
       className={cn(
-        "admin-glass group relative overflow-hidden rounded-2xl p-6",
+        "admin-glass group relative block overflow-hidden rounded-2xl p-6",
         "transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-admin-violet/40",
       )}
       style={{
