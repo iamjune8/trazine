@@ -67,7 +67,7 @@ export async function Hero() {
 
       <div className="relative mx-auto w-full max-w-[92rem] px-5 pb-14 pt-36 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
         <p className="eyebrow eyebrow-on-dark animate-rise" style={{ animationDelay: "0.1s" }}>
-          Mumbai &middot; International journeys since 2007
+          Pan-India &middot; International journeys since 2020
         </p>
 
         <h1 className="font-display mt-7 text-paper">

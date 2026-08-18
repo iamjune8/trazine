@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
 
 /**
@@ -37,6 +38,7 @@ export default function AdminRootLayout({
   return (
     <html lang="en-IN" className={`${playfair.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-paper text-ink">{children}</body>
+      <SpeedInsights />
     </html>
   );
 }
