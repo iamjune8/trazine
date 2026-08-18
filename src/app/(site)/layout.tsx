@@ -2,14 +2,18 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
 
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
 import { EnquiryModal } from "@/components/enquiry/EnquiryModal";
+import { PromotionLayer } from "@/components/sections/PromotionLayer";
 import { site } from "@/data/site";
 import { getDestinations } from "@/lib/content/destinations";
+import { getPromotion } from "@/lib/content/promotion";
+import { getLandingPoster } from "@/lib/content/landingPoster";
 
 /**
  * Playfair Display carries every heading; Inter carries everything else.
@@ -32,11 +36,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Europe tour packages & easy Asia getaways from Mumbai`,
+    default: `${site.name} — Europe tour packages & easy Asia getaways, pan-India`,
     template: `%s | ${site.name}`,
   },
   description:
-    "A Mumbai travel house designing a Premium Luxury circuit across the whole of Europe and Easy & Affordable journeys to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya. Itinerary design, visa assistance, IATA ticketing and support throughout.",
+    "A travel house designing a Premium Luxury circuit across the whole of Europe and Easy & Affordable journeys to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya. Itinerary design, visa assistance, IATA ticketing and support throughout.",
   keywords: [
     "travel agency Mumbai",
     "Europe tour packages from Mumbai",
@@ -95,7 +99,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const destinations = await getDestinations();
+  const [destinations, promotion, poster] = await Promise.all([
+    getDestinations(),
+    getPromotion(),
+    getLandingPoster(),
+  ]);
 
   /** Local-business structured data, so the Mumbai office surfaces in search. */
   const organisationJsonLd = {
@@ -157,9 +165,11 @@ export default async function RootLayout({
           </main>
           <Footer />
           <EnquiryModal />
+          <PromotionLayer promotion={promotion} poster={poster} />
         </EnquiryProvider>
       </body>
       {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
+      <SpeedInsights />
     </html>
   );
 }

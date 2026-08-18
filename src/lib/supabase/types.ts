@@ -106,6 +106,42 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_poster: {
+        Row: {
+          active: boolean
+          cta_label: string
+          ends_at: string | null
+          heading: string
+          id: boolean
+          image_url: string
+          starts_at: string | null
+          subheading: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cta_label?: string
+          ends_at?: string | null
+          heading?: string
+          id?: boolean
+          image_url?: string
+          starts_at?: string | null
+          subheading?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cta_label?: string
+          ends_at?: string | null
+          heading?: string
+          id?: boolean
+          image_url?: string
+          starts_at?: string | null
+          subheading?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           accommodation: string | null
@@ -169,6 +205,36 @@ export type Database = {
           travel_date?: string | null
           travel_window?: string | null
           travellers?: string | null
+        }
+        Relationships: []
+      }
+      promotion: {
+        Row: {
+          active: boolean
+          cta_label: string
+          heading: string
+          id: boolean
+          image_url: string
+          subheading: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cta_label?: string
+          heading?: string
+          id?: boolean
+          image_url?: string
+          subheading?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cta_label?: string
+          heading?: string
+          id?: boolean
+          image_url?: string
+          subheading?: string
+          updated_at?: string
         }
         Relationships: []
       }

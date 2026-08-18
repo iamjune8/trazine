@@ -18,9 +18,9 @@ import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = {
   title:
-    "Travel Magazine — Europe tour packages & easy Asia getaways from Mumbai",
+    "Travel Magazine — Europe tour packages & easy Asia getaways, pan-India",
   description:
-    "A Mumbai travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visas filed in-house, IATA ticketing, and one consultant throughout.",
+    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visas filed in-house, IATA ticketing, and one consultant throughout.",
   alternates: { canonical: "/" },
 };
 
