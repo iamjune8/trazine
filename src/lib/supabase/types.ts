@@ -106,6 +106,42 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_poster: {
+        Row: {
+          active: boolean
+          cta_label: string
+          ends_at: string | null
+          heading: string
+          id: boolean
+          image_url: string
+          starts_at: string | null
+          subheading: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cta_label?: string
+          ends_at?: string | null
+          heading?: string
+          id?: boolean
+          image_url?: string
+          starts_at?: string | null
+          subheading?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cta_label?: string
+          ends_at?: string | null
+          heading?: string
+          id?: boolean
+          image_url?: string
+          starts_at?: string | null
+          subheading?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           accommodation: string | null
@@ -169,6 +205,164 @@ export type Database = {
           travel_date?: string | null
           travel_window?: string | null
           travellers?: string | null
+        }
+        Relationships: []
+      }
+      package_departures: {
+        Row: {
+          departure_date: string
+          id: string
+          package_slug: string
+          price_override: number | null
+          seats_left: number
+          sold_out: boolean
+          updated_at: string
+        }
+        Insert: {
+          departure_date: string
+          id?: string
+          package_slug: string
+          price_override?: number | null
+          seats_left?: number
+          sold_out?: boolean
+          updated_at?: string
+        }
+        Update: {
+          departure_date?: string
+          id?: string
+          package_slug?: string
+          price_override?: number | null
+          seats_left?: number
+          sold_out?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "package_departures_package_slug_fkey"
+            columns: ["package_slug"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
+      packages: {
+        Row: {
+          active: boolean
+          base_price: number
+          cancellation_terms: string[]
+          currency: string
+          departure_airport_code: string
+          departure_city: string
+          departure_code: string
+          display_order: number
+          exclusions: string[]
+          flight_carrier: string
+          hero_image: string
+          hotels: Json
+          inclusions: string[]
+          itinerary: Json
+          name: string
+          nights_summary: string
+          onward_departure_time: string
+          onward_flight_number: string
+          onward_route: string
+          payment_terms: string[]
+          return_departure_time: string
+          return_flight_number: string
+          return_route: string
+          route_label: string
+          sightseeing: Json
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          base_price?: number
+          cancellation_terms?: string[]
+          currency?: string
+          departure_airport_code?: string
+          departure_city?: string
+          departure_code?: string
+          display_order?: number
+          exclusions?: string[]
+          flight_carrier?: string
+          hero_image?: string
+          hotels?: Json
+          inclusions?: string[]
+          itinerary?: Json
+          name: string
+          nights_summary?: string
+          onward_departure_time?: string
+          onward_flight_number?: string
+          onward_route?: string
+          payment_terms?: string[]
+          return_departure_time?: string
+          return_flight_number?: string
+          return_route?: string
+          route_label?: string
+          sightseeing?: Json
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          base_price?: number
+          cancellation_terms?: string[]
+          currency?: string
+          departure_airport_code?: string
+          departure_city?: string
+          departure_code?: string
+          display_order?: number
+          exclusions?: string[]
+          flight_carrier?: string
+          hero_image?: string
+          hotels?: Json
+          inclusions?: string[]
+          itinerary?: Json
+          name?: string
+          nights_summary?: string
+          onward_departure_time?: string
+          onward_flight_number?: string
+          onward_route?: string
+          payment_terms?: string[]
+          return_departure_time?: string
+          return_flight_number?: string
+          return_route?: string
+          route_label?: string
+          sightseeing?: Json
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      promotion: {
+        Row: {
+          active: boolean
+          cta_label: string
+          heading: string
+          id: boolean
+          image_url: string
+          subheading: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cta_label?: string
+          heading?: string
+          id?: boolean
+          image_url?: string
+          subheading?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cta_label?: string
+          heading?: string
+          id?: boolean
+          image_url?: string
+          subheading?: string
+          updated_at?: string
         }
         Relationships: []
       }

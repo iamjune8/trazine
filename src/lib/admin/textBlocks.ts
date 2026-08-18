@@ -12,6 +12,8 @@ export type PlaceInput = { name: string; blurb: string; highlights: string[]; im
 export type ExperienceInput = { title: string; description: string };
 export type FactInput = { label: string; value: string };
 export type SeasonInput = { window: string; note: string };
+export type HotelInput = { location: string; nights: string; name: string; room: string; meal: string };
+export type ItineraryDayInput = { title: string; lines: string[] };
 
 function splitBlocks(text: string): string[] {
   return text
@@ -25,13 +27,13 @@ function getField(block: string, label: string): string {
   return match ? match[1].trim() : "";
 }
 
-function getHighlights(block: string): string[] {
+function getListField(block: string, label: string): string[] {
   const lines = block.split("\n");
-  const highlights: string[] = [];
+  const items: string[] = [];
   let collecting = false;
 
   for (const line of lines) {
-    if (/^highlights:/i.test(line.trim())) {
+    if (new RegExp(`^${label}:`, "i").test(line.trim())) {
       collecting = true;
       continue;
     }
@@ -39,13 +41,17 @@ function getHighlights(block: string): string[] {
 
     const trimmed = line.trim();
     if (trimmed.startsWith("-")) {
-      highlights.push(trimmed.slice(1).trim());
+      items.push(trimmed.slice(1).trim());
     } else if (trimmed !== "") {
       collecting = false;
     }
   }
 
-  return highlights;
+  return items;
+}
+
+function getHighlights(block: string): string[] {
+  return getListField(block, "Highlights");
 }
 
 export function parsePlaces(text: string): PlaceInput[] {
@@ -117,5 +123,48 @@ export function parseSeasons(text: string): SeasonInput[] {
 export function stringifySeasons(seasons: SeasonInput[] | null | undefined): string {
   return (seasons ?? [])
     .map((s) => [`Window: ${s.window}`, `Note: ${s.note}`].join("\n"))
+    .join("\n---\n");
+}
+
+export function parseHotels(text: string): HotelInput[] {
+  return splitBlocks(text)
+    .map((block) => ({
+      location: getField(block, "Location"),
+      nights: getField(block, "Nights"),
+      name: getField(block, "Hotel"),
+      room: getField(block, "Room"),
+      meal: getField(block, "Meal"),
+    }))
+    .filter((h) => h.location && h.name);
+}
+
+export function stringifyHotels(hotels: HotelInput[] | null | undefined): string {
+  return (hotels ?? [])
+    .map((h) =>
+      [
+        `Location: ${h.location}`,
+        `Nights: ${h.nights}`,
+        `Hotel: ${h.name}`,
+        `Room: ${h.room}`,
+        `Meal: ${h.meal}`,
+      ].join("\n"),
+    )
+    .join("\n---\n");
+}
+
+export function parseItinerary(text: string): ItineraryDayInput[] {
+  return splitBlocks(text)
+    .map((block) => ({
+      title: getField(block, "Title"),
+      lines: getListField(block, "Body"),
+    }))
+    .filter((day) => day.title);
+}
+
+export function stringifyItinerary(days: ItineraryDayInput[] | null | undefined): string {
+  return (days ?? [])
+    .map((d) =>
+      [`Title: ${d.title}`, `Body:`, ...d.lines.map((l) => `- ${l}`)].join("\n"),
+    )
     .join("\n---\n");
 }

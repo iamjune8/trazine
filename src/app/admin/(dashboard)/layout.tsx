@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/destinations", label: "Destinations" },
+  { href: "/admin/packages", label: "Packages" },
   { href: "/admin/services", label: "Services" },
   { href: "/admin/testimonials", label: "Testimonials" },
   { href: "/admin/faqs", label: "FAQs" },

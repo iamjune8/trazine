@@ -34,7 +34,14 @@ export type IconName =
   | "whatsapp"
   | "instagram"
   | "facebook"
-  | "linkedin";
+  | "linkedin"
+  | "plus"
+  | "minus"
+  | "calendar"
+  | "users"
+  | "bed"
+  | "map-route"
+  | "receipt";
 
 const paths: Record<IconName, React.ReactNode> = {
   compass: (
@@ -152,6 +159,51 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M8 7.4v.1" />
       <path d="M12 17v-3.6a2.4 2.4 0 0 1 4.8 0V17" />
       <path d="M12 10.5V17" />
+    </>
+  ),
+  plus: (
+    <>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </>
+  ),
+  minus: <path d="M5 12h14" />,
+  calendar: (
+    <>
+      <rect x="3.5" y="5" width="17" height="16" rx="2" />
+      <path d="M3.5 10h17" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+    </>
+  ),
+  users: (
+    <>
+      <circle cx="9" cy="8.5" r="3" />
+      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+      <path d="M15.5 6.2a3 3 0 0 1 0 5.7" />
+      <path d="M17.5 13.3a5.5 5.5 0 0 1 3 5.2" />
+    </>
+  ),
+  bed: (
+    <>
+      <path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7" />
+      <path d="M3 18v2" />
+      <path d="M21 18v2" />
+      <path d="M3 13v-1a2 2 0 0 1 2-2h6v4" />
+    </>
+  ),
+  "map-route": (
+    <>
+      <circle cx="6" cy="7" r="2.2" />
+      <circle cx="18" cy="17" r="2.2" />
+      <path d="M6 9.2V13a3 3 0 0 0 3 3h6" />
+    </>
+  ),
+  receipt: (
+    <>
+      <path d="M6 3h12v18l-2.5-1.6L13 21l-1-1.6L10 21l-2.5-1.6L5 21V3z" />
+      <path d="M8.5 8h7" />
+      <path d="M8.5 12h7" />
     </>
   ),
 };
