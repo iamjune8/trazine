@@ -10,6 +10,31 @@ const nextConfig = {
     qualities: [70, 75],
     formats: ["image/avif", "image/webp"],
   },
+  // Baseline security headers — none of this is currently set at the
+  // Hostinger/CDN layer, so it's applied here instead. No Content-Security-
+  // Policy yet: this site loads scripts/iframes from several third parties
+  // (GA4, GTM, Google Maps, Resend), and a CSP written without carefully
+  // auditing every one of those origins first risks silently breaking them.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
