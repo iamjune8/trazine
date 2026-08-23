@@ -14,6 +14,12 @@ export type FactInput = { label: string; value: string };
 export type SeasonInput = { window: string; note: string };
 export type HotelInput = { location: string; nights: string; name: string; room: string; meal: string };
 export type ItineraryDayInput = { title: string; lines: string[] };
+export type MonthClimateInput = { month: string; tempRange: string; condition: string };
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+] as const;
 
 function splitBlocks(text: string): string[] {
   return text
@@ -166,5 +172,36 @@ export function stringifyItinerary(days: ItineraryDayInput[] | null | undefined)
     .map((d) =>
       [`Title: ${d.title}`, `Body:`, ...d.lines.map((l) => `- ${l}`)].join("\n"),
     )
+    .join("\n---\n");
+}
+
+/**
+ * The destination page looks these up by array index (0 = January) rather
+ * than matching month names, so admin edits are always sorted into
+ * calendar order here — however the blocks were typed in, or reordered by
+ * a later edit, the site can't end up reading April's numbers as June's.
+ */
+export function parseMonthlyClimate(text: string): MonthClimateInput[] {
+  return splitBlocks(text)
+    .map((block) => ({
+      month: getField(block, "Month"),
+      tempRange: getField(block, "Temp"),
+      condition: getField(block, "Condition"),
+    }))
+    .filter((m) => m.month && MONTH_NAMES.includes(m.month as (typeof MONTH_NAMES)[number]))
+    .sort(
+      (a, b) => MONTH_NAMES.indexOf(a.month as (typeof MONTH_NAMES)[number]) -
+        MONTH_NAMES.indexOf(b.month as (typeof MONTH_NAMES)[number]),
+    );
+}
+
+export function stringifyMonthlyClimate(
+  months: MonthClimateInput[] | null | undefined,
+): string {
+  const bySortedMonth = MONTH_NAMES.map(
+    (name) => (months ?? []).find((m) => m.month === name) ?? { month: name, tempRange: "", condition: "" },
+  );
+  return bySortedMonth
+    .map((m) => [`Month: ${m.month}`, `Temp: ${m.tempRange}`, `Condition: ${m.condition}`].join("\n"))
     .join("\n---\n");
 }

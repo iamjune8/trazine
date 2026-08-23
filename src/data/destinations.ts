@@ -2,6 +2,20 @@ import { type PhotoKey } from "@/lib/images";
 
 export type Fact = { label: string; value: string };
 
+/**
+ * One calendar month's typical conditions — not a live forecast, a climate
+ * norm. Always exactly 12 entries, index 0 = January, so "this month" and
+ * "next month" can be looked up by `new Date().getMonth()` without any
+ * month-name matching.
+ */
+export type MonthClimate = {
+  month: string;
+  /** e.g. "19–25°C" */
+  tempRange: string;
+  /** Short label, e.g. "Warm days, cool evenings — the season" */
+  condition: string;
+};
+
 export type Experience = {
   title: string;
   description: string;
@@ -48,6 +62,8 @@ export type Destination = {
   facts: Fact[];
   /** Seasonal guidance written for departures out of India. */
   seasons: { window: string; note: string }[];
+  /** Exactly 12 entries, January through December. */
+  monthlyClimate: MonthClimate[];
   idealFor: string[];
   /** Featured on the homepage showcase. */
   featured: boolean;
@@ -329,6 +345,7 @@ export const destinations: Destination[] = [
       "Northern Lights chasers",
       "Value-conscious luxury",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -436,6 +453,7 @@ export const destinations: Destination[] = [
       "Honeymoons",
       "Corporate incentives",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -531,6 +549,7 @@ export const destinations: Destination[] = [
       "Value-conscious family trips",
       "Photography-led trips",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -626,6 +645,7 @@ export const destinations: Destination[] = [
       "Honeymoons",
       "Slower, off-the-polish trips",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -719,6 +739,7 @@ export const destinations: Destination[] = [
       "Honeymoons",
       "Short city-and-hill breaks",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -807,6 +828,7 @@ export const destinations: Destination[] = [
       "Food-led travel",
       "Honeymoons",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -895,6 +917,7 @@ export const destinations: Destination[] = [
       "Anniversary trips",
       "Diving and snorkelling",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -988,6 +1011,7 @@ export const destinations: Destination[] = [
       "Beach and hill-country combined",
       "First-time Asia travellers",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 
@@ -1081,6 +1105,7 @@ export const destinations: Destination[] = [
       "Photography-led trips",
       "Slower, culture-led trips",
     ],
+    monthlyClimate: [],
     featured: true,
   },
 ];

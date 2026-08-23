@@ -8,10 +8,12 @@ import {
   stringifyExperiences,
   stringifyFacts,
   stringifySeasons,
+  stringifyMonthlyClimate,
   type PlaceInput,
   type ExperienceInput,
   type FactInput,
   type SeasonInput,
+  type MonthClimateInput,
 } from "@/lib/admin/textBlocks";
 
 const TIERS = ["premium", "easy"] as const;
@@ -24,6 +26,7 @@ const SECTIONS: FormSection[] = [
   { id: "experiences", label: "Experiences", icon: "compass" },
   { id: "facts", label: "Facts", icon: "help-circle" },
   { id: "seasons", label: "Seasons", icon: "calendar" },
+  { id: "monthly-climate", label: "Monthly weather", icon: "sun" },
   { id: "ideal-for", label: "Particularly good for", icon: "users" },
 ];
 
@@ -42,6 +45,7 @@ type DestinationValues = {
   experiences: unknown;
   facts: unknown;
   seasons: unknown;
+  monthly_climate: unknown;
   ideal_for: string[];
   featured: boolean;
   display_order: number;
@@ -203,6 +207,24 @@ export function DestinationForm({
             rows={8}
             hint={'Blocks separated by "---". Format:\nWindow: April – June\nNote: Why this window, including honest downsides.'}
             defaultValue={stringifySeasons(defaultValues?.seasons as SeasonInput[])}
+            className="font-mono text-xs"
+          />
+        </SectionCard>
+
+        <SectionCard id="monthly-climate" icon="sun" title="Monthly weather" accent="pink">
+          <AdminTextAreaField
+            label="Typical conditions by month"
+            name="monthly_climate"
+            rows={24}
+            hint={
+              'All 12 months required, one block each, separated by "---". Format:\n' +
+              "Month: January\nTemp: 19-25°C\nCondition: Warm days, cool evenings — the season\n\n" +
+              "Blocks can be typed in any order — they're always sorted into calendar order on save. " +
+              "This drives the \"this month / next month\" cards on the detail page, so all 12 must be present."
+            }
+            defaultValue={stringifyMonthlyClimate(
+              defaultValues?.monthly_climate as MonthClimateInput[],
+            )}
             className="font-mono text-xs"
           />
         </SectionCard>

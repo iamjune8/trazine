@@ -17,6 +17,12 @@ import { site, whatsappLink } from "@/data/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
+// The "this month / next month" weather cards read off the server's current
+// date, so this page can't stay static forever the way most content pages
+// can — without a refresh window it would freeze on whatever month it was
+// last built or revalidated and silently go stale at every month boundary.
+export const revalidate = 3600;
+
 /**
  * The right-hand code and city shown opposite BOM on the facts box's
  * boarding-pass strip. Real IATA codes for every single-country page;
@@ -85,6 +91,13 @@ export default async function DestinationPage({ params }: Params) {
   const others = [...sameTier, ...otherTier].slice(0, 3);
 
   const tierLabel = destination.tier === "premium" ? "Premium Luxury" : "Easy & Affordable";
+
+  // Index 0 = January, so this reads straight off the current server date —
+  // no month-name matching, and it naturally wraps December → January.
+  const thisMonthIndex = new Date().getMonth();
+  const nextMonthIndex = (thisMonthIndex + 1) % 12;
+  const thisMonthClimate = destination.monthlyClimate[thisMonthIndex];
+  const nextMonthClimate = destination.monthlyClimate[nextMonthIndex];
 
   return (
     <>
@@ -371,7 +384,42 @@ export default async function DestinationPage({ params }: Params) {
             lede="Including the months we would talk you out of."
           />
 
-          <Stagger as="ul" className="mt-16 grid gap-px bg-line-dark lg:grid-cols-3">
+          {thisMonthClimate && nextMonthClimate ? (
+            <Stagger as="div" className="mt-16 grid gap-px bg-line-dark sm:grid-cols-2">
+              <StaggerItem
+                as="div"
+                className="flex items-start gap-4 bg-ink p-8 lg:p-9"
+              >
+                <Icon name="sun" size={22} className="mt-1 shrink-0 text-brass-light" />
+                <div>
+                  <p className="text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-paper/50">
+                    {thisMonthClimate.month} — this month
+                  </p>
+                  <p className="font-display mt-2 text-2xl text-paper">
+                    {thisMonthClimate.tempRange}
+                  </p>
+                  <p className="mt-2 text-paper/70">{thisMonthClimate.condition}</p>
+                </div>
+              </StaggerItem>
+              <StaggerItem
+                as="div"
+                className="flex items-start gap-4 bg-ink p-8 lg:p-9"
+              >
+                <Icon name="calendar" size={22} className="mt-1 shrink-0 text-brass-light" />
+                <div>
+                  <p className="text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-paper/50">
+                    {nextMonthClimate.month} — next month
+                  </p>
+                  <p className="font-display mt-2 text-2xl text-paper">
+                    {nextMonthClimate.tempRange}
+                  </p>
+                  <p className="mt-2 text-paper/70">{nextMonthClimate.condition}</p>
+                </div>
+              </StaggerItem>
+            </Stagger>
+          ) : null}
+
+          <Stagger as="ul" className="mt-8 grid gap-px bg-line-dark lg:grid-cols-3">
             {destination.seasons.map((season) => (
               <StaggerItem as="li" key={season.window} className="bg-ink p-8 lg:p-9">
                 <h3 className="font-display text-2xl text-brass-light">

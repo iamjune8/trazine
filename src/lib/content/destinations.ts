@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 import type { PhotoKey } from "@/lib/images";
-import type { Destination, Place, Experience, Fact, Tier } from "@/data/destinations";
+import type { Destination, Place, Experience, Fact, Tier, MonthClimate } from "@/data/destinations";
 
 /**
  * Live content layer — reads what the admin panel writes. Supabase is now
@@ -28,6 +28,7 @@ type DestinationRow = {
   experiences: unknown;
   facts: unknown;
   seasons: unknown;
+  monthly_climate: unknown;
   ideal_for: string[];
   featured: boolean;
 };
@@ -48,6 +49,7 @@ function mapRow(row: DestinationRow): Destination {
     experiences: row.experiences as Experience[],
     facts: row.facts as Fact[],
     seasons: row.seasons as { window: string; note: string }[],
+    monthlyClimate: row.monthly_climate as MonthClimate[],
     idealFor: row.ideal_for,
     featured: row.featured,
   };

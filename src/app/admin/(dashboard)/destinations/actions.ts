@@ -9,6 +9,7 @@ import {
   parseExperiences,
   parseFacts,
   parseSeasons,
+  parseMonthlyClimate,
 } from "@/lib/admin/textBlocks";
 
 function revalidateDestinations(slug?: string) {
@@ -38,6 +39,14 @@ function readFields(formData: FormData) {
     throw new Error("Tier must be premium or easy.");
   }
 
+  const monthlyClimate = parseMonthlyClimate(String(formData.get("monthly_climate") ?? ""));
+  if (monthlyClimate.length !== 12) {
+    throw new Error(
+      `Monthly weather needs all 12 months filled in — got ${monthlyClimate.length}. ` +
+        "The detail page reads these by calendar position, so a gap would shift every month after it.",
+    );
+  }
+
   return {
     slug,
     name,
@@ -54,6 +63,7 @@ function readFields(formData: FormData) {
     experiences: parseExperiences(String(formData.get("experiences") ?? "")),
     facts: parseFacts(String(formData.get("facts") ?? "")),
     seasons: parseSeasons(String(formData.get("seasons") ?? "")),
+    monthly_climate: monthlyClimate,
     featured: formData.get("featured") === "on",
     display_order: Number(formData.get("display_order") ?? 0),
   };
@@ -95,6 +105,7 @@ export async function updateDestination(slug: string, formData: FormData) {
       experiences: fields.experiences,
       facts: fields.facts,
       seasons: fields.seasons,
+      monthly_climate: fields.monthly_climate,
       featured: fields.featured,
       display_order: fields.display_order,
       updated_at: new Date().toISOString(),

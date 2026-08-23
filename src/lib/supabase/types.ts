@@ -31,6 +31,7 @@ export type Database = {
           hero_image: string
           ideal_for: string[]
           intro: string
+          monthly_climate: Json
           name: string
           places: Json
           region: string
@@ -51,6 +52,7 @@ export type Database = {
           hero_image: string
           ideal_for?: string[]
           intro: string
+          monthly_climate?: Json
           name: string
           places?: Json
           region: string
@@ -71,6 +73,7 @@ export type Database = {
           hero_image?: string
           ideal_for?: string[]
           intro?: string
+          monthly_climate?: Json
           name?: string
           places?: Json
           region?: string
