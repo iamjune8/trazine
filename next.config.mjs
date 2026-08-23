@@ -38,7 +38,7 @@ const nextConfig = {
   async headers() {
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com",
       "style-src 'self' 'unsafe-inline'",
       // www.google.com and www.google.co.in: GA4's ad-audience-sync pixel
       // (/ads/ga-audiences), which loads as an <img>, not a fetch — and
@@ -51,8 +51,8 @@ const nextConfig = {
       // GA4's actual collect beacon fans out across several Google-owned
       // domains depending on browser/consent signals — confirmed by testing
       // a real production build, not assumed from docs.
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://www.google.com",
-      "frame-src https://www.google.com",
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com",
+      "frame-src https://www.google.com https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

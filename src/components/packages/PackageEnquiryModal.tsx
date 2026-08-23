@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
+import { Turnstile } from "@/components/ui/Turnstile";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -163,6 +164,8 @@ function PackageEnquiryPanel({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverError, setServerError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const captchaRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -179,6 +182,11 @@ function PackageEnquiryPanel({
       setTimeout(() => {
         form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
       }, 0);
+      return;
+    }
+
+    if (captchaRequired && !turnstileToken) {
+      setServerError("Please complete the verification check below, then submit again.");
       return;
     }
 
@@ -201,6 +209,7 @@ function PackageEnquiryPanel({
           currency: summary.currency,
           source: `package-${summary.slug}`,
           company: honeypotRef.current?.value ?? "",
+          turnstileToken,
         }),
       });
 
@@ -213,6 +222,7 @@ function PackageEnquiryPanel({
       setStatus("success");
     } catch {
       setStatus("error");
+      setTurnstileToken(null);
       setServerError("We couldn't send that just now. Please try again, or call us directly.");
     }
   }
@@ -341,6 +351,11 @@ function PackageEnquiryPanel({
             <span>{serverError}</span>
           </p>
         ) : null}
+
+        <Turnstile
+          onVerify={(token) => setTurnstileToken(token)}
+          onExpire={() => setTurnstileToken(null)}
+        />
 
         <div className="flex gap-3 pt-1">
           <button

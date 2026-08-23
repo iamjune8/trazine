@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createPublicClient } from "@/lib/supabase/public";
 import { sendPackageEnquiryNotification } from "@/lib/email";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 /**
  * A second, narrower intake than /api/inquiries — the package booking
@@ -49,6 +50,17 @@ export async function POST(request: Request) {
   // Honeypot — see /api/inquiries for the matching client-side field.
   if (typeof payload.company === "string" && payload.company.trim() !== "") {
     return NextResponse.json({ ok: true, id: "0" }, { status: 201 });
+  }
+
+  const verified = await verifyTurnstileToken(
+    payload.turnstileToken,
+    request.headers.get("x-forwarded-for") ?? undefined,
+  );
+  if (!verified) {
+    return NextResponse.json(
+      { ok: false, error: "Verification failed. Please try again." },
+      { status: 400 },
+    );
   }
 
   const input = {

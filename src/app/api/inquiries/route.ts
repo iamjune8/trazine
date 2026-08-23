@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createPublicClient } from "@/lib/supabase/public";
 import { validateInquiry, hasErrors } from "@/lib/inquiry";
 import { sendLeadNotification } from "@/lib/email";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 /**
  * Enquiry intake — writes straight into the `leads` table the admin panel
@@ -55,6 +56,17 @@ export async function POST(request: Request) {
   // writing anything, so the bot has no signal to adapt against.
   if (typeof payload.company === "string" && payload.company.trim() !== "") {
     return NextResponse.json({ ok: true, id: "0" }, { status: 201 });
+  }
+
+  const verified = await verifyTurnstileToken(
+    payload.turnstileToken,
+    request.headers.get("x-forwarded-for") ?? undefined,
+  );
+  if (!verified) {
+    return NextResponse.json(
+      { ok: false, error: "Verification failed. Please try again." },
+      { status: 400 },
+    );
   }
 
   const input = {

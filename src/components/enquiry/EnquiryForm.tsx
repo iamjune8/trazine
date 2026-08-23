@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { TextField, SelectField, ChoiceField } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { Turnstile } from "@/components/ui/Turnstile";
 import {
   destinationOptions,
   accommodationOptions,
@@ -87,6 +88,8 @@ export function EnquiryForm({
   const [touched, setTouched] = useState<Set<keyof InquiryInput>>(new Set());
   const [status, setStatus] = useState<Status>("idle");
   const [serverError, setServerError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const captchaRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   const allErrors = validateInquiry(values);
   const visibleErrors: FieldErrors = {};
@@ -123,6 +126,11 @@ export function EnquiryForm({
       return;
     }
 
+    if (captchaRequired && !turnstileToken) {
+      setServerError("Please complete the verification check below, then send again.");
+      return;
+    }
+
     setStatus("submitting");
 
     try {
@@ -133,6 +141,7 @@ export function EnquiryForm({
           ...values,
           source,
           company: honeypotRef.current?.value ?? "",
+          turnstileToken,
         }),
       });
 
@@ -143,6 +152,7 @@ export function EnquiryForm({
       onSuccess?.();
     } catch {
       setStatus("error");
+      setTurnstileToken(null);
       setServerError(
         "We couldn't send that just now. Please try again, or call us directly — we'd rather hear from you than lose the enquiry.",
       );
@@ -364,6 +374,11 @@ export function EnquiryForm({
           <span>{serverError}</span>
         </p>
       ) : null}
+
+      <Turnstile
+        onVerify={(token) => setTurnstileToken(token)}
+        onExpire={() => setTurnstileToken(null)}
+      />
 
       <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
         <Button
