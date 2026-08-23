@@ -149,7 +149,7 @@ export default function ContactPage() {
 
                 <div className="mt-6 aspect-[4/3] w-full overflow-hidden border border-line-2">
                   <iframe
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(`${site.name}, ${fullAddress}`)}&output=embed`}
                     title="Map showing the Travel Magazine office location"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
