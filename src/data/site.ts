@@ -14,7 +14,7 @@ export const site = {
   positioning:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf.",
 
-  url: "https://www.travelmagazine.example",
+  url: "https://travzine.in",
 
   email: "ops@travzine.in",
   phone: "+91 81085 31332",
