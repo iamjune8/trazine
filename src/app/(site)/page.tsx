@@ -24,6 +24,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+// Safety net alongside the admin's on-demand revalidatePath() calls: some
+// hosts don't reliably honor on-demand revalidation across process restarts,
+// so this guarantees admin edits (testimonials, destinations, etc.) surface
+// within a minute regardless.
+export const revalidate = 60;
+
 export default function HomePage() {
   return (
     <>

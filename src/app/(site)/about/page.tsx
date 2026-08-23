@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
+// Safety net alongside the admin's on-demand revalidatePath() calls: some
+// hosts don't reliably honor on-demand revalidation across process restarts,
+// so this guarantees admin edits (testimonials, etc.) surface within a
+// minute regardless.
+export const revalidate = 60;
+
 const principles = [
   {
     title: "Two tiers, known well",
