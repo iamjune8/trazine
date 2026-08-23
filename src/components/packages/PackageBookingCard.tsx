@@ -1,10 +1,18 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
-import { PackageEnquiryModal, type PackageEnquirySummary } from "./PackageEnquiryModal";
+import type { PackageEnquirySummary } from "./PackageEnquiryModal";
 import { cn } from "@/lib/utils";
+
+// Deferred: the summary panel (form + motion/react) is only needed once a
+// visitor actually clicks "Enquire now", not on every package page load.
+const PackageEnquiryModal = dynamic(
+  () => import("./PackageEnquiryModal").then((mod) => mod.PackageEnquiryModal),
+  { ssr: false },
+);
 import type { PackageDeparture } from "@/lib/content/packages";
 
 function formatMoney(amount: number, currency: string) {
@@ -66,12 +74,14 @@ export function PackageBookingCard({
   const [selectedId, setSelectedId] = useState<string>(bookable[0]?.id ?? "");
   const [adults, setAdults] = useState(1);
   const [enquirySummary, setEnquirySummary] = useState<PackageEnquirySummary | null>(null);
+  const [hasEnquired, setHasEnquired] = useState(false);
 
   const selected = departures.find((d) => d.id === selectedId);
   const unitPrice = selected?.priceOverride ?? basePrice;
   const total = unitPrice * adults;
 
   function handleEnquire() {
+    setHasEnquired(true);
     setEnquirySummary({
       packageName,
       departureCode,
@@ -209,7 +219,9 @@ export function PackageBookingCard({
         count before anything is booked.
       </p>
 
-      <PackageEnquiryModal summary={enquirySummary} onClose={() => setEnquirySummary(null)} />
+      {hasEnquired ? (
+        <PackageEnquiryModal summary={enquirySummary} onClose={() => setEnquirySummary(null)} />
+      ) : null}
     </div>
   );
 }

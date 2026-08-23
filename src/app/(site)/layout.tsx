@@ -7,7 +7,7 @@ import "../globals.css";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
-import { EnquiryModal } from "@/components/enquiry/EnquiryModal";
+import { EnquiryModalGate } from "@/components/enquiry/EnquiryModalGate";
 import { site } from "@/data/site";
 import { getDestinations } from "@/lib/content/destinations";
 
@@ -156,7 +156,7 @@ export default async function RootLayout({
             {children}
           </main>
           <Footer />
-          <EnquiryModal />
+          <EnquiryModalGate />
         </EnquiryProvider>
       </body>
       {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}

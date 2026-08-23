@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -49,6 +49,26 @@ export function PackageEnquiryModal({
   const isOpen = summary !== null;
   const panelRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const [mounted, setMounted] = useState(isOpen);
+  const [lastSummary, setLastSummary] = useState(summary);
+
+  // Decoupled from AnimatePresence's own exit-complete signal, which can get
+  // stuck and leave an invisible, click-blocking overlay in the DOM forever
+  // (reproduced in testing) — a plain timer matching the longest exit
+  // transition below removes it deterministically instead. `lastSummary`
+  // keeps the panel's content rendered through that closing transition,
+  // since `summary` itself goes null the instant the caller closes it.
+  useEffect(() => {
+    if (summary) {
+      setLastSummary(summary);
+      setMounted(true);
+      return;
+    }
+    const timer = setTimeout(() => setMounted(false), 400);
+    return () => clearTimeout(timer);
+  }, [summary]);
+
+  const displaySummary = summary ?? lastSummary;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -74,33 +94,35 @@ export function PackageEnquiryModal({
     };
   }, [isOpen, onClose]);
 
-  return (
-    <AnimatePresence>
-      {summary ? (
-        <div className="fixed inset-0 z-100 flex items-end justify-center p-0 sm:items-center sm:p-4">
-          <motion.button
-            type="button"
-            aria-label="Close enquiry form"
-            onClick={onClose}
-            className="absolute inset-0 cursor-pointer bg-ink/60 backdrop-blur-[3px]"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduced ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          />
+  if (!mounted || !displaySummary) return null;
 
-          <motion.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="package-enquiry-title"
-            tabIndex={-1}
-            initial={reduced ? false : { opacity: 0, y: 28, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reduced ? undefined : { opacity: 0, y: 20, scale: 0.98 }}
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className="relative max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-2xl bg-paper p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:p-8"
-          >
+  return (
+    <div className="fixed inset-0 z-100 flex items-end justify-center p-0 sm:items-center sm:p-4">
+      <motion.button
+        type="button"
+        aria-label="Close enquiry form"
+        onClick={onClose}
+        className="absolute inset-0 cursor-pointer bg-ink/60 backdrop-blur-[3px]"
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: reduced ? 0 : 0.25 }}
+      />
+
+      <motion.div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="package-enquiry-title"
+        tabIndex={-1}
+        initial={reduced ? false : { opacity: 0, y: 28, scale: 0.97 }}
+        animate={
+          isOpen
+            ? { opacity: 1, y: 0, scale: 1 }
+            : { opacity: 0, y: 20, scale: 0.98 }
+        }
+        transition={{ duration: reduced ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
+        className="relative max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-2xl bg-paper p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:p-8"
+      >
             <button
               type="button"
               onClick={onClose}
@@ -110,11 +132,13 @@ export function PackageEnquiryModal({
               <Icon name="close" size={20} />
             </button>
 
-            <PackageEnquiryPanel key={summary.openedAt} summary={summary} onClose={onClose} />
-          </motion.div>
-        </div>
-      ) : null}
-    </AnimatePresence>
+            <PackageEnquiryPanel
+              key={displaySummary.openedAt}
+              summary={displaySummary}
+              onClose={onClose}
+            />
+      </motion.div>
+    </div>
   );
 }
 

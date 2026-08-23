@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { useEnquiry } from "./EnquiryContext";
 import { EnquiryForm } from "./EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
@@ -24,6 +24,20 @@ export function EnquiryModal() {
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const reduced = useReducedMotion();
+  const [mounted, setMounted] = useState(isOpen);
+
+  // Decoupled from AnimatePresence's own exit-complete signal, which can get
+  // stuck and leave an invisible, click-blocking overlay in the DOM forever
+  // (reproduced in testing) — a plain timer matching the longest exit
+  // transition below removes it deterministically instead.
+  useEffect(() => {
+    if (isOpen) {
+      setMounted(true);
+      return;
+    }
+    const timer = setTimeout(() => setMounted(false), 420);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -83,33 +97,35 @@ export function EnquiryModal() {
     };
   }, [isOpen, close]);
 
-  return (
-    <AnimatePresence>
-      {isOpen ? (
-        <div className="fixed inset-0 z-100 flex items-end justify-center sm:items-center">
-          <motion.button
-            type="button"
-            aria-label="Close enquiry form"
-            onClick={close}
-            className="absolute inset-0 cursor-pointer bg-ink/55 backdrop-blur-[3px]"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduced ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.28 }}
-          />
+  if (!mounted) return null;
 
-          <motion.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="enquiry-title"
-            tabIndex={-1}
-            initial={reduced ? false : { opacity: 0, y: 32, scale: 0.985 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reduced ? undefined : { opacity: 0, y: 24, scale: 0.99 }}
-            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-            className="relative max-h-[92dvh] w-full max-w-3xl overflow-y-auto bg-paper px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8 shadow-2xl outline-none sm:px-10 sm:py-12"
-          >
+  return (
+    <div className="fixed inset-0 z-100 flex items-end justify-center sm:items-center">
+      <motion.button
+        type="button"
+        aria-label="Close enquiry form"
+        onClick={close}
+        className="absolute inset-0 cursor-pointer bg-ink/55 backdrop-blur-[3px]"
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: reduced ? 0 : 0.28 }}
+      />
+
+      <motion.div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="enquiry-title"
+        tabIndex={-1}
+        initial={reduced ? false : { opacity: 0, y: 32, scale: 0.985 }}
+        animate={
+          isOpen
+            ? { opacity: 1, y: 0, scale: 1 }
+            : { opacity: 0, y: 24, scale: 0.99 }
+        }
+        transition={{ duration: reduced ? 0 : 0.38, ease: [0.16, 1, 0.3, 1] }}
+        className="relative max-h-[92dvh] w-full max-w-3xl overflow-y-auto bg-paper px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8 shadow-2xl outline-none sm:px-10 sm:py-12"
+      >
             <button
               type="button"
               onClick={close}
@@ -146,9 +162,7 @@ export function EnquiryModal() {
                 source={source ?? "modal"}
               />
             </div>
-          </motion.div>
-        </div>
-      ) : null}
-    </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
