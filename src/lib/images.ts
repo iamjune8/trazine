@@ -99,7 +99,7 @@ export const photos = {
 
   // ── Editorial / brand ──
   aircraftWing: "1436491865332-7a61a109cc05", // wing above cloud at sunrise
-  planningFlatlay: "1488646953014-85cb44e25828", // map, notebook and camera flat-lay
+  planningFlatlay: "/images/other/planning-flatlay.jpg", // AI-generated map, notebook and camera flat-lay
   officeInterior: "1497366754035-f200968a6e72", // calm glass-partitioned studio
 
   // ── /demo/airport-hero (cinematic scroll concept) ──
@@ -131,6 +131,7 @@ const LOCAL_BLUR =
 export function photo(key: PhotoKey, width = 1600): string {
   if (key.startsWith("/")) return key;
   const id = photos[key as keyof typeof photos];
+  if (id.startsWith("/")) return id;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=${width}&q=72`;
 }
 
@@ -143,5 +144,6 @@ export function photo(key: PhotoKey, width = 1600): string {
 export function photoBlur(key: PhotoKey): string {
   if (key.startsWith("/")) return LOCAL_BLUR;
   const id = photos[key as keyof typeof photos];
+  if (id.startsWith("/")) return LOCAL_BLUR;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=16&q=20&blur=200`;
 }

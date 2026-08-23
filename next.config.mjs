@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     // Destination photography is served from Unsplash and resized by Next's
     // optimizer. Swap this host when the client's own photography lands.

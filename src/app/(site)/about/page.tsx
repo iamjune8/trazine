@@ -13,7 +13,7 @@ import { site, fullAddress } from "@/data/site";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "A Mumbai travel house working across two disciplined tiers — Premium Luxury circuits through Europe and Easy & Affordable journeys across Asia and the Gulf — with one named consultant on every trip.",
+    "A travel house working across two disciplined tiers — Premium Luxury circuits through Europe and Easy & Affordable journeys across Asia and the Gulf — with one named consultant on every trip.",
   alternates: { canonical: "/about" },
 };
 
@@ -57,7 +57,7 @@ export default function AboutPage() {
             <div className="lg:col-span-6">
               <Reveal>
                 <p className="font-display text-[length:var(--step-h3)] leading-[1.4] text-ink">
-                  Travel Magazine began in 2007 with a ticketing desk, a landline
+                  Travel Magazine began in 2020 with a ticketing desk, a landline
                   and a stubborn view about how much of a holiday should be left
                   to chance.
                 </p>
@@ -68,9 +68,9 @@ export default function AboutPage() {
                   The business grew the way most good ones in this trade do —
                   slowly, and almost entirely by referral. A family we sent to
                   Switzerland told their neighbours. A couple whose Schengen file
-                  we rebuilt after a refusal told their office. Nearly two
-                  decades on, the majority of the people who walk into our
-                  Kurla office were sent by someone we have already travelled.
+                  we rebuilt after a refusal told their office. Today, the
+                  majority of the people who walk into our Kurla office were
+                  sent by someone we have already travelled.
                 </p>
                 <p>
                   Along the way we narrowed rather than widened. We used to sell

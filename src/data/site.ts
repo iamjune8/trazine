@@ -12,7 +12,7 @@ export const site = {
   legalName: "Travel Magazine Holidays Pvt. Ltd.",
   slogan: "Capture World, Page by Page",
   positioning:
-    "A Mumbai travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf.",
+    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf.",
 
   url: "https://www.travelmagazine.example",
 

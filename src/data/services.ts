@@ -137,8 +137,8 @@ export const approach = [
 ] as const;
 
 export const stats = [
-  { value: "18", suffix: "+", label: "Years planning journeys from Mumbai" },
-  { value: "9,400", suffix: "+", label: "Travellers sent abroad" },
+  { value: "5", suffix: "+", label: "Years planning journeys" },
+  { value: "1,000", suffix: "+", label: "Happy customers" },
   { value: "96", suffix: "%", label: "Visa applications approved first time" },
   { value: "1", suffix: "", label: "Named consultant per journey" },
 ] as const;

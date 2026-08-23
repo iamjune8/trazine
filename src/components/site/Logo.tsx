@@ -22,23 +22,6 @@ export function Logo({
       >
         Travel Magazine
       </span>
-      <span className="mt-1.5 flex items-center gap-2">
-        <span
-          className={cn(
-            "h-px w-5 shrink-0",
-            onDark ? "bg-brass-light" : "bg-brass",
-          )}
-          aria-hidden="true"
-        />
-        <span
-          className={cn(
-            "text-[0.5625rem] font-medium uppercase tracking-[0.3em]",
-            onDark ? "text-paper/70" : "text-ink-3",
-          )}
-        >
-          Mumbai
-        </span>
-      </span>
     </span>
   );
 }
