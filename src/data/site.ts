@@ -16,7 +16,7 @@ export const site = {
 
   url: "https://www.travelmagazine.example",
 
-  email: "travelmagazine24@gmail.com",
+  email: "ops@travzine.in",
   phone: "+91 81085 31332",
   phoneHref: "tel:+918108531332",
   whatsapp: "918108531332",
