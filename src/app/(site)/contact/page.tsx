@@ -149,7 +149,10 @@ export default function ContactPage() {
 
                 <div className="mt-6 aspect-[4/3] w-full overflow-hidden border border-line-2">
                   <iframe
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(`${site.name}, ${fullAddress}`)}&output=embed`}
+                    // ftid pins the verified "Travel Magazine" Google Business
+                    // listing itself, resolved from the office's Google Maps
+                    // share link — more reliable than geocoding the address text.
+                    src="https://www.google.com/maps?q=Travel+Magazine,+Kohinoor+City+Mall,+Kurla+West,+Mumbai&ftid=0x3be7c996ea9bcf41:0xe16e7d34f7dc83b5&output=embed"
                     title="Map showing the Travel Magazine office location"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
