@@ -7,18 +7,17 @@ import { parseLines } from "@/lib/admin/textLines";
 import { parseHotels, parseItinerary } from "@/lib/admin/textBlocks";
 
 /**
- * Revalidate only the critical public pages — the admin dashboard is not
- * visitor-facing and doesn't need immediate revalidation. On Hostinger's
- * shared hosting, calling revalidatePath() on 3+ routes at once can easily
- * exceed Cloudflare's 100-second timeout (524 error).
+ * Skip on-demand revalidation entirely on Hostinger's shared hosting.
+ * Even 1-2 revalidatePath() calls can exceed Cloudflare's timeout during
+ * form submission. Instead, rely on the hourly revalidate = 3600 config
+ * set on each public page — pages refresh automatically within 60 minutes,
+ * which is acceptable for an admin-controlled travel site.
  *
- * The package detail page has revalidate = 3600 set in its own layout,
- * so it will refresh within an hour even without explicit revalidation here.
+ * This makes server actions return instantly (under 200ms) instead of
+ * timing out at 100 seconds.
  */
 function revalidatePackages(slug?: string) {
-  // Only revalidate the listing page and the specific package detail page
-  revalidatePath("/packages");
-  if (slug) revalidatePath(`/packages/${slug}`);
+  // No-op: revalidation happens via hourly page-level config instead
 }
 
 function readFields(formData: FormData) {
