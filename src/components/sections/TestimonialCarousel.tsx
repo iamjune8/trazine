@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
-  motion,
+  m,
   AnimatePresence,
   useMotionValue,
   useSpring,
@@ -82,13 +82,13 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
       className="relative overflow-hidden"
     >
       {/* Oversized ghost index number, bleeding off the left edge. */}
-      <motion.div
+      <m.div
         aria-hidden="true"
         className="pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 select-none text-[7rem] leading-none font-bold tracking-tighter text-ink/[0.04] sm:text-[11rem] lg:-left-6 lg:text-[15rem]"
         style={reduced ? undefined : { x: numberX, y: numberY }}
       >
         <AnimatePresence mode="wait">
-          <motion.span
+          <m.span
             key={activeIndex}
             initial={reduced ? false : { opacity: 0, scale: 0.85, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -97,9 +97,9 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
             className="block"
           >
             {String(activeIndex + 1).padStart(2, "0")}
-          </motion.span>
+          </m.span>
         </AnimatePresence>
-      </motion.div>
+      </m.div>
 
       <div className="relative flex">
         {/* Vertical label + progress line — dropped below sm, where there's no room for a side column. */}
@@ -111,7 +111,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
             In their words
           </span>
           <div className="relative mt-7 h-24 w-px bg-line">
-            <motion.div
+            <m.div
               className="absolute left-0 top-0 w-full origin-top bg-brass"
               animate={{ height: `${((activeIndex + 1) / testimonials.length) * 100}%` }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -122,7 +122,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
         <div className="min-w-0 flex-1 py-2 sm:pl-10 lg:pl-14">
           {/* Trip badge */}
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeIndex}
               initial={reduced ? false : { opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
@@ -134,13 +134,13 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                 <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
                 {current.trip}
               </span>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           {/* Quote, revealed word by word */}
           <div className="relative mb-10 min-h-[8rem] sm:min-h-[7rem]">
             <AnimatePresence mode="wait">
-              <motion.blockquote
+              <m.blockquote
                 key={activeIndex}
                 className="font-display text-[1.6rem] leading-[1.35] tracking-tight text-ink sm:text-[2.1rem]"
                 initial="hidden"
@@ -148,7 +148,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                 exit="exit"
               >
                 {current.quote.split(" ").map((word, i) => (
-                  <motion.span
+                  <m.span
                     key={i}
                     className="mr-[0.28em] inline-block"
                     variants={
@@ -175,16 +175,16 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                     }
                   >
                     {word}
-                  </motion.span>
+                  </m.span>
                 ))}
-              </motion.blockquote>
+              </m.blockquote>
             </AnimatePresence>
           </div>
 
           {/* Author + navigation */}
           <div className="flex flex-wrap items-end justify-between gap-6">
             <AnimatePresence mode="wait">
-              <motion.div
+              <m.div
                 key={activeIndex}
                 initial={reduced ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -197,7 +197,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                   <cite className="block not-italic font-medium text-ink">{current.name}</cite>
                   <span className="text-sm text-ink-3">{current.role}</span>
                 </p>
-              </motion.div>
+              </m.div>
             </AnimatePresence>
 
             {testimonials.length > 1 ? (
@@ -230,7 +230,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden opacity-[0.05]"
         >
-          <motion.div
+          <m.div
             className="flex whitespace-nowrap font-display text-5xl font-bold tracking-tight text-ink sm:text-6xl"
             animate={{ x: [0, -1000] }}
             transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
@@ -240,7 +240,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                 {testimonials.map((t) => t.trip).join(" · ")} ·
               </span>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       ) : null}
     </div>

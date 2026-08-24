@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 import type { NavLink } from "./AdminSidebar";
@@ -31,7 +31,7 @@ export function AdminMobileNav({ links }: { links: NavLink[] }) {
       <AnimatePresence>
         {open ? (
           <div className="fixed inset-0 z-100">
-            <motion.button
+            <m.button
               type="button"
               aria-label="Close menu"
               onClick={() => setOpen(false)}
@@ -40,7 +40,7 @@ export function AdminMobileNav({ links }: { links: NavLink[] }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
-            <motion.div
+            <m.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -89,7 +89,7 @@ export function AdminMobileNav({ links }: { links: NavLink[] }) {
                   );
                 })}
               </nav>
-            </motion.div>
+            </m.div>
           </div>
         ) : null}
       </AnimatePresence>

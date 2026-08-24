@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import { Turnstile } from "@/components/ui/Turnstile";
 import { trackEvent } from "@/lib/analytics";
@@ -105,7 +105,7 @@ export function PackageEnquiryModal({
 
   return (
     <div className="fixed inset-0 z-100 flex items-end justify-center p-0 sm:items-center sm:p-4">
-      <motion.button
+      <m.button
         type="button"
         aria-label="Close enquiry form"
         onClick={onClose}
@@ -115,7 +115,7 @@ export function PackageEnquiryModal({
         transition={{ duration: reduced ? 0 : 0.25 }}
       />
 
-      <motion.div
+      <m.div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
@@ -144,7 +144,7 @@ export function PackageEnquiryModal({
               summary={displaySummary}
               onClose={onClose}
             />
-      </motion.div>
+      </m.div>
     </div>
   );
 }
@@ -235,7 +235,7 @@ function PackageEnquiryPanel({
 
   if (status === "success") {
     return (
-      <motion.div
+      <m.div
         initial={reduced ? false : { opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -257,7 +257,7 @@ function PackageEnquiryPanel({
         >
           Done
         </button>
-      </motion.div>
+      </m.div>
     );
   }
 

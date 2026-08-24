@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Icon } from "./Icon";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +58,7 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
 
             <AnimatePresence initial={false}>
               {isOpen ? (
-                <motion.div
+                <m.div
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
@@ -72,7 +72,7 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
                   className="overflow-hidden"
                 >
                   <p className="max-w-2xl pb-7 text-ink-2">{item.answer}</p>
-                </motion.div>
+                </m.div>
               ) : null}
             </AnimatePresence>
           </div>

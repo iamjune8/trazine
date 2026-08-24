@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { TextField, SelectField, ChoiceField } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -161,7 +161,7 @@ export function EnquiryForm({
 
   if (status === "success") {
     return (
-      <motion.div
+      <m.div
         initial={reduced ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -186,7 +186,7 @@ export function EnquiryForm({
           </a>{" "}
           and we&rsquo;ll start straight away.
         </p>
-      </motion.div>
+      </m.div>
     );
   }
 

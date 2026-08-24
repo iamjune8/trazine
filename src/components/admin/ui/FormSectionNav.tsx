@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
@@ -55,7 +55,7 @@ export function FormSectionNav({ sections }: { sections: FormSection[] }) {
             )}
           >
             {active ? (
-              <motion.span
+              <m.span
                 layoutId="form-section-active"
                 className="absolute inset-0 rounded-xl bg-admin-violet/15 ring-1 ring-admin-violet/30"
                 transition={{ type: "spring", stiffness: 420, damping: 34 }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { useEnquiry } from "./EnquiryContext";
 import { EnquiryForm } from "./EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
@@ -104,7 +104,7 @@ export function EnquiryModal() {
 
   return (
     <div className="fixed inset-0 z-100 flex items-end justify-center sm:items-center">
-      <motion.button
+      <m.button
         type="button"
         aria-label="Close enquiry form"
         onClick={close}
@@ -114,7 +114,7 @@ export function EnquiryModal() {
         transition={{ duration: reduced ? 0 : 0.28 }}
       />
 
-      <motion.div
+      <m.div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
@@ -165,7 +165,7 @@ export function EnquiryModal() {
                 source={source ?? "modal"}
               />
             </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

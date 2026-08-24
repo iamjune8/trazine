@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { photo, photoBlur, type PhotoKey } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +61,7 @@ export function ParallaxImage({
         className,
       )}
     >
-      <motion.div
+      <m.div
         className="absolute inset-0"
         style={reduced ? undefined : { y, scale: overscan }}
       >
@@ -76,7 +76,7 @@ export function ParallaxImage({
           className="object-cover"
           style={objectPosition ? { objectPosition } : undefined}
         />
-      </motion.div>
+      </m.div>
     </div>
   );
 }

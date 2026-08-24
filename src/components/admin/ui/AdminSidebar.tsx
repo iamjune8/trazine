@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +43,7 @@ export function AdminSidebar({ links, email }: { links: NavLink[]; email: string
               )}
             >
               {active ? (
-                <motion.span
+                <m.span
                   layoutId="admin-nav-active"
                   className="absolute inset-0 rounded-xl bg-gradient-to-r from-admin-violet/20 to-admin-cyan/10 ring-1 ring-admin-violet/30"
                   transition={{ type: "spring", stiffness: 420, damping: 34 }}

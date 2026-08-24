@@ -8,6 +8,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
 import { EnquiryModalGate } from "@/components/enquiry/EnquiryModalGate";
+import { PublicMotionProvider } from "@/components/motion/PublicMotionProvider";
 import { site } from "@/data/site";
 import { getDestinations } from "@/lib/content/destinations";
 
@@ -150,14 +151,23 @@ export default async function RootLayout({
           // Static, developer-authored object — no user input reaches this.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd) }}
         />
-        <EnquiryProvider>
-          <Header />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <EnquiryModalGate />
-        </EnquiryProvider>
+        {/* Excludes drag and layout-projection — a ~130KB chunk of
+            framer-motion's engine this site's public pages never use.
+            Every motion.* component under this tree must be `m.*` instead
+            (only two admin-only components use layoutId, and admin has its
+            own separate root layout outside this tree). Loaded async from
+            its own module (see PublicMotionProvider) so it's a genuinely
+            separate chunk, not deduped into the same one as admin's domMax. */}
+        <PublicMotionProvider>
+          <EnquiryProvider>
+            <Header />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <EnquiryModalGate />
+          </EnquiryProvider>
+        </PublicMotionProvider>
       </body>
       {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
     </html>

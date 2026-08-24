@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Logo } from "./Logo";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
@@ -165,7 +165,7 @@ export function Header() {
 
       <AnimatePresence>
         {menuOpen ? (
-          <motion.div
+          <m.div
             id="mobile-menu"
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -179,7 +179,7 @@ export function Header() {
             >
               <ul className="border-t border-line">
                 {navLinks.map((link, i) => (
-                  <motion.li
+                  <m.li
                     key={link.href}
                     initial={reduced ? false : { opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -197,7 +197,7 @@ export function Header() {
                       {link.label}
                       <Icon name="arrow-up-right" size={20} className="text-brass" />
                     </Link>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
 
@@ -231,7 +231,7 @@ export function Header() {
                 </a>
               </div>
             </nav>
-          </motion.div>
+          </m.div>
         ) : null}
       </AnimatePresence>
     </>

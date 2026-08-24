@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { AdminMotionProvider } from "@/components/admin/ui/AdminMotionProvider";
 import "../globals.css";
 
 /**
@@ -33,7 +34,15 @@ export default function AdminRootLayout({
       <body className="admin-root">
         <div className="admin-aurora" />
         <div className="admin-grid-overlay" />
-        <div className="relative z-10">{children}</div>
+        {/* domMax (not domAnimation, unlike the public site's layout) — the
+            admin sidebar and form-section nav use layoutId for their active-
+            indicator animation, which needs the layout-projection engine.
+            Loaded async so it's a separate chunk from the public site's
+            domAnimation, not deduped into one shared chunk (see
+            AdminMotionProvider). */}
+        <AdminMotionProvider>
+          <div className="relative z-10">{children}</div>
+        </AdminMotionProvider>
       </body>
     </html>
   );

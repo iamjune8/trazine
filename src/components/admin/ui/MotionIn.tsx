@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
 /** Fades/rises a block in once, on mount — the admin equivalent of the
@@ -17,14 +17,14 @@ export function MotionIn({
 }) {
   const reduced = useReducedMotion();
   return (
-    <motion.div
+    <m.div
       initial={reduced ? false : { opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -42,9 +42,9 @@ export function MotionStagger({ children, className }: { children: ReactNode; cl
   const reduced = useReducedMotion();
   if (reduced) return <div className={className}>{children}</div>;
   return (
-    <motion.div initial="hidden" animate="show" variants={staggerContainer} className={className}>
+    <m.div initial="hidden" animate="show" variants={staggerContainer} className={className}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -52,8 +52,8 @@ export function MotionStaggerItem({ children, className }: { children: ReactNode
   const reduced = useReducedMotion();
   if (reduced) return <div className={className}>{children}</div>;
   return (
-    <motion.div variants={staggerItem} className={className}>
+    <m.div variants={staggerItem} className={className}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }
