@@ -26,15 +26,18 @@ export function EnquiryModal() {
   const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(isOpen);
 
-  // Decoupled from AnimatePresence's own exit-complete signal, which can get
-  // stuck and leave an invisible, click-blocking overlay in the DOM forever
-  // (reproduced in testing) — a plain timer matching the longest exit
-  // transition below removes it deterministically instead.
+  // Mounting is set during render (React re-renders immediately, before
+  // paint, so this has the same effect as an effect-based update without
+  // the extra render pass). Unmounting stays in an effect since it's a
+  // genuinely delayed, cancellable timer — decoupled from AnimatePresence's
+  // own exit-complete signal, which can get stuck and leave an invisible,
+  // click-blocking overlay in the DOM forever (reproduced in testing); a
+  // plain timer matching the longest exit transition below removes it
+  // deterministically instead.
+  if (isOpen && !mounted) setMounted(true);
+
   useEffect(() => {
-    if (isOpen) {
-      setMounted(true);
-      return;
-    }
+    if (isOpen) return;
     const timer = setTimeout(() => setMounted(false), 420);
     return () => clearTimeout(timer);
   }, [isOpen]);

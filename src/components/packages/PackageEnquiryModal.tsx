@@ -53,18 +53,24 @@ export function PackageEnquiryModal({
   const [mounted, setMounted] = useState(isOpen);
   const [lastSummary, setLastSummary] = useState(summary);
 
-  // Decoupled from AnimatePresence's own exit-complete signal, which can get
-  // stuck and leave an invisible, click-blocking overlay in the DOM forever
-  // (reproduced in testing) — a plain timer matching the longest exit
-  // transition below removes it deterministically instead. `lastSummary`
-  // keeps the panel's content rendered through that closing transition,
+  // Mounting and `lastSummary` are set during render (React re-renders
+  // immediately, before paint, so this has the same effect as an
+  // effect-based update without the extra render pass). `lastSummary`
+  // keeps the panel's content rendered through the closing transition,
   // since `summary` itself goes null the instant the caller closes it.
+  // Unmounting stays in an effect since it's a genuinely delayed,
+  // cancellable timer — decoupled from AnimatePresence's own exit-complete
+  // signal, which can get stuck and leave an invisible, click-blocking
+  // overlay in the DOM forever (reproduced in testing); a plain timer
+  // matching the longest exit transition below removes it deterministically
+  // instead.
+  if (summary && summary !== lastSummary) {
+    setLastSummary(summary);
+    setMounted(true);
+  }
+
   useEffect(() => {
-    if (summary) {
-      setLastSummary(summary);
-      setMounted(true);
-      return;
-    }
+    if (summary) return;
     const timer = setTimeout(() => setMounted(false), 400);
     return () => clearTimeout(timer);
   }, [summary]);
