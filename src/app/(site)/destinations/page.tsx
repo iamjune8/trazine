@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/destinations" },
 };
 
+// Revalidate every hour so destination changes appear within 60 minutes without
+// explicit on-demand revalidation (which can timeout on Hostinger). This acts
+// as a safety net alongside the admin's explicit revalidatePath() calls.
+export const revalidate = 3600;
+
 export default async function DestinationsPage() {
   const [premiumDestinations, easyDestinations] = await Promise.all([
     getPremiumDestinations(),

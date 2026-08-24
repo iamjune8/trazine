@@ -50,16 +50,37 @@ export async function generateStaticParams() {
   return destinations.map((destination) => ({ slug: destination.slug }));
 }
 
+/**
+ * Google displays roughly the first 155-160 characters of a meta description
+ * before truncating — a plain `.slice()` to that length routinely cuts mid-word
+ * (e.g. "...so neither do we anymore. Wherev"), which reads as broken in search
+ * results. This trims back to the last full word instead.
+ */
+function truncateAtWord(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  const cut = text.slice(0, maxLength);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : maxLength)}…`;
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const destination = await getDestination(slug);
 
   if (!destination) return { title: "Destination not found" };
 
-  const description = `${destination.tagline}. ${destination.intro}`.slice(0, 300);
+  // "from India" matches how this audience actually searches (confirmed
+  // against how TravelTriangle/MakeMyTrip/Thomas Cook title their own
+  // destination pages) — "from Mumbai" narrows the query to one city, and
+  // Mumbai is already established elsewhere on the page (BOM code, address).
+  const title = `${destination.name} Tour Packages from India`;
+  const description = truncateAtWord(
+    `${destination.tagline}. ${destination.intro}`,
+    155,
+  );
 
   return {
-    title: `${destination.name} tour packages from Mumbai`,
+    title,
     description,
     alternates: { canonical: `/destinations/${destination.slug}` },
     openGraph: {

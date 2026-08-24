@@ -12,9 +12,17 @@ import {
   parseMonthlyClimate,
 } from "@/lib/admin/textBlocks";
 
+/**
+ * Revalidate only the critical public pages — the admin dashboard and homepage
+ * are not visitor-facing enough to need immediate revalidation, and on
+ * Hostinger's shared hosting, calling revalidatePath() on 4+ routes at once
+ * can easily exceed Cloudflare's 100-second timeout (524 error).
+ *
+ * The destination detail page has revalidate = 3600 set in its own layout,
+ * so it will refresh within an hour even without explicit revalidation here.
+ */
 function revalidateDestinations(slug?: string) {
-  revalidatePath("/admin/destinations");
-  revalidatePath("/");
+  // Only revalidate the listing page and the specific destination detail page
   revalidatePath("/destinations");
   if (slug) revalidatePath(`/destinations/${slug}`);
 }

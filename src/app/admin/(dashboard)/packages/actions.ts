@@ -6,8 +6,17 @@ import { createClient } from "@/lib/supabase/server";
 import { parseLines } from "@/lib/admin/textLines";
 import { parseHotels, parseItinerary } from "@/lib/admin/textBlocks";
 
+/**
+ * Revalidate only the critical public pages — the admin dashboard is not
+ * visitor-facing and doesn't need immediate revalidation. On Hostinger's
+ * shared hosting, calling revalidatePath() on 3+ routes at once can easily
+ * exceed Cloudflare's 100-second timeout (524 error).
+ *
+ * The package detail page has revalidate = 3600 set in its own layout,
+ * so it will refresh within an hour even without explicit revalidation here.
+ */
 function revalidatePackages(slug?: string) {
-  revalidatePath("/admin/packages");
+  // Only revalidate the listing page and the specific package detail page
   revalidatePath("/packages");
   if (slug) revalidatePath(`/packages/${slug}`);
 }
