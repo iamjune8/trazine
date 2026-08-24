@@ -28,16 +28,12 @@ export const revalidate = 3600;
  * boarding-pass strip. Real IATA codes for every single-country page;
  * "EUROPE" for the merged circuit, which has no one gateway airport.
  */
-const ROUTE_CODES: Record<string, { code: string; city: string }> = {
+/**
+ * Route codes are now managed per-destination in the database.
+ * If a destination has no code set, fall back to sensible defaults.
+ */
+const DEFAULT_ROUTE_CODES: Record<string, { code: string; city: string }> = {
   europe: { code: "EUROPE", city: "Multiple cities" },
-  dubai: { code: "DXB", city: "Dubai" },
-  bali: { code: "DPS", city: "Denpasar" },
-  vietnam: { code: "HAN", city: "Hanoi" },
-  malaysia: { code: "KUL", city: "Kuala Lumpur" },
-  singapore: { code: "SIN", city: "Singapore" },
-  maldives: { code: "MLE", city: "Malé" },
-  "sri-lanka": { code: "CMB", city: "Colombo" },
-  nepal: { code: "KTM", city: "Kathmandu" },
 };
 
 /**
@@ -74,10 +70,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   // destination pages) — "from Mumbai" narrows the query to one city, and
   // Mumbai is already established elsewhere on the page (BOM code, address).
   const title = `${destination.name} Tour Packages from India`;
-  const description = truncateAtWord(
-    `${destination.tagline}. ${destination.intro}`,
-    155,
-  );
+  const rawDescription = `${destination.tagline ?? ""}. ${destination.intro ?? ""}`.trim();
+  const description = truncateAtWord(rawDescription, 155);
 
   return {
     title,
@@ -235,10 +229,10 @@ export default async function DestinationPage({ params }: Params) {
                       />
                       <div className="text-right">
                         <p className="font-mono text-lg tracking-[0.06em] text-ink">
-                          {(ROUTE_CODES[destination.slug] ?? ROUTE_CODES.dubai).code}
+                          {destination.departureCode}
                         </p>
                         <p className="mt-0.5 text-[0.625rem] uppercase tracking-[0.16em] text-ink-3">
-                          {(ROUTE_CODES[destination.slug] ?? ROUTE_CODES.dubai).city}
+                          {destination.routeCity}
                         </p>
                       </div>
                     </div>

@@ -130,8 +130,11 @@ const LOCAL_BLUR =
  */
 export function photo(key: PhotoKey, width = 1600): string {
   if (key?.startsWith("/")) return key;
+  if (key?.startsWith("http")) return key;
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return id;
+  if (id?.startsWith("http")) return id;
+  if (!id) return "";
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=${width}&q=72`;
 }
 
@@ -143,7 +146,10 @@ export function photo(key: PhotoKey, width = 1600): string {
  */
 export function photoBlur(key: PhotoKey): string {
   if (key?.startsWith("/")) return LOCAL_BLUR;
+  if (key?.startsWith("http")) return "";
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return LOCAL_BLUR;
+  if (id?.startsWith("http")) return "";
+  if (!id) return LOCAL_BLUR;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=16&q=20&blur=200`;
 }

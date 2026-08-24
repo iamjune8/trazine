@@ -1,0 +1,18 @@
+cluster,keyword,intent,role,search_volume,ai_search_volume,competition,cpc
+GEO Fundamentals,generative engine optimisation,informational,primary,170,~1/mo (thin),MEDIUM,2.6
+GEO Fundamentals,geo generative engine optimization,informational,secondary,320,no data,MEDIUM,2.56
+GEO Fundamentals,what is generative engine optimization,informational,secondary,260,no data,LOW,0.67
+GEO Fundamentals,generative engine optimization,informational,secondary,no data,4,no data,no data
+GEO vs Other Disciplines,answer engine optimization,informational,secondary,1300,no data,LOW,1.48
+GEO vs Other Disciplines,geo vs seo,informational,secondary,no data,6,no data,no data
+GEO vs Other Disciplines,ai search optimization,informational,support,320,no data,LOW,2.06
+GEO Tactics & Tools,generative engine optimization tools,commercial,secondary,210,no data,LOW,3.27
+GEO Tactics & Tools,generative engine optimization strategies,informational,secondary,50,no data,LOW,3.85
+GEO Tactics & Tools,generative engine optimization examples,informational,support,20,no data,LOW,0.48
+GEO Tactics & Tools,generative engine optimization checklist,informational,support,10,no data,LOW,0.96
+GEO Tactics & Tools,llm optimization,informational,support,no data,2,no data,no data
+GEO Learning & Careers,generative engine optimization course,commercial,skip,140,no data,MEDIUM,1.51
+GEO Learning & Careers,generative engine optimization certification,commercial,skip,20,no data,MEDIUM,2.41
+GEO Learning & Careers,generative engine optimization jobs,transactional,skip,20,no data,LOW,no data
+Discarded (wrong meaning/topic),AEO,informational,skip,18100,no data,LOW,0.8
+Discarded (wrong meaning/topic),geo marketing strategy,commercial,skip,10,no data,LOW,no data

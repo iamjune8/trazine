@@ -54,6 +54,10 @@ export type Destination = {
   cardImage?: PhotoKey;
   /** Portrait-friendly frames for the detail-page gallery. */
   gallery: PhotoKey[];
+  /** Airport code for departures (e.g. NRT, DXB, HAN). Managed via admin panel. */
+  departureCode?: string;
+  /** City name where travellers arrive (e.g. Tokyo, Dubai, Hanoi). Managed via admin panel. */
+  routeCity?: string;
   /** The countries/cities within this circuit, each with its own highlights. */
   places: Place[];
   /** Signature experiences that span the whole circuit. */

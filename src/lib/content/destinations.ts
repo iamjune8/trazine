@@ -24,6 +24,8 @@ type DestinationRow = {
   hero_image: string;
   card_image: string | null;
   gallery: string[];
+  departure_code?: string;
+  route_city?: string;
   places: unknown;
   experiences: unknown;
   facts: unknown;
@@ -45,6 +47,8 @@ function mapRow(row: DestinationRow): Destination {
     heroImage: row.hero_image as PhotoKey,
     cardImage: (row.card_image ?? undefined) as PhotoKey | undefined,
     gallery: row.gallery as PhotoKey[],
+    departureCode: row.departure_code,
+    routeCity: row.route_city,
     places: row.places as Place[],
     experiences: row.experiences as Experience[],
     facts: row.facts as Fact[],

@@ -4,15 +4,41 @@
     {
       "name": "travel-magazine",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "admanco",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd '/Users/apple/Desktop/gulf-manpower-recruitment' && python3 -m http.server ${PORT:-8931}"],
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/apple/Desktop/gulf-manpower-recruitment' && python3 -m http.server ${PORT:-8931}"
+      ],
       "port": 8931,
+      "autoPort": true
+    },
+    {
+      "name": "al-yusr",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/apple/Desktop/AL-YUSR WEBSITE' && npm run dev -- -p ${PORT:-3010}"
+      ],
+      "port": 3010,
+      "autoPort": true
+    },
+    {
+      "name": "admanco-site",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/apple/Desktop/ADMANCO' && python3 -m http.server ${PORT:-8940}"
+      ],
+      "port": 8940,
       "autoPort": true
     }
   ]

@@ -22,6 +22,7 @@ const SECTIONS: FormSection[] = [
   { id: "basics", label: "The basics", icon: "grid" },
   { id: "copy", label: "Editorial copy", icon: "quote" },
   { id: "photography", label: "Photography", icon: "eye" },
+  { id: "routing", label: "Route info", icon: "plane" },
   { id: "places", label: "Places", icon: "map-route" },
   { id: "experiences", label: "Experiences", icon: "compass" },
   { id: "facts", label: "Facts", icon: "help-circle" },
@@ -41,6 +42,8 @@ type DestinationValues = {
   hero_image: string;
   card_image: string | null;
   gallery: string[];
+  departure_code?: string;
+  route_city?: string;
   places: unknown;
   experiences: unknown;
   facts: unknown;
@@ -145,7 +148,7 @@ export function DestinationForm({
               label="Hero image"
               name="hero_image"
               required
-              hint="A key from the photo catalogue, e.g. parisEiffelSeine."
+              hint="A key from the photo catalogue, e.g. parisEiffelSeine, or a full URL."
               defaultValue={defaultValues?.hero_image}
             />
             <AdminTextField
@@ -159,9 +162,26 @@ export function DestinationForm({
             label="Gallery"
             name="gallery"
             rows={4}
-            hint="One photo key per line."
+            hint="One photo key (e.g. parisEiffelSeine) or full URL per line."
             defaultValue={stringifyLines(defaultValues?.gallery)}
           />
+        </SectionCard>
+
+        <SectionCard id="routing" icon="plane" title="Route info" accent="cyan">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <AdminTextField
+              label="Departure airport code"
+              name="departure_code"
+              hint="E.g. NRT (Narita), HND (Haneda), DXB (Dubai). Shown on the detail page route display."
+              defaultValue={defaultValues?.departure_code ?? ""}
+            />
+            <AdminTextField
+              label="Destination city"
+              name="route_city"
+              hint="City where travellers arrive (e.g. Tokyo, Dubai). Shown on the detail page route display."
+              defaultValue={defaultValues?.route_city ?? ""}
+            />
+          </div>
         </SectionCard>
 
         <SectionCard id="places" icon="map-route" title="Places" accent="violet">
