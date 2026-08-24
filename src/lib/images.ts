@@ -129,9 +129,9 @@ const LOCAL_BLUR =
  * (AVIF/WebP) driven by the requested width.
  */
 export function photo(key: PhotoKey, width = 1600): string {
-  if (key.startsWith("/")) return key;
+  if (key?.startsWith("/")) return key;
   const id = photos[key as keyof typeof photos];
-  if (id.startsWith("/")) return id;
+  if (id?.startsWith("/")) return id;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=${width}&q=72`;
 }
 
@@ -142,8 +142,8 @@ export function photo(key: PhotoKey, width = 1600): string {
  * neutral placeholder instead, since there's no low-res variant to fetch.
  */
 export function photoBlur(key: PhotoKey): string {
-  if (key.startsWith("/")) return LOCAL_BLUR;
+  if (key?.startsWith("/")) return LOCAL_BLUR;
   const id = photos[key as keyof typeof photos];
-  if (id.startsWith("/")) return LOCAL_BLUR;
+  if (id?.startsWith("/")) return LOCAL_BLUR;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=16&q=20&blur=200`;
 }
