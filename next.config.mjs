@@ -8,8 +8,16 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
   images: {
     // Destination photography is served from Unsplash and resized by Next's
-    // optimizer. Swap this host when the client's own photography lands.
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    // optimizer. Also allow external URLs from gallery entries (admin-managed).
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "*.tinyurl.com" },
+      { protocol: "https", hostname: "**.com" },
+      { protocol: "https", hostname: "**.in" },
+      { protocol: "https", hostname: "**.io" },
+      { protocol: "https", hostname: "**.co" },
+      { protocol: "https", hostname: "**.org" },
+    ],
     // Next 16 requires an explicit allowlist. 75 is the site default; 70 is
     // used only for photographs that sit behind a heavy scrim, where the
     // extra compression is invisible.
@@ -52,7 +60,7 @@ const nextConfig = {
       // this site's near-entirely Indian audience; a visitor on a different
       // regional TLD (.co.uk, .de, ...) would silently lose just that one
       // remarketing-audience pixel, not core pageview tracking.
-      "img-src 'self' data: https://images.unsplash.com https://www.google.com https://www.google.co.in",
+      "img-src 'self' data: https: https://www.google.com https://www.google.co.in",
       "font-src 'self'",
       // GA4's actual collect beacon fans out across several Google-owned
       // domains depending on browser/consent signals — confirmed by testing
