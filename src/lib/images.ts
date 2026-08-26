@@ -124,13 +124,17 @@ const LOCAL_BLUR =
 /**
  * Build an image URL. A value starting with "/" is a local file under
  * `public/images/` and is returned as-is — Next's optimizer handles those
- * automatically. Otherwise it's treated as an Unsplash catalogue key and
- * resolved to a URL, with the optimizer's resizing and format negotiation
- * (AVIF/WebP) driven by the requested width.
+ * automatically. A value starting with "http" is returned as-is (full URL).
+ * A bare Unsplash photo ID (e.g. "photo-1234567890abc") is converted to
+ * an Unsplash URL. Otherwise it's treated as a catalogue key and resolved.
  */
 export function photo(key: PhotoKey, width = 1600): string {
   if (key?.startsWith("/")) return key;
   if (key?.startsWith("http")) return key;
+  // Unsplash photo ID: starts with "photo-" followed by alphanumeric and hyphens
+  if (key?.startsWith("photo-") && /^photo-[a-z0-9-]+$/.test(key)) {
+    return `${UNSPLASH}${key}?auto=format&fit=crop&w=${width}&q=72`;
+  }
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return id;
   if (id?.startsWith("http")) return id;
@@ -141,12 +145,16 @@ export function photo(key: PhotoKey, width = 1600): string {
 /**
  * A 12px-wide blurred version of the same frame, used as `blurDataURL` so
  * cards fade up from the photo's own colours instead of flashing grey.
- * Cheap enough (~1KB) to inline on every image. Local images get a flat
- * neutral placeholder instead, since there's no low-res variant to fetch.
+ * Cheap enough (~1KB) to inline on every image. Local images and external
+ * URLs get a flat neutral placeholder instead, since there's no low-res variant.
  */
 export function photoBlur(key: PhotoKey): string {
   if (key?.startsWith("/")) return LOCAL_BLUR;
   if (key?.startsWith("http")) return "";
+  // Unsplash photo ID: generate a blur variant
+  if (key?.startsWith("photo-") && /^photo-[a-z0-9-]+$/.test(key)) {
+    return `${UNSPLASH}${key}?auto=format&fit=crop&w=16&q=20&blur=200`;
+  }
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return LOCAL_BLUR;
   if (id?.startsWith("http")) return "";
