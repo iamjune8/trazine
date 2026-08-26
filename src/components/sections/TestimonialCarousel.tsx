@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
   useReducedMotion,
+  cubicBezier,
 } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import type { Testimonial } from "@/data/testimonials";
@@ -33,11 +34,42 @@ import type { Testimonial } from "@/data/testimonials";
  * seconds to be pausable, and the prev/next buttons plus hover-pause satisfy
  * that without needing a dedicated play/pause control here (unlike the hero,
  * this carousel isn't the first thing on the page).
+ *
+ * Performance optimizations:
+ * - Hoisted word variants to module level (avoid re-alloc per word per render)
+ * - Throttled mousemove to rAF (avoid layout thrashing)
+ * - Gated ticker + springs behind IntersectionObserver (stop when off-screen)
  */
+
+const EASE = cubicBezier(0.22, 1, 0.36, 1);
+
+// Hoisted variants: allocated once, reused per word
+const WORD_VARIANTS = {
+  hidden: { opacity: 0, y: 18, rotateX: 90 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      duration: 0.5,
+      delay: i * 0.018,
+      ease: EASE,
+    },
+  }),
+  exit: (i: number) => ({
+    opacity: 0,
+    y: -8,
+    transition: { duration: 0.18, delay: i * 0.008 },
+  }),
+};
+
 export function TestimonialCarousel({ testimonials }: { testimonials: Testimonial[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const rafRef = useRef<number | null>(null);
   const reduced = useReducedMotion();
 
   // Mouse position for the ghost number's subtle magnetic drift.
@@ -49,24 +81,52 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
   const numberX = useTransform(springX, [-200, 200], [-16, 16]);
   const numberY = useTransform(springY, [-200, 200], [-8, 8]);
 
+  // Throttle mousemove to rAF to prevent layout thrashing
   function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
     if (reduced) return;
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set(event.clientX - (rect.left + rect.width / 2));
-    mouseY.set(event.clientY - (rect.top + rect.height / 2));
+    
+    // Cancel previous rAF if pending
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    
+    // Schedule update on next frame instead of immediate getBoundingClientRect
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      mouseX.set(event.clientX - (rect.left + rect.width / 2));
+      mouseY.set(event.clientY - (rect.top + rect.height / 2));
+    });
   }
 
   const goNext = () => setActiveIndex((i) => (i + 1) % testimonials.length);
   const goPrev = () => setActiveIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
 
+  // Gate animations behind IntersectionObserver (stop when off-screen)
   useEffect(() => {
-    if (reduced || paused || testimonials.length <= 1) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    observerRef.current = observer;
+    return () => {
+      observer.disconnect();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  // Only autoplay when section is visible and not paused
+  useEffect(() => {
+    if (reduced || paused || testimonials.length <= 1 || !isVisible) return;
     const timer = setInterval(goNext, 6000);
     return () => clearInterval(timer);
-    // Restart the countdown from zero on every change, same reasoning as HeroSlideshow.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, reduced, paused, testimonials.length]);
+  }, [activeIndex, reduced, paused, testimonials.length, isVisible]);
 
   if (testimonials.length === 0) return null;
   const current = testimonials[activeIndex];
@@ -85,7 +145,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
       <m.div
         aria-hidden="true"
         className="pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 select-none text-[7rem] leading-none font-bold tracking-tighter text-ink/[0.04] sm:text-[11rem] lg:-left-6 lg:text-[15rem]"
-        style={reduced ? undefined : { x: numberX, y: numberY }}
+        style={reduced || !isVisible ? undefined : { x: numberX, y: numberY }}
       >
         <AnimatePresence mode="wait">
           <m.span
@@ -93,7 +153,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
             initial={reduced ? false : { opacity: 0, scale: 0.85, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             exit={reduced ? undefined : { opacity: 0, scale: 1.08, filter: "blur(8px)" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: EASE }}
             className="block"
           >
             {String(activeIndex + 1).padStart(2, "0")}
@@ -114,7 +174,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
             <m.div
               className="absolute left-0 top-0 w-full origin-top bg-brass"
               animate={{ height: `${((activeIndex + 1) / testimonials.length) * 100}%` }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, ease: EASE }}
             />
           </div>
         </div>
@@ -137,7 +197,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
             </m.div>
           </AnimatePresence>
 
-          {/* Quote, revealed word by word */}
+          {/* Quote, revealed word by word — now using hoisted variants */}
           <div className="relative mb-10 min-h-[8rem] sm:min-h-[7rem]">
             <AnimatePresence mode="wait">
               <m.blockquote
@@ -151,28 +211,8 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
                   <m.span
                     key={i}
                     className="mr-[0.28em] inline-block"
-                    variants={
-                      reduced
-                        ? undefined
-                        : {
-                            hidden: { opacity: 0, y: 18, rotateX: 90 },
-                            visible: {
-                              opacity: 1,
-                              y: 0,
-                              rotateX: 0,
-                              transition: {
-                                duration: 0.5,
-                                delay: i * 0.018,
-                                ease: [0.22, 1, 0.36, 1],
-                              },
-                            },
-                            exit: {
-                              opacity: 0,
-                              y: -8,
-                              transition: { duration: 0.18, delay: i * 0.008 },
-                            },
-                          }
-                    }
+                    variants={reduced ? undefined : WORD_VARIANTS}
+                    custom={i}
                   >
                     {word}
                   </m.span>
@@ -224,8 +264,8 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
         </div>
       </div>
 
-      {/* Ambient ticker of trip names, bled to near-invisible — texture, not a message. */}
-      {!reduced && testimonials.length > 1 ? (
+      {/* Ambient ticker of trip names — only animate when section is visible */}
+      {!reduced && testimonials.length > 1 && isVisible ? (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden opacity-[0.05]"
