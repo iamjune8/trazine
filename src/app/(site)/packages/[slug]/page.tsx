@@ -134,9 +134,9 @@ export default async function PackagePage({ params }: Params) {
               </Reveal>
 
               {/* ── Flight details ── */}
-              <Reveal delay={0.05} className="mt-6">
-                <PackagePanel title="Flight details" icon="plane">
-                  {pkg.flightsIncluded ? (
+              {pkg.flightsIncluded ? (
+                <Reveal delay={0.05} className="mt-6">
+                  <PackagePanel title="Flight details" icon="plane">
                     <div className="grid gap-6 sm:grid-cols-2">
                       <div className="border border-line-2 bg-paper-2 p-5">
                         <p className="flex items-center gap-2 text-sm font-medium text-ink">
@@ -167,22 +167,9 @@ export default async function PackagePage({ params }: Params) {
                         </p>
                       </div>
                     </div>
-                  ) : (
-                    <div className="flex items-start gap-3 border border-line-2 bg-paper-2 p-5">
-                      <Icon name="suitcase" size={18} className="mt-0.5 shrink-0 text-ink-3" />
-                      <div>
-                        <p className="font-medium text-ink">This is a land package only</p>
-                        <p className="mt-1 text-ink-2">
-                          Flights are not included — you&apos;ll need to book your own flights
-                          {pkg.departureCity ? ` to and from ${pkg.departureCity}` : ""}. Everything
-                          else on this page (hotels, sightseeing, transfers) is arranged as
-                          described.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </PackagePanel>
-              </Reveal>
+                  </PackagePanel>
+                </Reveal>
+              ) : null}
 
               {/* ── Hotels & meal plan ── */}
               {pkg.hotels.length > 0 ? (
