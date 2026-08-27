@@ -23,6 +23,7 @@ export type Database = {
         Row: {
           body: string[]
           card_image: string | null
+          departure_code: string
           display_order: number
           experiences: Json
           facts: Json
@@ -35,6 +36,7 @@ export type Database = {
           name: string
           places: Json
           region: string
+          route_city: string
           seasons: Json
           slug: string
           tagline: string
@@ -44,6 +46,7 @@ export type Database = {
         Insert: {
           body?: string[]
           card_image?: string | null
+          departure_code?: string
           display_order?: number
           experiences?: Json
           facts?: Json
@@ -56,6 +59,7 @@ export type Database = {
           name: string
           places?: Json
           region: string
+          route_city?: string
           seasons?: Json
           slug: string
           tagline: string
@@ -65,6 +69,7 @@ export type Database = {
         Update: {
           body?: string[]
           card_image?: string | null
+          departure_code?: string
           display_order?: number
           experiences?: Json
           facts?: Json
@@ -77,6 +82,7 @@ export type Database = {
           name?: string
           places?: Json
           region?: string
+          route_city?: string
           seasons?: Json
           slug?: string
           tagline?: string

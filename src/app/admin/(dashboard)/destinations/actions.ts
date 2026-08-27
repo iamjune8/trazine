@@ -81,8 +81,8 @@ function readFields(formData: FormData) {
     card_image: cardImage || null,
     body: parseLines(String(formData.get("body") ?? "")),
     gallery,
-    departure_code: String(formData.get("departure_code") ?? "").trim() || null,
-    route_city: String(formData.get("route_city") ?? "").trim() || null,
+    departure_code: String(formData.get("departure_code") ?? "").trim(),
+    route_city: String(formData.get("route_city") ?? "").trim(),
     ideal_for: parseLines(String(formData.get("ideal_for") ?? "")),
     places: parsePlaces(String(formData.get("places") ?? "")),
     experiences: parseExperiences(String(formData.get("experiences") ?? "")),
@@ -97,7 +97,7 @@ function readFields(formData: FormData) {
 export async function createDestination(formData: FormData) {
   const fields = readFields(formData);
   const supabase = await createClient();
-  const { error } = await supabase.from("destinations").insert(fields as any);
+  const { error } = await supabase.from("destinations").insert(fields);
 
   if (error) throw new Error(error.message);
 
@@ -125,6 +125,8 @@ export async function updateDestination(slug: string, formData: FormData) {
       card_image: fields.card_image,
       body: fields.body,
       gallery: fields.gallery,
+      departure_code: fields.departure_code,
+      route_city: fields.route_city,
       ideal_for: fields.ideal_for,
       places: fields.places,
       experiences: fields.experiences,
@@ -133,10 +135,8 @@ export async function updateDestination(slug: string, formData: FormData) {
       monthly_climate: fields.monthly_climate,
       featured: fields.featured,
       display_order: fields.display_order,
-      ...(fields.departure_code && { departure_code: fields.departure_code }),
-      ...(fields.route_city && { route_city: fields.route_city }),
       updated_at: new Date().toISOString(),
-    } as any)
+    })
     .eq("slug", slug);
 
   if (error) throw new Error(error.message);
