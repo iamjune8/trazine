@@ -3,9 +3,9 @@ import { AdminImageField } from "@/components/admin/ui/AdminImageField";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
 import { SectionCard } from "@/components/admin/ui/Card";
 import { FormSectionNav, type FormSection } from "@/components/admin/ui/FormSectionNav";
+import { PlacesEditor } from "@/components/admin/ui/PlacesEditor";
 import { stringifyLines } from "@/lib/admin/textLines";
 import {
-  stringifyPlaces,
   stringifyExperiences,
   stringifyFacts,
   stringifySeasons,
@@ -204,17 +204,7 @@ export function DestinationForm({
         </SectionCard>
 
         <SectionCard id="places" icon="map-route" title="Places" accent="violet">
-          <AdminTextAreaField
-            label="Places within this circuit"
-            name="places"
-            rows={16}
-            hint={
-              'One block per place, separated by a line with just "---". Format:\n' +
-              "Name: Paris, France\nImage: parisEiffelTrocadero\nBlurb: One sentence.\nHighlights:\n- First highlight\n- Second highlight"
-            }
-            defaultValue={stringifyPlaces(defaultValues?.places as PlaceInput[])}
-            className="font-mono text-xs"
-          />
+          <PlacesEditor defaultValue={defaultValues?.places as PlaceInput[]} />
         </SectionCard>
 
         <SectionCard id="experiences" icon="compass" title="Experiences" accent="cyan">

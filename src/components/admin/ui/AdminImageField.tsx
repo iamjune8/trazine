@@ -12,9 +12,16 @@ type Status = "empty" | "loading" | "ok" | "broken";
  * A text field for a photo-catalogue key, Unsplash photo ID, full URL, or
  * local path — paired with a live thumbnail so an editor sees immediately
  * whether what they typed actually resolves to an image, before saving.
- * Catches the exact failure mode that made the plain-text gallery/hero
+ * Catches the exact failure mode that made the plain-text gallery/hero/place
  * fields silently produce blank cards: a mistyped or invented catalogue key
  * that `photo()` can't resolve, with no feedback until the live site.
+ *
+ * Two usage modes:
+ *  - Uncontrolled + `name`: renders a native form field (hero/card/gallery
+ *    images on the destination form), value read from FormData on submit.
+ *  - Controlled via `value`/`onChange`, no `name`: for use inside a
+ *    client-managed list (e.g. one image per place in the Places editor)
+ *    where the parent owns the array of values and serialises it itself.
  */
 export function AdminImageField({
   label,
@@ -22,37 +29,47 @@ export function AdminImageField({
   hint,
   required,
   defaultValue,
+  value: controlledValue,
+  onChange,
   className,
 }: {
   label: string;
-  name: string;
+  name?: string;
   hint?: string;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
+  onChange?: (value: string) => void;
   className?: string;
 }) {
   const id = useId();
   const hintId = `${id}-hint`;
-  const [value, setValue] = useState(defaultValue ?? "");
-  const [status, setStatus] = useState<Status>(defaultValue ? "loading" : "empty");
+  const isControlled = controlledValue !== undefined;
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
+  const value = isControlled ? controlledValue : internalValue;
 
-  const resolvedSrc = value.trim() ? photo(value.trim(), 400) : "";
+  // Tracks the load outcome of the most recently resolved src, keyed by that
+  // src — so switching back to a previously-broken value doesn't show a
+  // stale "ok" from a different one, and a value change always re-derives
+  // "loading" until the new image actually reports back.
+  const [loadResult, setLoadResult] = useState<{ src: string; ok: boolean } | null>(null);
+
+  const trimmed = value.trim();
+  const resolvedSrc = trimmed ? photo(trimmed, 400) : "";
+
+  let status: Status;
+  if (!trimmed) status = "empty";
+  else if (!resolvedSrc) status = "broken";
+  else if (loadResult?.src === resolvedSrc) status = loadResult.ok ? "ok" : "broken";
+  else status = "loading";
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const next = e.target.value;
-    setValue(next);
-    if (!next.trim()) {
-      setStatus("empty");
-      return;
+    if (isControlled) {
+      onChange?.(next);
+    } else {
+      setInternalValue(next);
     }
-    const src = photo(next.trim(), 400);
-    if (!src) {
-      // photo() returned "" — the key doesn't match any known format or
-      // catalogue entry. No point even trying to load it.
-      setStatus("broken");
-      return;
-    }
-    setStatus("loading");
   }
 
   return (
@@ -86,8 +103,8 @@ export function AdminImageField({
               unoptimized
               sizes="46px"
               className="object-cover"
-              onLoad={() => setStatus("ok")}
-              onError={() => setStatus("broken")}
+              onLoad={() => setLoadResult({ src: resolvedSrc, ok: true })}
+              onError={() => setLoadResult({ src: resolvedSrc, ok: false })}
             />
           )}
         </div>
@@ -111,7 +128,7 @@ export function AdminImageField({
         </div>
       </div>
 
-      {status === "broken" && value.trim() ? (
+      {status === "broken" && trimmed ? (
         <p className="mt-2 flex items-start gap-1.5 text-xs text-admin-danger" role="alert">
           <Icon name="close" size={13} className="mt-0.5 shrink-0" />
           <span>
