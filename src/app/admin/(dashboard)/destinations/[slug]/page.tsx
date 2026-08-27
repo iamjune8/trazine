@@ -45,7 +45,11 @@ export default async function EditDestinationPage({ params }: Props) {
 
       <DestinationForm
         action={boundUpdate}
-        defaultValues={destination}
+        defaultValues={{
+          ...destination,
+          departure_code: (destination as any).departure_code ?? null,
+          route_city: (destination as any).route_city ?? null,
+        }}
         submitLabel="Save changes"
         lockSlug
       />
