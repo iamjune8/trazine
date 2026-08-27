@@ -1,4 +1,5 @@
 import { AdminTextField, AdminTextAreaField, AdminSelectField, AdminCheckboxField } from "@/components/admin/ui/AdminField";
+import { AdminImageField } from "@/components/admin/ui/AdminImageField";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
 import { SectionCard } from "@/components/admin/ui/Card";
 import { FormSectionNav, type FormSection } from "@/components/admin/ui/FormSectionNav";
@@ -144,14 +145,14 @@ export function DestinationForm({
 
         <SectionCard id="photography" icon="eye" title="Photography" accent="pink">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <AdminTextField
+            <AdminImageField
               label="Hero image"
               name="hero_image"
               required
               hint="A key from the photo catalogue, e.g. parisEiffelSeine, or a full URL."
               defaultValue={defaultValues?.hero_image}
             />
-            <AdminTextField
+            <AdminImageField
               label="Card image"
               name="card_image"
               hint="Optional — falls back to the hero image if left blank."
@@ -164,11 +165,11 @@ export function DestinationForm({
                 Gallery images
               </legend>
               <p className="text-xs text-admin-text-3 mb-4">
-                Portrait-friendly images (3/4 aspect ratio) shown in a responsive grid. Enter a catalogue key (e.g. parisEiffelSeine), Unsplash photo ID (photo-xxxxx), or full URL per field.
+                Portrait-friendly images (3/4 aspect ratio) shown in a responsive grid. Enter a catalogue key (e.g. parisEiffelSeine), Unsplash photo ID (photo-xxxxx), or full URL per field — the thumbnail confirms it resolves before you save.
               </p>
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <AdminTextField
+                  <AdminImageField
                     key={`gallery_${i}`}
                     label={`Gallery image ${i}`}
                     name={`gallery_${i}`}

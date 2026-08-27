@@ -13,6 +13,8 @@
  */
 
 const UNSPLASH = "https://images.unsplash.com/photo-";
+/** Bare CDN host, for keys (Unsplash photo IDs) that already include their own "photo-" prefix. */
+const UNSPLASH_HOST = "https://images.unsplash.com/";
 
 /** Named photo catalogue: key → Unsplash photo id + what is actually in frame. */
 export const photos = {
@@ -97,6 +99,13 @@ export const photos = {
   nepalKathmanduDurbarSquare: "1736457093305-5c54384fc49e", // tiered pagoda roofs of Kathmandu Durbar Square, pigeons in flight
   nepalKathmanduDurbarSquareGate: "1662379273654-242d1abe1a96", // temple gateway with guardian lion statues, Kathmandu Durbar Square
 
+  // ── Japan ──
+  japanFushimiInari: "1764418365982-742441557a6c", // torii gate pathway, Fushimi Inari Shrine, Kyoto
+  japanBambooGrove: "1531021713651-fdd4ac075ac1", // Arashiyama bamboo forest canopy, Kyoto
+  japanOsakaStreetFood: "1705580069832-ccff8ec4cad5", // Osaka street food stall
+  japanTokyoNeon: "1601042879364-f3947d3f9c16", // wet neon-lit street at night, Tokyo
+  japanKyotoTemple: "1558870832-c8db4b5b47d1", // red temple near water, Kyoto
+
   // ── Editorial / brand ──
   aircraftWing: "1436491865332-7a61a109cc05", // wing above cloud at sunrise
   planningFlatlay: "/images/other/planning-flatlay.jpg", // AI-generated map, notebook and camera flat-lay
@@ -131,9 +140,12 @@ const LOCAL_BLUR =
 export function photo(key: PhotoKey, width = 1600): string {
   if (key?.startsWith("/")) return key;
   if (key?.startsWith("http")) return key;
-  // Unsplash photo ID: starts with "photo-" followed by alphanumeric and hyphens
+  // Unsplash photo ID: already includes the "photo-" prefix, so it goes
+  // straight onto the bare CDN host — UNSPLASH itself already ends in
+  // "photo-" for the catalogue-id case below, and concatenating the two
+  // would double up to ".../photo-photo-xxxxx" (a 404).
   if (key?.startsWith("photo-") && /^photo-[a-z0-9-]+$/.test(key)) {
-    return `${UNSPLASH}${key}?auto=format&fit=crop&w=${width}&q=72`;
+    return `${UNSPLASH_HOST}${key}?auto=format&fit=crop&w=${width}&q=72`;
   }
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return id;
@@ -149,15 +161,22 @@ export function photo(key: PhotoKey, width = 1600): string {
  * URLs get a flat neutral placeholder instead, since there's no low-res variant.
  */
 export function photoBlur(key: PhotoKey): string {
+  // Always a non-empty data URI: Next's Image component throws a hard
+  // render error if `placeholder="blur"` is set with an empty blurDataURL,
+  // and every caller in this codebase sets placeholder="blur" unconditionally.
+  // A full URL (admin-entered external image) or an unresolved key has no
+  // cheap low-res variant to generate, so both fall back to the flat
+  // placeholder rather than risk crashing the page.
   if (key?.startsWith("/")) return LOCAL_BLUR;
-  if (key?.startsWith("http")) return "";
-  // Unsplash photo ID: generate a blur variant
+  if (key?.startsWith("http")) return LOCAL_BLUR;
+  // Unsplash photo ID: generate a blur variant (see photo() for why this
+  // uses UNSPLASH_HOST rather than UNSPLASH — the key already has "photo-").
   if (key?.startsWith("photo-") && /^photo-[a-z0-9-]+$/.test(key)) {
-    return `${UNSPLASH}${key}?auto=format&fit=crop&w=16&q=20&blur=200`;
+    return `${UNSPLASH_HOST}${key}?auto=format&fit=crop&w=16&q=20&blur=200`;
   }
   const id = photos[key as keyof typeof photos];
   if (id?.startsWith("/")) return LOCAL_BLUR;
-  if (id?.startsWith("http")) return "";
+  if (id?.startsWith("http")) return LOCAL_BLUR;
   if (!id) return LOCAL_BLUR;
   return `${UNSPLASH}${id}?auto=format&fit=crop&w=16&q=20&blur=200`;
 }
