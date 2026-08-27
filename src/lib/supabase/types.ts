@@ -267,6 +267,7 @@ export type Database = {
           display_order: number
           exclusions: string[]
           flight_carrier: string
+          flights_included: boolean
           hero_image: string
           hotels: Json
           inclusions: string[]
@@ -296,6 +297,7 @@ export type Database = {
           display_order?: number
           exclusions?: string[]
           flight_carrier?: string
+          flights_included?: boolean
           hero_image?: string
           hotels?: Json
           inclusions?: string[]
@@ -325,6 +327,7 @@ export type Database = {
           display_order?: number
           exclusions?: string[]
           flight_carrier?: string
+          flights_included?: boolean
           hero_image?: string
           hotels?: Json
           inclusions?: string[]

@@ -51,6 +51,7 @@ export function PackageBookingCard({
   slug,
   departureCity,
   departureAirportCode,
+  flightsIncluded,
   basePrice,
   currency,
   departures,
@@ -60,6 +61,7 @@ export function PackageBookingCard({
   slug: string;
   departureCity: string;
   departureAirportCode: string;
+  flightsIncluded: boolean;
   basePrice: number;
   currency: string;
   departures: PackageDeparture[];
@@ -110,7 +112,9 @@ export function PackageBookingCard({
               <Icon name="plane" size={16} className="text-brass-deep" />
               {departureCity} ({departureAirportCode})
             </span>
-            <span className="text-xs uppercase tracking-[0.1em] text-ink-3">Included</span>
+            <span className="text-xs uppercase tracking-[0.1em] text-ink-3">
+              {flightsIncluded ? "Included" : "Flights not included"}
+            </span>
           </div>
         </div>
 

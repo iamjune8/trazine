@@ -1,4 +1,5 @@
 import { AdminTextField, AdminTextAreaField, AdminCheckboxField } from "@/components/admin/ui/AdminField";
+import { AdminImageField } from "@/components/admin/ui/AdminImageField";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
 import { SectionCard } from "@/components/admin/ui/Card";
 import { FormSectionNav, type FormSection } from "@/components/admin/ui/FormSectionNav";
@@ -31,6 +32,7 @@ type PackageValues = {
   currency: string;
   departure_city: string;
   departure_airport_code: string;
+  flights_included: boolean;
   flight_carrier: string;
   onward_flight_number: string;
   onward_route: string;
@@ -102,10 +104,9 @@ export function PackageForm({
             hint="Short internal label, e.g. 4N Thailand."
             defaultValue={defaultValues?.nights_summary}
           />
-          <AdminTextField
+          <AdminImageField
             label="Hero image URL"
             name="hero_image"
-            placeholder="https://…"
             hint="A hosted image URL — paste a link from your image host."
             defaultValue={defaultValues?.hero_image}
           />
@@ -140,6 +141,12 @@ export function PackageForm({
         </SectionCard>
 
         <SectionCard id="flight" icon="plane" title="Departure flight" accent="cyan">
+          <AdminCheckboxField
+            label="Flights included in this package"
+            name="flights_included"
+            defaultChecked={defaultValues?.flights_included ?? true}
+            hint="Uncheck for a land-only package — the site shows a 'Land package, flights not included' note in place of flight timings, and the fields below are ignored."
+          />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <AdminTextField
               label="Departure city"

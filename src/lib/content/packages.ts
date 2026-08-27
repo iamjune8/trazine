@@ -40,6 +40,7 @@ export type TourPackage = {
   currency: string;
   departureCity: string;
   departureAirportCode: string;
+  flightsIncluded: boolean;
   flightCarrier: string;
   onwardFlightNumber: string;
   onwardRoute: string;
@@ -70,6 +71,7 @@ type PackageRow = {
   currency: string;
   departure_city: string;
   departure_airport_code: string;
+  flights_included: boolean;
   flight_carrier: string;
   onward_flight_number: string;
   onward_route: string;
@@ -119,6 +121,7 @@ function mapRow(row: PackageRow, departures: DepartureRow[]): TourPackage {
     currency: row.currency,
     departureCity: row.departure_city,
     departureAirportCode: row.departure_airport_code,
+    flightsIncluded: row.flights_included,
     flightCarrier: row.flight_carrier,
     onwardFlightNumber: row.onward_flight_number,
     onwardRoute: row.onward_route,

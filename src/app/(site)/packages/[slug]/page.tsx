@@ -110,10 +110,17 @@ export default async function PackagePage({ params }: Params) {
                   </div>
 
                   <ul className="flex flex-wrap gap-x-8 gap-y-3 border-t border-line px-7 py-5 sm:px-8">
-                    <li className="flex items-center gap-2 text-sm text-ink-2">
-                      <Icon name="check" size={16} className="text-success" />
-                      Flights included
-                    </li>
+                    {pkg.flightsIncluded ? (
+                      <li className="flex items-center gap-2 text-sm text-ink-2">
+                        <Icon name="check" size={16} className="text-success" />
+                        Flights included
+                      </li>
+                    ) : (
+                      <li className="flex items-center gap-2 text-sm text-ink-2">
+                        <Icon name="suitcase" size={16} className="text-ink-3" />
+                        Land package — flights not included
+                      </li>
+                    )}
                     <li className="flex items-center gap-2 text-sm text-ink-2">
                       <Icon name="check" size={16} className="text-success" />
                       Stay included
@@ -129,36 +136,51 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Flight details ── */}
               <Reveal delay={0.05} className="mt-6">
                 <PackagePanel title="Flight details" icon="plane">
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div className="border border-line-2 bg-paper-2 p-5">
-                      <p className="flex items-center gap-2 text-sm font-medium text-ink">
-                        <Icon name="plane" size={16} className="text-brass-deep" />
-                        Onward
-                      </p>
-                      <p className="mt-3 text-ink">
-                        {pkg.flightCarrier} {pkg.onwardFlightNumber}
-                      </p>
-                      <p className="mt-1 text-ink-2">{pkg.onwardRoute}</p>
-                      <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
-                        <Icon name="clock" size={14} />
-                        Departure: {pkg.onwardDepartureTime}
-                      </p>
+                  {pkg.flightsIncluded ? (
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <div className="border border-line-2 bg-paper-2 p-5">
+                        <p className="flex items-center gap-2 text-sm font-medium text-ink">
+                          <Icon name="plane" size={16} className="text-brass-deep" />
+                          Onward
+                        </p>
+                        <p className="mt-3 text-ink">
+                          {pkg.flightCarrier} {pkg.onwardFlightNumber}
+                        </p>
+                        <p className="mt-1 text-ink-2">{pkg.onwardRoute}</p>
+                        <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
+                          <Icon name="clock" size={14} />
+                          Departure: {pkg.onwardDepartureTime}
+                        </p>
+                      </div>
+                      <div className="border border-line-2 bg-paper-2 p-5">
+                        <p className="flex items-center gap-2 text-sm font-medium text-ink">
+                          <Icon name="plane" size={16} className="rotate-180 text-brass-deep" />
+                          Return
+                        </p>
+                        <p className="mt-3 text-ink">
+                          {pkg.flightCarrier} {pkg.returnFlightNumber}
+                        </p>
+                        <p className="mt-1 text-ink-2">{pkg.returnRoute}</p>
+                        <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
+                          <Icon name="clock" size={14} />
+                          Departure: {pkg.returnDepartureTime}
+                        </p>
+                      </div>
                     </div>
-                    <div className="border border-line-2 bg-paper-2 p-5">
-                      <p className="flex items-center gap-2 text-sm font-medium text-ink">
-                        <Icon name="plane" size={16} className="rotate-180 text-brass-deep" />
-                        Return
-                      </p>
-                      <p className="mt-3 text-ink">
-                        {pkg.flightCarrier} {pkg.returnFlightNumber}
-                      </p>
-                      <p className="mt-1 text-ink-2">{pkg.returnRoute}</p>
-                      <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
-                        <Icon name="clock" size={14} />
-                        Departure: {pkg.returnDepartureTime}
-                      </p>
+                  ) : (
+                    <div className="flex items-start gap-3 border border-line-2 bg-paper-2 p-5">
+                      <Icon name="suitcase" size={18} className="mt-0.5 shrink-0 text-ink-3" />
+                      <div>
+                        <p className="font-medium text-ink">This is a land package only</p>
+                        <p className="mt-1 text-ink-2">
+                          Flights are not included — you&apos;ll need to book your own flights
+                          {pkg.departureCity ? ` to and from ${pkg.departureCity}` : ""}. Everything
+                          else on this page (hotels, sightseeing, transfers) is arranged as
+                          described.
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </PackagePanel>
               </Reveal>
 
@@ -320,6 +342,7 @@ export default async function PackagePage({ params }: Params) {
                   slug={pkg.slug}
                   departureCity={pkg.departureCity}
                   departureAirportCode={pkg.departureAirportCode}
+                  flightsIncluded={pkg.flightsIncluded}
                   basePrice={pkg.basePrice}
                   currency={pkg.currency}
                   departures={pkg.departures}
