@@ -54,6 +54,22 @@ function readFields(formData: FormData) {
     );
   }
 
+  // Parse gallery from individual fields or textarea fallback
+  const gallery1 = String(formData.get("gallery_1") ?? "").trim();
+  const gallery2 = String(formData.get("gallery_2") ?? "").trim();
+  const gallery3 = String(formData.get("gallery_3") ?? "").trim();
+  const gallery4 = String(formData.get("gallery_4") ?? "").trim();
+  const galleryField = String(formData.get("gallery") ?? "").trim();
+
+  let gallery: string[] = [];
+  if (gallery1 || gallery2 || gallery3 || gallery4) {
+    // New format: individual fields
+    gallery = [gallery1, gallery2, gallery3, gallery4].filter(Boolean);
+  } else if (galleryField) {
+    // Old format: textarea with newlines (backward compatibility)
+    gallery = parseLines(galleryField);
+  }
+
   return {
     slug,
     name,
@@ -64,7 +80,9 @@ function readFields(formData: FormData) {
     hero_image: heroImage,
     card_image: cardImage || null,
     body: parseLines(String(formData.get("body") ?? "")),
-    gallery: parseLines(String(formData.get("gallery") ?? "")),
+    gallery,
+    departure_code: String(formData.get("departure_code") ?? "").trim() || null,
+    route_city: String(formData.get("route_city") ?? "").trim() || null,
     ideal_for: parseLines(String(formData.get("ideal_for") ?? "")),
     places: parsePlaces(String(formData.get("places") ?? "")),
     experiences: parseExperiences(String(formData.get("experiences") ?? "")),
@@ -79,7 +97,11 @@ function readFields(formData: FormData) {
 export async function createDestination(formData: FormData) {
   const fields = readFields(formData);
   const supabase = await createClient();
-  const { error } = await supabase.from("destinations").insert(fields);
+  const { error } = await supabase.from("destinations").insert({
+    ...fields,
+    departure_code: fields.departure_code,
+    route_city: fields.route_city,
+  });
 
   if (error) throw new Error(error.message);
 
@@ -107,6 +129,8 @@ export async function updateDestination(slug: string, formData: FormData) {
       card_image: fields.card_image,
       body: fields.body,
       gallery: fields.gallery,
+      departure_code: fields.departure_code,
+      route_city: fields.route_city,
       ideal_for: fields.ideal_for,
       places: fields.places,
       experiences: fields.experiences,

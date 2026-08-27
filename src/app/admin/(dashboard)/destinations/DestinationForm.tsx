@@ -42,8 +42,8 @@ type DestinationValues = {
   hero_image: string;
   card_image: string | null;
   gallery: string[];
-  departure_code?: string;
-  route_city?: string;
+  departure_code: string | null;
+  route_city: string | null;
   places: unknown;
   experiences: unknown;
   facts: unknown;
@@ -158,13 +158,31 @@ export function DestinationForm({
               defaultValue={defaultValues?.card_image ?? ""}
             />
           </div>
-          <AdminTextAreaField
-            label="Gallery"
-            name="gallery"
-            rows={4}
-            hint="One photo key (e.g. parisEiffelSeine) or full URL per line."
-            defaultValue={stringifyLines(defaultValues?.gallery)}
-          />
+          <div className="space-y-4">
+            <fieldset className="border border-admin-border rounded-lg p-4">
+              <legend className="text-sm font-semibold text-admin-text mb-4 px-2 -mx-2">
+                Gallery images
+              </legend>
+              <p className="text-xs text-admin-text-3 mb-4">
+                Portrait-friendly images (3/4 aspect ratio) shown in a responsive grid. Enter a catalogue key (e.g. parisEiffelSeine), Unsplash photo ID (photo-xxxxx), or full URL per field.
+              </p>
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <AdminTextField
+                    key={`gallery_${i}`}
+                    label={`Gallery image ${i}`}
+                    name={`gallery_${i}`}
+                    hint={i === 1 ? "Example: parisEiffelSeine or https://images.unsplash.com/..." : undefined}
+                    defaultValue={
+                      defaultValues?.gallery && defaultValues.gallery[i - 1]
+                        ? defaultValues.gallery[i - 1]
+                        : ""
+                    }
+                  />
+                ))}
+              </div>
+            </fieldset>
+          </div>
         </SectionCard>
 
         <SectionCard id="routing" icon="plane" title="Route info" accent="cyan">
