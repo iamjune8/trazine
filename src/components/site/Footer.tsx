@@ -143,7 +143,7 @@ export async function Footer() {
               <div className="mt-8 flex flex-col gap-6 border-t border-line-dark pt-8 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
                   <p className="text-sm text-paper/45">
-                    © {year} {site.legalName} — All rights reserved.
+                    © {year} {site.name} — All rights reserved.
                   </p>
                   <ul className="flex items-center gap-5">
                     <li>

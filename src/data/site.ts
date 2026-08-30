@@ -9,7 +9,7 @@
 
 export const site = {
   name: "Travel Magazine",
-  legalName: "Travel Magazine Holidays Pvt. Ltd.",
+  legalName: "Travel Magazine",
   slogan: "Capture World, Page by Page",
   positioning:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf.",
