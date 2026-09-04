@@ -72,7 +72,12 @@ export async function createPackage(formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.from("packages").insert(fields);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    if (error.code === "23505") {
+      throw new Error(`A package with slug "${fields.slug}" already exists. Pick a different slug.`);
+    }
+    throw new Error(error.message);
+  }
 
   revalidatePackages(fields.slug);
   redirect(`/admin/packages/${fields.slug}`);
