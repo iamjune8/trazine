@@ -12,10 +12,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/packages" },
 };
 
-// Revalidate every hour so package changes appear within 60 minutes without
-// explicit on-demand revalidation (which can timeout on Hostinger). This acts
-// as a safety net alongside the admin's explicit revalidatePath() calls.
-export const revalidate = 3600;
+// On-demand revalidation is skipped entirely in the admin actions (it can
+// time out on Hostinger's shared hosting during form submission — see
+// revalidatePackages() in actions.ts), so this is the only mechanism that
+// refreshes this listing after an edit. Kept short so admin changes surface
+// quickly instead of within the hour.
+export const revalidate = 60;
 
 export default async function PackagesPage() {
   const packages = await getActivePackages();

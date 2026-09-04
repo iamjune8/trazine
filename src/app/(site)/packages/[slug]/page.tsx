@@ -11,10 +11,13 @@ import { getPackages, getPackage } from "@/lib/content/packages";
 
 type Params = { params: Promise<{ slug: string }> };
 
-// Revalidate every hour so package changes appear within 60 minutes without
-// explicit on-demand revalidation (which can timeout on Hostinger). This acts
-// as a safety net alongside the admin's explicit revalidatePath() calls.
-export const revalidate = 3600;
+// On-demand revalidation is skipped entirely in the admin actions (it can
+// time out on Hostinger's shared hosting during form submission — see
+// revalidatePackages() in actions.ts), so this is the only mechanism that
+// refreshes a package page after an edit. Kept short so admin changes
+// (including new departure dates) surface quickly instead of within the
+// hour.
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const packages = await getPackages();
