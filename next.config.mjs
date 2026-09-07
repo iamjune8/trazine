@@ -7,8 +7,21 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // Destination photography is served from Unsplash and resized by Next's
-    // optimizer. Also allow external URLs from gallery entries (admin-managed).
+    // Disabled: Next's optimizer proxies and re-processes every remote image
+    // on first request, caching the result on disk. On Hostinger's shared
+    // hosting the Node process idles/restarts after low overnight traffic,
+    // wiping that cache — so the next morning's first visitor hits a cold
+    // fetch+resize for every image at once, and some fail outright (broken
+    // image icon until a reload warms the cache). Unsplash URLs built by
+    // photo() in src/lib/images.ts already carry auto=format&w=&q= params,
+    // so Unsplash's own CDN does the resizing/compression — Next's optimizer
+    // was pure redundant risk for those. The trade-off: the handful of local
+    // photos under public/images/ now load at their original file size
+    // instead of Next's auto avif/webp conversion.
+    unoptimized: true,
+    // Kept so remotePatterns still documents which external hosts this site
+    // actually loads images from, even though it's unenforced while
+    // unoptimized.
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "*.tinyurl.com" },
