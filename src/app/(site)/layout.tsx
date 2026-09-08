@@ -11,6 +11,7 @@ import { EnquiryModalGate } from "@/components/enquiry/EnquiryModalGate";
 import { PublicMotionProvider } from "@/components/motion/PublicMotionProvider";
 import { site } from "@/data/site";
 import { getDestinations } from "@/lib/content/destinations";
+import { jsonLdScript } from "@/lib/utils";
 
 /**
  * Playfair Display carries every heading; Inter carries everything else.
@@ -148,8 +149,9 @@ export default async function RootLayout({
 
         <script
           type="application/ld+json"
-          // Static, developer-authored object — no user input reaches this.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd) }}
+          // areaServed pulls place names out of the admin-edited destinations
+          // table, so this isn't purely static — jsonLdScript escapes it.
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(organisationJsonLd) }}
         />
         {/* Excludes drag and layout-projection — a ~130KB chunk of
             framer-motion's engine this site's public pages never use.

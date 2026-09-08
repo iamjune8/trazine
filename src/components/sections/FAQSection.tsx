@@ -2,6 +2,7 @@ import { Container, Section, SectionHeading } from "@/components/ui/Layout";
 import { Reveal } from "@/components/motion/Reveal";
 import { Accordion } from "@/components/ui/Accordion";
 import { getFaqs } from "@/lib/content/faqs";
+import { jsonLdScript } from "@/lib/utils";
 
 /**
  * Frequently asked questions — progressive disclosure, plus FAQPage structured
@@ -24,7 +25,7 @@ export async function FAQSection({ tone = "paper" }: { tone?: "paper" | "paper-2
     <Section tone={tone} id="faq">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
       />
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
