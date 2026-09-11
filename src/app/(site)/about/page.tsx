@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { CTABand } from "@/components/sections/CTABand";
 import { StatsBand } from "@/components/sections/StatsBand";
@@ -10,12 +12,13 @@ import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Icon } from "@/components/ui/Icon";
 import { site, fullAddress } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
     "A travel house working across two disciplined tiers — Premium Luxury circuits through Europe and Easy & Affordable journeys across Asia and the Gulf — with one named consultant on every trip.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+  image: "/images/other/about-trust.jpg",
+});
 
 // Safety net alongside the admin's on-demand revalidatePath() calls: some
 // hosts don't reliably honor on-demand revalidation across process restarts,
@@ -45,6 +48,17 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "About", href: "/about" },
+            ]),
+          ),
+        }}
+      />
       <MediaHeader
         image="/images/other/about-trust.jpg"
         imageAlt="A globe and a stack of travel guides on a sunlit desk"

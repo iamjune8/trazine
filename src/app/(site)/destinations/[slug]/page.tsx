@@ -14,6 +14,8 @@ import { Icon } from "@/components/ui/Icon";
 import { photo, photoBlur } from "@/lib/images";
 import { getDestinations, getDestination } from "@/lib/content/destinations";
 import { site, whatsappLink } from "@/data/site";
+import { pageMetadata, breadcrumbJsonLd, truncateAtWord } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -46,19 +48,6 @@ export async function generateStaticParams() {
   return destinations.map((destination) => ({ slug: destination.slug }));
 }
 
-/**
- * Google displays roughly the first 155-160 characters of a meta description
- * before truncating — a plain `.slice()` to that length routinely cuts mid-word
- * (e.g. "...so neither do we anymore. Wherev"), which reads as broken in search
- * results. This trims back to the last full word instead.
- */
-function truncateAtWord(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  const cut = text.slice(0, maxLength);
-  const lastSpace = cut.lastIndexOf(" ");
-  return `${cut.slice(0, lastSpace > 0 ? lastSpace : maxLength)}…`;
-}
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const destination = await getDestination(slug);
@@ -73,16 +62,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const rawDescription = `${destination.tagline ?? ""}. ${destination.intro ?? ""}`.trim();
   const description = truncateAtWord(rawDescription, 155);
 
-  return {
+  return pageMetadata({
     title,
     description,
-    alternates: { canonical: `/destinations/${destination.slug}` },
-    openGraph: {
-      title: `${destination.name} — ${destination.tagline}`,
-      description,
-      images: [{ url: photo(destination.heroImage, 1200) }],
-    },
-  };
+    path: `/destinations/${destination.slug}`,
+    image: photo(destination.heroImage, 1200),
+    socialTitle: `${destination.name} — ${destination.tagline}`,
+  });
 }
 
 export default async function DestinationPage({ params }: Params) {
@@ -114,22 +100,26 @@ export default async function DestinationPage({ params }: Params) {
   const thisMonthClimate = destination.monthlyClimate[thisMonthIndex];
   const nextMonthClimate = destination.monthlyClimate[nextMonthIndex];
 
+  const breadcrumbTrail = [
+    { label: "Home", href: "/" },
+    { label: "Destinations", href: "/destinations" },
+    { label: tierLabel, href: `/destinations#${destination.tier}` },
+    { label: destination.name, href: `/destinations/${destination.slug}` },
+  ];
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd(breadcrumbTrail)) }}
+      />
       <MediaHeader
         image={destination.heroImage}
         imageAlt={`${destination.name} — ${destination.tagline}`}
         eyebrow={destination.region}
         title={destination.name}
         lede={destination.tagline}
-        breadcrumb={[
-          { label: "Home", href: "/" },
-          { label: "Destinations", href: "/destinations" },
-          {
-            label: tierLabel,
-            href: `/destinations#${destination.tier}`,
-          },
-        ]}
+        breadcrumb={breadcrumbTrail.slice(0, 3)}
         facts={destination.facts.slice(0, 3)}
       />
 

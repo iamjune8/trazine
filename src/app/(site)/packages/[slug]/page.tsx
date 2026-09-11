@@ -8,6 +8,8 @@ import { Icon } from "@/components/ui/Icon";
 import { PackagePanel } from "@/components/packages/PackagePanel";
 import { PackageBookingCard } from "@/components/packages/PackageBookingCard";
 import { getPackages, getPackage } from "@/lib/content/packages";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -30,11 +32,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   if (!pkg) return { title: "Package not found" };
 
-  return {
+  return pageMetadata({
     title: `${pkg.name} — ${pkg.nightsSummary} package`,
     description: `${pkg.name}, ${pkg.nightsSummary}, ex-${pkg.departureCity}. Flights, stay and sightseeing included — starting at ${pkg.basePrice.toLocaleString("en-IN")} ${pkg.currency} per person.`,
-    alternates: { canonical: `/packages/${pkg.slug}` },
-  };
+    path: `/packages/${pkg.slug}`,
+    image: pkg.heroImage || undefined,
+  });
 }
 
 function formatMoney(amount: number, currency: string) {
@@ -54,6 +57,18 @@ export default async function PackagePage({ params }: Params) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Packages", href: "/packages" },
+              { label: pkg.name, href: `/packages/${pkg.slug}` },
+            ]),
+          ),
+        }}
+      />
       <Section className="pb-16 pt-32 sm:pb-20 sm:pt-40">
         <Container>
           <nav aria-label="Breadcrumb" className="text-sm text-ink-3">
@@ -66,6 +81,12 @@ export default async function PackagePage({ params }: Params) {
             <Link href="/packages" className="transition-colors duration-200 hover:text-ink">
               Packages
             </Link>
+            <span className="mx-2" aria-hidden="true">
+              /
+            </span>
+            <span aria-current="page" className="text-ink">
+              {pkg.name}
+            </span>
           </nav>
 
           {/* ── Summary card + booking rail ── */}

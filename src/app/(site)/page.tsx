@@ -15,14 +15,16 @@ import { Container, Section } from "@/components/ui/Layout";
 import { Reveal } from "@/components/motion/Reveal";
 import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Icon } from "@/components/ui/Icon";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title:
     "Travel Magazine — Europe tour packages & easy Asia getaways from India",
   description:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visas filed in-house, IATA ticketing, and one consultant throughout.",
-  alternates: { canonical: "/" },
-};
+  path: "/",
+  image: "/images/destinations/dubai-hero.jpg",
+});
 
 // Safety net alongside the admin's on-demand revalidatePath() calls: some
 // hosts don't reliably honor on-demand revalidation across process restarts,

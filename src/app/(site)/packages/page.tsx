@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Container, Section, SectionHeading } from "@/components/ui/Layout";
 import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { PackageCard } from "@/components/packages/PackageCard";
 import { getActivePackages } from "@/lib/content/packages";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Fixed departure packages",
   description:
     "Priced, dated tour packages with flights, stay and sightseeing bundled in — pick a departure and enquire.",
-  alternates: { canonical: "/packages" },
-};
+  path: "/packages",
+  image: "/images/catalogue/packageThailandHero.jpg",
+});
+
+const breadcrumb = [{ label: "Home", href: "/" }];
 
 // On-demand revalidation is skipped entirely in the admin actions (it can
 // time out on Hostinger's shared hosting during form submission — see
@@ -24,7 +30,27 @@ export default async function PackagesPage() {
 
   return (
     <Section className="pt-32 sm:pt-40">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([...breadcrumb, { label: "Packages", href: "/packages" }]),
+          ),
+        }}
+      />
       <Container>
+        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-ink-3">
+          <Link href="/" className="transition-colors duration-200 hover:text-ink">
+            Home
+          </Link>
+          <span className="mx-2" aria-hidden="true">
+            /
+          </span>
+          <span aria-current="page" className="text-ink">
+            Packages
+          </span>
+        </nav>
+
         <SectionHeading
           as="h1"
           eyebrow="Fixed departures"

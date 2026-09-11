@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container, Section } from "@/components/ui/Layout";
 import { Reveal } from "@/components/motion/Reveal";
 import { site, fullAddress } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
   description:
     "How Travel Magazine collects, uses and protects the information you share with us through an enquiry, a call or WhatsApp.",
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 const updated = "16 August 2026";
 
@@ -204,6 +206,17 @@ const sections: { title: string; body: React.ReactNode }[] = [
 export default function PrivacyPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Privacy Policy", href: "/privacy" },
+            ]),
+          ),
+        }}
+      />
       <PageHeader
         eyebrow="Legal"
         title="Privacy Policy"

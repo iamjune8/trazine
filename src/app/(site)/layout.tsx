@@ -122,6 +122,19 @@ export default async function RootLayout({
     openingHours: "Mo-Sa 10:00-19:00",
   };
 
+  /**
+   * Deliberately no `potentialAction`/SearchAction sitelinks-searchbox
+   * entry — that requires a real, working on-site search endpoint, and this
+   * site doesn't have one. Adding it anyway would be exactly the kind of
+   * schema that describes a capability the site doesn't actually have.
+   */
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+  };
+
   return (
     <html
       lang="en-IN"
@@ -152,6 +165,10 @@ export default async function RootLayout({
           // areaServed pulls place names out of the admin-edited destinations
           // table, so this isn't purely static — jsonLdScript escapes it.
           dangerouslySetInnerHTML={{ __html: jsonLdScript(organisationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteJsonLd) }}
         />
         {/* Excludes drag and layout-projection — a ~130KB chunk of
             framer-motion's engine this site's public pages never use.

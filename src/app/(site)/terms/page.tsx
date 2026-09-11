@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container, Section } from "@/components/ui/Layout";
 import { Reveal } from "@/components/motion/Reveal";
 import { site, fullAddress } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Terms of Use",
   description:
     "The terms that govern using the Travel Magazine website — separate from the booking conditions that apply once a trip is actually confirmed.",
-  alternates: { canonical: "/terms" },
-};
+  path: "/terms",
+});
 
 const updated = "16 August 2026";
 
@@ -160,6 +162,17 @@ const sections: { title: string; body: React.ReactNode }[] = [
 export default function TermsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Terms of Use", href: "/terms" },
+            ]),
+          ),
+        }}
+      />
       <PageHeader
         eyebrow="Legal"
         title="Terms of Use"

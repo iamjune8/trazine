@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { CTABand } from "@/components/sections/CTABand";
 import { FAQSection } from "@/components/sections/FAQSection";
@@ -32,18 +34,30 @@ const SERVICE_IMAGES: Partial<Record<string, PhotoKey>> = {
   "leisure-packages": "/images/other/leisure-packages.jpg",
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
     "Itinerary design, visa assistance across Europe, Asia and the Gulf, IATA-accredited ticketing from Mumbai, travel insurance and forex, on-ground arrangements, and support throughout your journey.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+  image: "/images/other/ticketing.jpg",
+});
 
 export default async function ServicesPage() {
   const services = await getServices();
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Services", href: "/services" },
+            ]),
+          ),
+        }}
+      />
       <MediaHeader
         image="/images/other/ticketing.jpg"
         imageAlt="An aircraft wing above the clouds at sunrise"

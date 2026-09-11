@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { Container, Section } from "@/components/ui/Layout";
@@ -9,12 +11,13 @@ import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { site, fullAddress, whatsappLink } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
     "Talk to a consultant about a Premium Luxury European circuit or an Easy & Affordable trip across Asia and the Gulf. Call, WhatsApp, email, or send an enquiry and we'll reply within one working day.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+  image: "/images/other/contact-cta.jpg",
+});
 
 const channels: {
   icon: IconName;
@@ -55,6 +58,17 @@ const channels: {
 export default function ContactPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Contact", href: "/contact" },
+            ]),
+          ),
+        }}
+      />
       <MediaHeader
         image="/images/other/contact-cta.jpg"
         imageAlt="An open coastal road, the sea alongside it"

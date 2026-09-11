@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { DestinationCard } from "@/components/DestinationCard";
 import { DestinationsElasticGallery } from "@/components/sections/DestinationsElasticGallery";
@@ -8,12 +10,13 @@ import { Container, Section } from "@/components/ui/Layout";
 import { Stagger, StaggerItem, Reveal } from "@/components/motion/Reveal";
 import { getPremiumDestinations, getEasyDestinations } from "@/lib/content/destinations";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Destinations",
   description:
-    "Two ways to travel with us: a Premium Luxury circuit across the whole of Europe, or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya.",
-  alternates: { canonical: "/destinations" },
-};
+    "Two ways to travel with us: a Premium Luxury circuit across the whole of Europe and Japan, or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal, Kenya, Kazakhstan and Saudi Arabia.",
+  path: "/destinations",
+  image: "/images/destinations/dubai-1.jpg",
+});
 
 // Revalidate every hour so destination changes appear within 60 minutes without
 // explicit on-demand revalidation (which can timeout on Hostinger). This acts
@@ -28,6 +31,17 @@ export default async function DestinationsPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript(
+            breadcrumbJsonLd([
+              { label: "Home", href: "/" },
+              { label: "Destinations", href: "/destinations" },
+            ]),
+          ),
+        }}
+      />
       <MediaHeader
         image="icelandWaterfall"
         imageAlt="Goðafoss waterfall in Iceland, one stop on the Scandinavian circuit"

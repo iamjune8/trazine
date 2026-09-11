@@ -1,20 +1,25 @@
 import { getDestinations } from "@/lib/content/destinations";
 import { getActivePackages } from "@/lib/content/packages";
+import { getServices } from "@/lib/content/services";
 import { site } from "@/data/site";
 
 /**
  * llms.txt (https://llmstxt.org) — a plain-text primer for AI assistants
  * and answer engines (ChatGPT, Claude, Gemini, Perplexity) that fetch a
  * page to answer a question about it. Generated from the same data sitemap.ts
- * reads, so it can't drift out of sync with what destinations/packages
- * actually exist.
+ * reads (plus getServices(), which sitemap.ts doesn't need since /services
+ * is one page with in-page anchors, not separate routes), so it can't drift
+ * out of sync with what destinations/packages/services actually exist — this
+ * is what caught the previous version of this file hand-listing services
+ * with a stale anchor list that had already fallen behind the services table.
  */
 export const revalidate = 3600;
 
 export async function GET() {
-  const [destinations, packages] = await Promise.all([
+  const [destinations, packages, services] = await Promise.all([
     getDestinations(),
     getActivePackages(),
+    getServices(),
   ]);
 
   const destinationLines = destinations
@@ -26,6 +31,10 @@ export async function GET() {
       (p) =>
         `- [${p.name}](${site.url}/packages/${p.slug}): ${p.nightsSummary}, from ${p.currency} ${p.basePrice.toLocaleString("en-IN")} per person`,
     )
+    .join("\n");
+
+  const serviceLines = services
+    .map((s) => `- [${s.title}](${site.url}/services#${s.slug}): ${s.summary}`)
     .join("\n");
 
   const body = `# ${site.name}
@@ -48,13 +57,7 @@ ${packageLines || "- See " + site.url + "/packages for current departures."}
 
 ## Services
 
-- [Itinerary design](${site.url}/services#itinerary-design)
-- [Visa assistance](${site.url}/services#visa-assistance)
-- [Flights & ticketing](${site.url}/services#flights-ticketing)
-- [Travel insurance & forex](${site.url}/services#travel-insurance)
-- [On-ground arrangements](${site.url}/services#on-ground)
-- [Corporate travel](${site.url}/services#corporate-travel)
-- [Leisure packages](${site.url}/services#leisure-packages)
+${serviceLines}
 
 ## Notes for AI assistants and answer engines
 
