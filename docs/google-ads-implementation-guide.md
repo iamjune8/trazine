@@ -1,9 +1,20 @@
 # Google Ads Implementation Guide — Travzine
 
 This guide covers campaign structure, keyword sets, ad copy, budgets and
-conversion goals for the six destination landing pages built for this
-launch: Dubai, Thailand, Bali, Vietnam (Easy & Affordable tier) and Japan,
-Europe (Premium Luxury tier).
+conversion goals for the six dedicated Google Ads landing pages built for
+this launch: Dubai, Thailand, Bali, Vietnam (Easy & Affordable tier) and
+Japan, Europe (Premium Luxury tier).
+
+**Updated for the dedicated landing pages (`/lp/{slug}`)**: every ad below
+now points at `travzine.in/lp/{slug}` instead of the organic
+`/destinations/{slug}` page. The `/lp/` pages are purpose-built for paid
+traffic — one destination, no site navigation, one primary CTA, a short
+4-field enquiry form, and roughly a quarter of the page weight of the full
+destinations page (measured: 54KB rendered HTML and 12 JS chunks vs 219KB
+and 17 chunks for `/destinations/dubai` — see Section 7). The organic
+destination pages still exist and still rank for organic search; the ad
+landing pages carry a canonical tag pointing back at them so the two don't
+compete as duplicate content.
 
 **A note on numbers**: keyword search-volume and CPC figures are not
 included here as specific values — this account has no live Google Ads
@@ -46,12 +57,25 @@ magazine mumbai" already knows who you are — that click should be cheap and
 isolated from destination budgets, and its Quality Score will be near-perfect
 regardless of how the destination campaigns are performing.
 
-Each ad group maps to exactly one landing page (`/destinations/dubai`,
-`/destinations/thailand`, etc.) — never send an ad group's traffic to the
-generic `/destinations` index. A dedicated landing page whose H1, imagery and
-FAQ match the ad's promise is the single biggest lever on Quality Score's
-"landing page experience" component, and it is also what these six pages
-were specifically rebuilt to do.
+Each ad group maps to exactly one landing page (`/lp/dubai`, `/lp/thailand`,
+etc.) — never send an ad group's traffic to the generic `/destinations`
+index or even the organic `/destinations/{slug}` page. A dedicated landing
+page whose H1, imagery and FAQ match the ad's promise, with no nav bar
+inviting the click to wander off, is the single biggest lever on Quality
+Score's "landing page experience" component, and it is also what these six
+pages were specifically built to do.
+
+### 2.0 Keyword → ad group → landing page map
+
+| Ad group | Primary keyword theme | Final URL |
+|---|---|---|
+| Dubai | dubai tour packages, dubai honeymoon/family package | `/lp/dubai` |
+| Thailand | thailand tour packages, phuket/krabi, bangkok/pattaya | `/lp/thailand` |
+| Bali | bali tour packages, bali honeymoon package | `/lp/bali` |
+| Vietnam | vietnam tour packages, hanoi/ho chi minh | `/lp/vietnam` |
+| Japan | japan tour packages, japan cherry blossom/luxury tour | `/lp/japan` |
+| Europe | europe/switzerland tour packages, schengen tour package | `/lp/europe` |
+| Brand | travzine, travel magazine mumbai | `/` (the homepage — brand searchers already know the business; send them somewhere that shows the whole catalogue, not one destination) |
 
 ---
 
@@ -193,7 +217,7 @@ Google more combinations to test):
 1. Tell us your dates and group size. You'll have a costed, itemised Dubai proposal within one working day — hotels named, inclusions listed.
 2. UAE e-visa filed by us, typically approved in 3–5 working days. One named consultant handles your trip start to finish.
 
-**Final URL:** `https://travzine.in/destinations/dubai`
+**Final URL:** `https://travzine.in/lp/dubai`
 
 **Path fields:** `/dubai-packages` (path1), `/from-india` (path2) — Ads
 constructs the display path as `travzine.in/dubai-packages/from-india`; this
@@ -215,7 +239,7 @@ is cosmetic only and doesn't need to be a real route.
 1. Not a fixed package — an itinerary built around which countries and how many nights you actually want, with the reasoning explained.
 2. Schengen visa filed and tracked by us. Ask about our honeymoon and multi-generational family circuits.
 
-**Final URL:** `https://travzine.in/destinations/europe`
+**Final URL:** `https://travzine.in/lp/europe`
 
 ### Sitelink extensions (apply account-wide, all campaigns)
 
@@ -310,22 +334,48 @@ gtag.js directly, whether or not `NEXT_PUBLIC_GTM_CONTAINER_ID` is ever set.
 Add a GTM container later only if you need tag types beyond GA4/Ads (e.g. a
 CRM pixel), not as a prerequisite for what's described here.
 
+**The `/lp/*` pages call the exact same `trackEvent()`/`trackConversion()`
+functions** (`src/lib/analytics.ts`) as the rest of the site — the short
+enquiry form, the sticky bar's Call/WhatsApp/Enquire, and the hero's
+Call/WhatsApp actions all fire the identical `generate_lead`/`call_click`/
+`whatsapp_click` events and conversion labels described above. There is no
+separate tracking path to configure for the landing pages specifically —
+setting the four env vars once covers the whole site, `/lp/*` included.
+See [docs/deployment-checklist.md](deployment-checklist.md) for the
+verification steps this was checked against.
+
 ---
 
 ## 7. Quality Score checklist (why the landing pages were built this way)
 
-- ✅ Ad group ↔ landing page ↔ keyword theme all match (Dubai ad → Dubai
-  page → Dubai keywords, never a generic destinations index)
-- ✅ Landing page loads fast — LCP image uses `preload`, `sizes`, and a blur
-  placeholder; no render-blocking scripts before first paint
-- ✅ Mobile-first — sticky Call/WhatsApp/Enquire bar exists specifically
-  because a large share of Ads traffic on travel queries is mobile, and a
-  reader who has to scroll back up to find a contact method is a reader who
-  bounces instead
-- ✅ Clear, single primary CTA above the fold (the enquiry rail), with the
-  same CTA repeated at the foot of the page (CTABand)
-- ✅ Transparent policy content — a real Privacy Policy and Terms page exist
-  and are linked from the footer, which Google's ad review checks for
+- ✅ Ad group ↔ landing page ↔ keyword theme all match (Dubai ad → `/lp/
+  dubai` → Dubai keywords, never a generic destinations index or even the
+  fuller organic destination page)
+- ✅ One destination only, no site navigation — `/lp/{slug}` has its own
+  minimal header (wordmark + phone, no nav links, no mobile menu) and
+  footer (address + Privacy/Terms only), so there's nothing on the page to
+  click except the CTA, WhatsApp, Call, or the enquiry form
+- ✅ Landing page loads fast, measured against the organic destination page
+  it's built from: 54KB rendered HTML and 12 JS chunks vs 219KB and 17
+  chunks for `/destinations/dubai` (checked directly in the production
+  build output). The difference is architectural, not incidental — `/lp/*`
+  pages are their own Next.js root layout that never loads the animation
+  library, the enquiry modal, or the full site header/footer/nav JS the
+  rest of the site carries. LCP image uses `preload`, explicit `sizes`,
+  and a blur placeholder; no render-blocking scripts before first paint.
+- ✅ Mobile-first — sticky Call/WhatsApp/Enquire bar, shown at every screen
+  size on these pages (not just mobile, since there's no separate desktop
+  sticky rail here) — a reader who has to scroll back up to find a contact
+  method is a reader who bounces instead
+- ✅ One short enquiry form (name, phone, email, optional travel month —
+  4 fields, not the full site's 10-field form) with one primary CTA button
+  above the fold and the same CTA repeated in the sticky bar
+- ✅ Genuine trust indicators only — the same real business stats used
+  elsewhere on the site (5+ years, 1,000+ customers, 96% first-time visa
+  approval, one named consultant), no invented testimonials or ratings
+- ✅ Transparent policy content — a real address and working Privacy
+  Policy/Terms links appear in the footer, which Google's ad review checks
+  for even on a stripped-down landing page
 - ⏳ **Not yet true, needs your input before launch**: a phone number
   visible in the ad itself (call extension) requires verifying the number
   receives sales calls during the hours you actually want ad-driven calls
@@ -340,7 +390,8 @@ CRM pixel), not as a prerequisite for what's described here.
    later if you want to consolidate.
 2. Create the three conversion actions (Section 6), fill in the four env
    vars, redeploy, and verify with Ads' own Tag Assistant / "Test your tag"
-   tool that a real test form submission fires the lead conversion.
+   tool that a real test form submission **on one of the `/lp/{slug}`
+   pages** (not just the main site) fires the lead conversion.
 3. Launch Brand campaign alone for 24–48 hours to confirm tracking end to
    end on real traffic before spending on destination campaigns.
 4. Launch Easy & Affordable, then Premium Luxury, each a day apart so any

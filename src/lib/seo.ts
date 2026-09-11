@@ -28,6 +28,7 @@ export function pageMetadata({
   path,
   image,
   socialTitle,
+  canonicalPath,
 }: {
   title: string;
   description: string;
@@ -38,6 +39,13 @@ export function pageMetadata({
       tuned for search, e.g. "X Tour Packages from India") reads worse as a
       social card headline than a tagline-style alternative would. */
   socialTitle?: string;
+  /** Override for the canonical link only — `path` still sets the
+      openGraph/twitter `url`. For a page that's a deliberate, trimmed-down
+      duplicate of another (a paid-traffic landing page mirroring an organic
+      destination page), point this at the organic page so search engines
+      consolidate ranking signals there instead of treating the two as
+      competing, near-identical pages. */
+  canonicalPath?: string;
 }): Metadata {
   const images = image ? [{ url: image }] : undefined;
   const shareTitle = socialTitle ?? title;
@@ -45,7 +53,7 @@ export function pageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: canonicalPath ?? path },
     openGraph: {
       title: shareTitle,
       description,
