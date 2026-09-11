@@ -7,21 +7,21 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // Disabled: Next's optimizer proxies and re-processes every remote image
-    // on first request, caching the result on disk. On Hostinger's shared
-    // hosting the Node process idles/restarts after low overnight traffic,
-    // wiping that cache — so the next morning's first visitor hits a cold
-    // fetch+resize for every image at once, and some fail outright (broken
-    // image icon until a reload warms the cache). Unsplash URLs built by
-    // photo() in src/lib/images.ts already carry auto=format&w=&q= params,
-    // so Unsplash's own CDN does the resizing/compression — Next's optimizer
-    // was pure redundant risk for those. The trade-off: the handful of local
-    // photos under public/images/ now load at their original file size
-    // instead of Next's auto avif/webp conversion.
-    unoptimized: true,
-    // Kept so remotePatterns still documents which external hosts this site
-    // actually loads images from, even though it's unenforced while
-    // unoptimized.
+    // Every photo the site actually uses (the images.ts catalogue, plus
+    // every destination/package/service image field) now lives under
+    // public/images/ — see src/lib/images.ts. That removes the failure mode
+    // that justified unoptimized: true here previously: Next's optimizer
+    // proxying and re-processing a *remote* image on first request, which
+    // broke on Hostinger's shared hosting after the Node process idled
+    // overnight and wiped that on-disk cache (cold fetch+resize for every
+    // image at once, some failing outright until a reload). A local file
+    // read has no such cold-start network risk, so the optimizer is back on
+    // — every image now gets automatic avif/webp conversion and per-usage
+    // resizing instead of shipping a flat ~2400px JPEG everywhere.
+    //
+    // remotePatterns stays as a safety net, not the default path: the admin
+    // image field still accepts a full external URL as one of its input
+    // formats, for the rare case a photo hasn't been localised yet.
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "*.tinyurl.com" },
