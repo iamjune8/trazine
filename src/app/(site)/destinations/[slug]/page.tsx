@@ -4,10 +4,12 @@ import Image from "next/image";
 
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { CTABand } from "@/components/sections/CTABand";
+import { StatsBand } from "@/components/sections/StatsBand";
 import { DestinationCard } from "@/components/DestinationCard";
 import { Container, Section, SectionHeading } from "@/components/ui/Layout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { EnquireButton } from "@/components/enquiry/EnquireButton";
+import { StickyMobileBar } from "@/components/enquiry/StickyMobileBar";
 import { TrackedExternalButton } from "@/components/ui/TrackedExternalButton";
 import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon } from "@/components/ui/Icon";
@@ -284,6 +286,8 @@ export default async function DestinationPage({ params }: Params) {
         </Container>
       </Section>
 
+      <StatsBand />
+
       <GoodToKnow
         currency={destination.currency ?? ""}
         language={destination.language ?? ""}
@@ -518,6 +522,11 @@ export default async function DestinationPage({ params }: Params) {
         body="One conversation, then an itinerary with the reasoning attached — hotels named, inclusions listed, exclusions stated plainly."
         destination={destination.name}
         source={`destination-cta-${destination.slug}`}
+      />
+
+      <StickyMobileBar
+        destination={destination.name}
+        source={`destination-sticky-${destination.slug}`}
       />
     </>
   );
