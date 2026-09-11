@@ -39,6 +39,7 @@ function readFields(formData: FormData) {
   return {
     slug,
     name,
+    destination_slug: String(formData.get("destination_slug") ?? "").trim() || null,
     departure_code: String(formData.get("departure_code") ?? "").trim(),
     route_label: String(formData.get("route_label") ?? "").trim(),
     nights_summary: String(formData.get("nights_summary") ?? "").trim(),
@@ -90,6 +91,7 @@ export async function updatePackage(slug: string, formData: FormData) {
     .from("packages")
     .update({
       name: fields.name,
+      destination_slug: fields.destination_slug,
       departure_code: fields.departure_code,
       route_label: fields.route_label,
       nights_summary: fields.nights_summary,

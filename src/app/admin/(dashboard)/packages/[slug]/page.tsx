@@ -16,6 +16,7 @@ import {
   deleteDeparture,
   copyPriceToAllDepartures,
 } from "../actions";
+import { getDestinations } from "@/lib/content/destinations";
 
 export const dynamic = "force-dynamic";
 
@@ -26,16 +27,19 @@ export default async function EditPackagePage({ params, searchParams }: Props) {
   const { saved } = await searchParams;
   const supabase = await createClient();
 
-  const [{ data: pkg }, { data: departures }] = await Promise.all([
+  const [{ data: pkg }, { data: departures }, destinations] = await Promise.all([
     supabase.from("packages").select("*").eq("slug", slug).single(),
     supabase
       .from("package_departures")
       .select("*")
       .eq("package_slug", slug)
       .order("departure_date", { ascending: true }),
+    getDestinations(),
   ]);
 
   if (!pkg) notFound();
+
+  const destinationOptions = destinations.map((d) => d.slug);
 
   const boundUpdate = updatePackage.bind(null, slug);
   const boundDelete = deletePackage.bind(null, slug);
@@ -215,7 +219,13 @@ export default async function EditPackagePage({ params, searchParams }: Props) {
         </form>
       </Card>
 
-      <PackageForm action={boundUpdate} defaultValues={pkg} submitLabel="Save changes" lockSlug />
+      <PackageForm
+        action={boundUpdate}
+        defaultValues={pkg}
+        submitLabel="Save changes"
+        lockSlug
+        destinationOptions={destinationOptions}
+      />
     </div>
   );
 }

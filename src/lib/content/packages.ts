@@ -32,6 +32,9 @@ export type PackageDeparture = {
 export type TourPackage = {
   slug: string;
   name: string;
+  /** The destination this package belongs to, for cross-linking — null for a
+      package that predates this column or spans more than one destination. */
+  destinationSlug: string | null;
   departureCode: string;
   routeLabel: string;
   nightsSummary: string;
@@ -63,6 +66,7 @@ export type TourPackage = {
 type PackageRow = {
   slug: string;
   name: string;
+  destination_slug: string | null;
   departure_code: string;
   route_label: string;
   nights_summary: string;
@@ -113,6 +117,7 @@ function mapRow(row: PackageRow, departures: DepartureRow[]): TourPackage {
   return {
     slug: row.slug,
     name: row.name,
+    destinationSlug: row.destination_slug,
     departureCode: row.departure_code,
     routeLabel: row.route_label,
     nightsSummary: row.nights_summary,
@@ -184,4 +189,11 @@ export const getPackage = cache(async (slug: string): Promise<TourPackage | unde
 
 export async function getActivePackages(): Promise<TourPackage[]> {
   return (await getPackages()).filter((p) => p.active);
+}
+
+/** Active packages linked to a given destination, for cross-linking on its page. */
+export async function getPackagesForDestination(
+  destinationSlug: string,
+): Promise<TourPackage[]> {
+  return (await getActivePackages()).filter((p) => p.destinationSlug === destinationSlug);
 }

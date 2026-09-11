@@ -2,10 +2,14 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { PackageForm } from "../PackageForm";
 import { createPackage } from "../actions";
+import { getDestinations } from "@/lib/content/destinations";
 
 export const dynamic = "force-dynamic";
 
-export default function NewPackagePage() {
+export default async function NewPackagePage() {
+  const destinations = await getDestinations();
+  const destinationOptions = destinations.map((d) => d.slug);
+
   return (
     <div>
       <Link
@@ -20,7 +24,11 @@ export default function NewPackagePage() {
         Departure dates and seat counts are added afterwards, from the package&rsquo;s own page
         once it exists.
       </p>
-      <PackageForm action={createPackage} submitLabel="Create package" />
+      <PackageForm
+        action={createPackage}
+        submitLabel="Create package"
+        destinationOptions={destinationOptions}
+      />
     </div>
   );
 }

@@ -21,6 +21,25 @@ export type Experience = {
   description: string;
 };
 
+/** One activity or thing to do, beyond the headline experiences/places. */
+export type ThingToDo = {
+  title: string;
+  description: string;
+};
+
+/** One day of a suggested (not booked) itinerary outline. */
+export type ItineraryDay = {
+  day: string;
+  title: string;
+  description: string;
+};
+
+/** One destination-specific, evergreen question — no prices, no dated visa specifics. */
+export type DestinationFaq = {
+  question: string;
+  answer: string;
+};
+
 /** A country or city covered within a destination's circuit. */
 export type Place = {
   name: string;
@@ -71,6 +90,35 @@ export type Destination = {
   idealFor: string[];
   /** Featured on the homepage showcase. */
   featured: boolean;
+
+  /**
+   * The fields below are optional on the type because the static array
+   * further down this file is kept only as a pre-migration reference/backup
+   * (see the file-header comment) and was never updated with them — every
+   * live page reads from Supabase via src/lib/content/destinations.ts, whose
+   * mapRow() always supplies these (the DB columns are NOT NULL with
+   * defaults), so in practice they're always present at render time.
+   */
+
+  /** ISO currency name as used day-to-day, e.g. "UAE Dirham (AED)". */
+  currency?: string;
+  /** Official/most commonly spoken language(s), e.g. "Japanese". */
+  language?: string;
+  /** Things to do beyond the top attractions already in `places`/`experiences`. */
+  thingsToDo?: ThingToDo[];
+  /** Food and dining notes — dishes, districts, price-free (no menus/prices). */
+  foodAndDining?: string[];
+  shopping?: string[];
+  /** One paragraph on suitability for families/kids — genuinely differentiated per place. */
+  familyFriendly?: string;
+  /** One paragraph on suitability for a honeymoon — genuinely differentiated per place. */
+  honeymoonSuitable?: string;
+  adventureActivities?: string[];
+  /** A realistic day-by-day outline — explicitly a suggestion, not a booked itinerary. */
+  suggestedItinerary?: ItineraryDay[];
+  /** Practical, evergreen tips — no prices, no dated visa/currency-rate specifics. */
+  travelTips?: string[];
+  faqs?: DestinationFaq[];
 };
 
 export const destinations: Destination[] = [

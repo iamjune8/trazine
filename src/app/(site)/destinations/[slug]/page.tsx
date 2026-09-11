@@ -13,9 +13,20 @@ import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon } from "@/components/ui/Icon";
 import { photo, photoBlur } from "@/lib/images";
 import { getDestinations, getDestination } from "@/lib/content/destinations";
+import { getPackagesForDestination } from "@/lib/content/packages";
 import { site, whatsappLink } from "@/data/site";
 import { pageMetadata, breadcrumbJsonLd, truncateAtWord } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
+import {
+  GoodToKnow,
+  ThingsToDoSection,
+  FoodAndShopping,
+  TravellerFit,
+  SuggestedItinerary,
+  TravelTips,
+  DestinationFAQSection,
+  RelatedPackages,
+} from "@/components/sections/DestinationGuide";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -77,7 +88,14 @@ export default async function DestinationPage({ params }: Params) {
 
   if (!destination) notFound();
 
-  const allDestinations = await getDestinations();
+  const [allDestinations, relatedPackages] = await Promise.all([
+    getDestinations(),
+    getPackagesForDestination(destination.slug),
+  ]);
+
+  const flightTimeFact = destination.facts.find((f) =>
+    f.label.toLowerCase().includes("flight"),
+  );
 
   // Same-tier destinations are the more useful cross-sell — a Premium reader
   // is more likely to want another circuit than an Easy getaway, and vice
@@ -265,6 +283,12 @@ export default async function DestinationPage({ params }: Params) {
         </Container>
       </Section>
 
+      <GoodToKnow
+        currency={destination.currency ?? ""}
+        language={destination.language ?? ""}
+        flightTime={flightTimeFact?.value}
+      />
+
       {/* ── Gallery ── */}
       <Section tone="paper-2" className="py-16 sm:py-20 lg:py-24">
         <Container size="wide">
@@ -346,6 +370,29 @@ export default async function DestinationPage({ params }: Params) {
           </Stagger>
         </Container>
       </Section>
+
+      <ThingsToDoSection
+        destinationName={destination.name}
+        items={destination.thingsToDo ?? []}
+      />
+
+      <FoodAndShopping
+        destinationName={destination.name}
+        food={destination.foodAndDining ?? []}
+        shopping={destination.shopping ?? []}
+      />
+
+      <TravellerFit
+        destinationName={destination.name}
+        familyFriendly={destination.familyFriendly ?? ""}
+        honeymoonSuitable={destination.honeymoonSuitable ?? ""}
+        adventureActivities={destination.adventureActivities ?? []}
+      />
+
+      <SuggestedItinerary
+        destinationName={destination.name}
+        days={destination.suggestedItinerary ?? []}
+      />
 
       {/* ── What we arrange ── */}
       <Section tone="paper-2">
@@ -436,6 +483,15 @@ export default async function DestinationPage({ params }: Params) {
           </Stagger>
         </Container>
       </Section>
+
+      <TravelTips tips={destination.travelTips ?? []} />
+
+      <DestinationFAQSection
+        destinationName={destination.name}
+        faqs={destination.faqs ?? []}
+      />
+
+      <RelatedPackages destinationName={destination.name} packages={relatedPackages} />
 
       {/* ── Onward ── */}
       <Section>

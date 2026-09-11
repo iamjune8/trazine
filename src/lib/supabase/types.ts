@@ -15,78 +15,111 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
       destinations: {
         Row: {
+          adventure_activities: string[]
           body: string[]
           card_image: string | null
+          currency: string
           departure_code: string
           display_order: number
           experiences: Json
           facts: Json
+          family_friendly: string
+          faqs: Json
           featured: boolean
+          food_and_dining: string[]
           gallery: string[]
           hero_image: string
+          honeymoon_suitable: string
           ideal_for: string[]
           intro: string
+          language: string
           monthly_climate: Json
           name: string
           places: Json
           region: string
           route_city: string
           seasons: Json
+          shopping: string[]
           slug: string
+          suggested_itinerary: Json
           tagline: string
+          things_to_do: Json
           tier: string
+          travel_tips: string[]
           updated_at: string
         }
         Insert: {
+          adventure_activities?: string[]
           body?: string[]
           card_image?: string | null
+          currency?: string
           departure_code?: string
           display_order?: number
           experiences?: Json
           facts?: Json
+          family_friendly?: string
+          faqs?: Json
           featured?: boolean
+          food_and_dining?: string[]
           gallery?: string[]
           hero_image: string
+          honeymoon_suitable?: string
           ideal_for?: string[]
           intro: string
+          language?: string
           monthly_climate?: Json
           name: string
           places?: Json
           region: string
           route_city?: string
           seasons?: Json
+          shopping?: string[]
           slug: string
+          suggested_itinerary?: Json
           tagline: string
+          things_to_do?: Json
           tier: string
+          travel_tips?: string[]
           updated_at?: string
         }
         Update: {
+          adventure_activities?: string[]
           body?: string[]
           card_image?: string | null
+          currency?: string
           departure_code?: string
           display_order?: number
           experiences?: Json
           facts?: Json
+          family_friendly?: string
+          faqs?: Json
           featured?: boolean
+          food_and_dining?: string[]
           gallery?: string[]
           hero_image?: string
+          honeymoon_suitable?: string
           ideal_for?: string[]
           intro?: string
+          language?: string
           monthly_climate?: Json
           name?: string
           places?: Json
           region?: string
           route_city?: string
           seasons?: Json
+          shopping?: string[]
           slug?: string
+          suggested_itinerary?: Json
           tagline?: string
+          things_to_do?: Json
           tier?: string
+          travel_tips?: string[]
           updated_at?: string
         }
         Relationships: []
@@ -264,6 +297,7 @@ export type Database = {
           departure_airport_code: string
           departure_city: string
           departure_code: string
+          destination_slug: string | null
           display_order: number
           exclusions: string[]
           flight_carrier: string
@@ -294,6 +328,7 @@ export type Database = {
           departure_airport_code?: string
           departure_city?: string
           departure_code?: string
+          destination_slug?: string | null
           display_order?: number
           exclusions?: string[]
           flight_carrier?: string
@@ -324,6 +359,7 @@ export type Database = {
           departure_airport_code?: string
           departure_city?: string
           departure_code?: string
+          destination_slug?: string | null
           display_order?: number
           exclusions?: string[]
           flight_carrier?: string
@@ -346,7 +382,15 @@ export type Database = {
           slug?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "packages_destination_slug_fkey"
+            columns: ["destination_slug"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["slug"]
+          },
+        ]
       }
       promotion: {
         Row: {
@@ -468,12 +512,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -497,11 +541,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -522,11 +566,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -547,11 +591,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -564,11 +608,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }

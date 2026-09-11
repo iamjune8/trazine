@@ -1,4 +1,9 @@
-import { AdminTextField, AdminTextAreaField, AdminCheckboxField } from "@/components/admin/ui/AdminField";
+import {
+  AdminTextField,
+  AdminTextAreaField,
+  AdminCheckboxField,
+  AdminSelectField,
+} from "@/components/admin/ui/AdminField";
 import { AdminImageField } from "@/components/admin/ui/AdminImageField";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
 import { SectionCard } from "@/components/admin/ui/Card";
@@ -24,6 +29,7 @@ const SECTIONS: FormSection[] = [
 type PackageValues = {
   slug: string;
   name: string;
+  destination_slug: string | null;
   departure_code: string;
   route_label: string;
   nights_summary: string;
@@ -56,11 +62,15 @@ export function PackageForm({
   defaultValues,
   submitLabel,
   lockSlug = false,
+  destinationOptions = [],
 }: {
   action: (formData: FormData) => void;
   defaultValues?: PackageValues;
   submitLabel: string;
   lockSlug?: boolean;
+  /** Destination slugs this package can link to — powers "related packages"
+      on that destination's page and its own "explore the destination" link. */
+  destinationOptions?: string[];
 }) {
   return (
     <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start">
@@ -84,6 +94,13 @@ export function PackageForm({
             className={lockSlug ? "opacity-70" : undefined}
           />
           <AdminTextField label="Name" name="name" required defaultValue={defaultValues?.name} />
+          <AdminSelectField
+            label="Linked destination"
+            name="destination_slug"
+            options={destinationOptions}
+            defaultValue={defaultValues?.destination_slug ?? ""}
+            hint="Powers 'Related packages' on that destination's page and a link back to it from here. Leave blank if this package doesn't map to one destination page."
+          />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <AdminTextField
               label="Departure code badge"

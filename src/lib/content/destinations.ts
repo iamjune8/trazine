@@ -1,7 +1,17 @@
 import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 import type { PhotoKey } from "@/lib/images";
-import type { Destination, Place, Experience, Fact, Tier, MonthClimate } from "@/data/destinations";
+import type {
+  Destination,
+  Place,
+  Experience,
+  Fact,
+  Tier,
+  MonthClimate,
+  ThingToDo,
+  ItineraryDay,
+  DestinationFaq,
+} from "@/data/destinations";
 
 /**
  * Live content layer — reads what the admin panel writes. Supabase is now
@@ -26,6 +36,17 @@ type DestinationRow = {
   gallery: string[];
   departure_code?: string;
   route_city?: string;
+  currency: string;
+  language: string;
+  things_to_do: unknown;
+  food_and_dining: string[];
+  shopping: string[];
+  family_friendly: string;
+  honeymoon_suitable: string;
+  adventure_activities: string[];
+  suggested_itinerary: unknown;
+  travel_tips: string[];
+  faqs: unknown;
   places: unknown;
   experiences: unknown;
   facts: unknown;
@@ -56,6 +77,17 @@ function mapRow(row: DestinationRow): Destination {
     monthlyClimate: row.monthly_climate as MonthClimate[],
     idealFor: row.ideal_for,
     featured: row.featured,
+    currency: row.currency,
+    language: row.language,
+    thingsToDo: row.things_to_do as ThingToDo[],
+    foodAndDining: row.food_and_dining,
+    shopping: row.shopping,
+    familyFriendly: row.family_friendly,
+    honeymoonSuitable: row.honeymoon_suitable,
+    adventureActivities: row.adventure_activities,
+    suggestedItinerary: row.suggested_itinerary as ItineraryDay[],
+    travelTips: row.travel_tips,
+    faqs: row.faqs as DestinationFaq[],
   };
 }
 
