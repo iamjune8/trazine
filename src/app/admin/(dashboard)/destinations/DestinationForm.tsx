@@ -10,11 +10,15 @@ import {
   stringifyFacts,
   stringifySeasons,
   stringifyMonthlyClimate,
+  stringifySuggestedItinerary,
+  stringifyFaqs,
   type PlaceInput,
   type ExperienceInput,
   type FactInput,
   type SeasonInput,
   type MonthClimateInput,
+  type SuggestedItineraryDayInput,
+  type FaqInput,
 } from "@/lib/admin/textBlocks";
 
 const TIERS = ["premium", "easy"] as const;
@@ -30,6 +34,13 @@ const SECTIONS: FormSection[] = [
   { id: "seasons", label: "Seasons", icon: "calendar" },
   { id: "monthly-climate", label: "Monthly weather", icon: "sun" },
   { id: "ideal-for", label: "Particularly good for", icon: "users" },
+  { id: "practical", label: "Currency & language", icon: "globe" },
+  { id: "things-to-do", label: "Things to do", icon: "compass" },
+  { id: "food-shopping", label: "Food & shopping", icon: "receipt" },
+  { id: "traveller-fit", label: "Who it suits", icon: "users" },
+  { id: "itinerary", label: "Suggested itinerary", icon: "calendar" },
+  { id: "travel-tips", label: "Travel tips", icon: "help-circle" },
+  { id: "guide-faqs", label: "FAQs", icon: "help-circle" },
 ];
 
 type DestinationValues = {
@@ -53,6 +64,17 @@ type DestinationValues = {
   ideal_for: string[];
   featured: boolean;
   display_order: number;
+  currency: string;
+  language: string;
+  things_to_do: unknown;
+  food_and_dining: string[];
+  shopping: string[];
+  family_friendly: string;
+  honeymoon_suitable: string;
+  adventure_activities: string[];
+  suggested_itinerary: unknown;
+  travel_tips: string[];
+  faqs: unknown;
 };
 
 export function DestinationForm({
@@ -265,6 +287,111 @@ export function DestinationForm({
             rows={5}
             hint="One tag per line."
             defaultValue={stringifyLines(defaultValues?.ideal_for)}
+          />
+        </SectionCard>
+
+        <SectionCard id="practical" icon="globe" title="Currency & language" accent="violet">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <AdminTextField
+              label="Currency"
+              name="currency"
+              hint='e.g. "Japanese Yen (JPY)"'
+              defaultValue={defaultValues?.currency ?? ""}
+            />
+            <AdminTextField
+              label="Language"
+              name="language"
+              hint='e.g. "Japanese", or "Varies by country" for a multi-country circuit.'
+              defaultValue={defaultValues?.language ?? ""}
+            />
+          </div>
+        </SectionCard>
+
+        <SectionCard id="things-to-do" icon="compass" title="Things to do" accent="cyan">
+          <AdminTextAreaField
+            label="Beyond the highlights"
+            name="things_to_do"
+            rows={10}
+            hint={'Blocks separated by "---". Format:\nTitle: teamLab digital art museums\nDescription: One or two sentences.'}
+            defaultValue={stringifyExperiences(defaultValues?.things_to_do as ExperienceInput[])}
+            className="font-mono text-xs"
+          />
+        </SectionCard>
+
+        <SectionCard id="food-shopping" icon="receipt" title="Food & shopping" accent="pink">
+          <AdminTextAreaField
+            label="Food and dining"
+            name="food_and_dining"
+            rows={6}
+            hint="One line per point."
+            defaultValue={stringifyLines(defaultValues?.food_and_dining)}
+          />
+          <AdminTextAreaField
+            label="Shopping"
+            name="shopping"
+            rows={5}
+            hint="One line per point."
+            defaultValue={stringifyLines(defaultValues?.shopping)}
+          />
+        </SectionCard>
+
+        <SectionCard id="traveller-fit" icon="users" title="Who it suits" accent="violet">
+          <AdminTextAreaField
+            label="Family travel"
+            name="family_friendly"
+            rows={4}
+            hint="One paragraph — genuinely differentiated per destination, not a generic line."
+            defaultValue={defaultValues?.family_friendly ?? ""}
+          />
+          <AdminTextAreaField
+            label="Honeymoon suitability"
+            name="honeymoon_suitable"
+            rows={4}
+            defaultValue={defaultValues?.honeymoon_suitable ?? ""}
+          />
+          <AdminTextAreaField
+            label="Adventure activities"
+            name="adventure_activities"
+            rows={5}
+            hint="One line per activity."
+            defaultValue={stringifyLines(defaultValues?.adventure_activities)}
+          />
+        </SectionCard>
+
+        <SectionCard id="itinerary" icon="calendar" title="Suggested itinerary" accent="cyan">
+          <AdminTextAreaField
+            label="Day-by-day outline"
+            name="suggested_itinerary"
+            rows={12}
+            hint={
+              'Blocks separated by "---". Format:\nDay: Day 1\nTitle: Arrive Tokyo\n' +
+              "Description: One or two sentences.\n\nExplicitly a suggestion, not a booked itinerary — say so in the copy if relevant."
+            }
+            defaultValue={stringifySuggestedItinerary(
+              defaultValues?.suggested_itinerary as SuggestedItineraryDayInput[],
+            )}
+            className="font-mono text-xs"
+          />
+        </SectionCard>
+
+        <SectionCard id="travel-tips" icon="help-circle" title="Travel tips" accent="pink">
+          <AdminTextAreaField
+            label="Practical tips"
+            name="travel_tips"
+            rows={8}
+            hint="One line per tip. Evergreen only — no prices, no dated visa specifics."
+            defaultValue={stringifyLines(defaultValues?.travel_tips)}
+          />
+        </SectionCard>
+
+        <SectionCard id="guide-faqs" icon="help-circle" title="FAQs" accent="violet">
+          <AdminTextAreaField
+            label="Frequently asked questions"
+            name="faqs"
+            rows={12}
+            hint={'Blocks separated by "---". Format:\nQuestion: Is X safe for families?\nAnswer: One or two sentences, evergreen — no prices.'}
+            defaultValue={stringifyFaqs(defaultValues?.faqs as FaqInput[])}
+            className="font-mono text-xs"
           />
         </SectionCard>
 

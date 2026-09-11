@@ -11,6 +11,8 @@
 export type PlaceInput = { name: string; blurb: string; highlights: string[]; image: string };
 export type ExperienceInput = { title: string; description: string };
 export type FactInput = { label: string; value: string };
+export type FaqInput = { question: string; answer: string };
+export type SuggestedItineraryDayInput = { day: string; title: string; description: string };
 export type SeasonInput = { window: string; note: string };
 export type HotelInput = { location: string; nights: string; name: string; room: string; meal: string };
 export type ItineraryDayInput = { title: string; lines: string[] };
@@ -114,6 +116,39 @@ export function parseFacts(text: string): FactInput[] {
 export function stringifyFacts(facts: FactInput[] | null | undefined): string {
   return (facts ?? [])
     .map((f) => [`Label: ${f.label}`, `Value: ${f.value}`].join("\n"))
+    .join("\n---\n");
+}
+
+export function parseSuggestedItinerary(text: string): SuggestedItineraryDayInput[] {
+  return splitBlocks(text)
+    .map((block) => ({
+      day: getField(block, "Day"),
+      title: getField(block, "Title"),
+      description: getField(block, "Description"),
+    }))
+    .filter((d) => d.day);
+}
+
+export function stringifySuggestedItinerary(
+  days: SuggestedItineraryDayInput[] | null | undefined,
+): string {
+  return (days ?? [])
+    .map((d) => [`Day: ${d.day}`, `Title: ${d.title}`, `Description: ${d.description}`].join("\n"))
+    .join("\n---\n");
+}
+
+export function parseFaqs(text: string): FaqInput[] {
+  return splitBlocks(text)
+    .map((block) => ({
+      question: getField(block, "Question"),
+      answer: getField(block, "Answer"),
+    }))
+    .filter((f) => f.question);
+}
+
+export function stringifyFaqs(faqs: FaqInput[] | null | undefined): string {
+  return (faqs ?? [])
+    .map((f) => [`Question: ${f.question}`, `Answer: ${f.answer}`].join("\n"))
     .join("\n---\n");
 }
 

@@ -10,6 +10,8 @@ import {
   parseFacts,
   parseSeasons,
   parseMonthlyClimate,
+  parseSuggestedItinerary,
+  parseFaqs,
 } from "@/lib/admin/textBlocks";
 
 /**
@@ -91,6 +93,17 @@ function readFields(formData: FormData) {
     monthly_climate: monthlyClimate,
     featured: formData.get("featured") === "on",
     display_order: Number(formData.get("display_order") ?? 0),
+    currency: String(formData.get("currency") ?? "").trim(),
+    language: String(formData.get("language") ?? "").trim(),
+    things_to_do: parseExperiences(String(formData.get("things_to_do") ?? "")),
+    food_and_dining: parseLines(String(formData.get("food_and_dining") ?? "")),
+    shopping: parseLines(String(formData.get("shopping") ?? "")),
+    family_friendly: String(formData.get("family_friendly") ?? "").trim(),
+    honeymoon_suitable: String(formData.get("honeymoon_suitable") ?? "").trim(),
+    adventure_activities: parseLines(String(formData.get("adventure_activities") ?? "")),
+    suggested_itinerary: parseSuggestedItinerary(String(formData.get("suggested_itinerary") ?? "")),
+    travel_tips: parseLines(String(formData.get("travel_tips") ?? "")),
+    faqs: parseFaqs(String(formData.get("faqs") ?? "")),
   };
 }
 
@@ -135,6 +148,17 @@ export async function updateDestination(slug: string, formData: FormData) {
       monthly_climate: fields.monthly_climate,
       featured: fields.featured,
       display_order: fields.display_order,
+      currency: fields.currency,
+      language: fields.language,
+      things_to_do: fields.things_to_do,
+      food_and_dining: fields.food_and_dining,
+      shopping: fields.shopping,
+      family_friendly: fields.family_friendly,
+      honeymoon_suitable: fields.honeymoon_suitable,
+      adventure_activities: fields.adventure_activities,
+      suggested_itinerary: fields.suggested_itinerary,
+      travel_tips: fields.travel_tips,
+      faqs: fields.faqs,
       updated_at: new Date().toISOString(),
     })
     .eq("slug", slug);

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { parseLines } from "@/lib/admin/textLines";
-import { parseHotels, parseItinerary } from "@/lib/admin/textBlocks";
+import { parseHotels, parseItinerary, parseFaqs } from "@/lib/admin/textBlocks";
 
 /**
  * Skip on-demand revalidation entirely on Hostinger's shared hosting.
@@ -65,6 +65,12 @@ function readFields(formData: FormData) {
     cancellation_terms: parseLines(String(formData.get("cancellation_terms") ?? "")),
     active: formData.get("active") === "on",
     display_order: Number(formData.get("display_order") ?? 0),
+    overview: String(formData.get("overview") ?? "").trim(),
+    highlights: parseLines(String(formData.get("highlights") ?? "")),
+    ideal_traveller: String(formData.get("ideal_traveller") ?? "").trim(),
+    best_season: String(formData.get("best_season") ?? "").trim(),
+    travel_tips: parseLines(String(formData.get("travel_tips") ?? "")),
+    faqs: parseFaqs(String(formData.get("faqs") ?? "")),
   };
 }
 
@@ -117,6 +123,12 @@ export async function updatePackage(slug: string, formData: FormData) {
       cancellation_terms: fields.cancellation_terms,
       active: fields.active,
       display_order: fields.display_order,
+      overview: fields.overview,
+      highlights: fields.highlights,
+      ideal_traveller: fields.ideal_traveller,
+      best_season: fields.best_season,
+      travel_tips: fields.travel_tips,
+      faqs: fields.faqs,
       updated_at: new Date().toISOString(),
     })
     .eq("slug", slug);

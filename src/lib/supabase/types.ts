@@ -292,6 +292,7 @@ export type Database = {
         Row: {
           active: boolean
           base_price: number
+          best_season: string
           cancellation_terms: string[]
           currency: string
           departure_airport_code: string
@@ -300,10 +301,13 @@ export type Database = {
           destination_slug: string | null
           display_order: number
           exclusions: string[]
+          faqs: Json
           flight_carrier: string
           flights_included: boolean
           hero_image: string
+          highlights: string[]
           hotels: Json
+          ideal_traveller: string
           inclusions: string[]
           itinerary: Json
           name: string
@@ -311,6 +315,7 @@ export type Database = {
           onward_departure_time: string
           onward_flight_number: string
           onward_route: string
+          overview: string
           payment_terms: string[]
           return_departure_time: string
           return_flight_number: string
@@ -318,11 +323,13 @@ export type Database = {
           route_label: string
           sightseeing: Json
           slug: string
+          travel_tips: string[]
           updated_at: string
         }
         Insert: {
           active?: boolean
           base_price?: number
+          best_season?: string
           cancellation_terms?: string[]
           currency?: string
           departure_airport_code?: string
@@ -331,10 +338,13 @@ export type Database = {
           destination_slug?: string | null
           display_order?: number
           exclusions?: string[]
+          faqs?: Json
           flight_carrier?: string
           flights_included?: boolean
           hero_image?: string
+          highlights?: string[]
           hotels?: Json
+          ideal_traveller?: string
           inclusions?: string[]
           itinerary?: Json
           name: string
@@ -342,6 +352,7 @@ export type Database = {
           onward_departure_time?: string
           onward_flight_number?: string
           onward_route?: string
+          overview?: string
           payment_terms?: string[]
           return_departure_time?: string
           return_flight_number?: string
@@ -349,11 +360,13 @@ export type Database = {
           route_label?: string
           sightseeing?: Json
           slug: string
+          travel_tips?: string[]
           updated_at?: string
         }
         Update: {
           active?: boolean
           base_price?: number
+          best_season?: string
           cancellation_terms?: string[]
           currency?: string
           departure_airport_code?: string
@@ -362,10 +375,13 @@ export type Database = {
           destination_slug?: string | null
           display_order?: number
           exclusions?: string[]
+          faqs?: Json
           flight_carrier?: string
           flights_included?: boolean
           hero_image?: string
+          highlights?: string[]
           hotels?: Json
+          ideal_traveller?: string
           inclusions?: string[]
           itinerary?: Json
           name?: string
@@ -373,6 +389,7 @@ export type Database = {
           onward_departure_time?: string
           onward_flight_number?: string
           onward_route?: string
+          overview?: string
           payment_terms?: string[]
           return_departure_time?: string
           return_flight_number?: string
@@ -380,6 +397,7 @@ export type Database = {
           route_label?: string
           sightseeing?: Json
           slug?: string
+          travel_tips?: string[]
           updated_at?: string
         }
         Relationships: [

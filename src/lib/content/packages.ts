@@ -29,12 +29,23 @@ export type PackageDeparture = {
   soldOut: boolean;
 };
 
+export type PackageFaq = {
+  question: string;
+  answer: string;
+};
+
 export type TourPackage = {
   slug: string;
   name: string;
   /** The destination this package belongs to, for cross-linking — null for a
       package that predates this column or spans more than one destination. */
   destinationSlug: string | null;
+  overview: string;
+  highlights: string[];
+  idealTraveller: string;
+  bestSeason: string;
+  travelTips: string[];
+  faqs: PackageFaq[];
   departureCode: string;
   routeLabel: string;
   nightsSummary: string;
@@ -67,6 +78,12 @@ type PackageRow = {
   slug: string;
   name: string;
   destination_slug: string | null;
+  overview: string;
+  highlights: string[];
+  ideal_traveller: string;
+  best_season: string;
+  travel_tips: string[];
+  faqs: unknown;
   departure_code: string;
   route_label: string;
   nights_summary: string;
@@ -118,6 +135,12 @@ function mapRow(row: PackageRow, departures: DepartureRow[]): TourPackage {
     slug: row.slug,
     name: row.name,
     destinationSlug: row.destination_slug,
+    overview: row.overview,
+    highlights: row.highlights ?? [],
+    idealTraveller: row.ideal_traveller,
+    bestSeason: row.best_season,
+    travelTips: row.travel_tips ?? [],
+    faqs: (row.faqs as PackageFaq[]) ?? [],
     departureCode: row.departure_code,
     routeLabel: row.route_label,
     nightsSummary: row.nights_summary,

@@ -7,9 +7,12 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { PackagePanel } from "@/components/packages/PackagePanel";
 import { PackageBookingCard } from "@/components/packages/PackageBookingCard";
-import { getPackages, getPackage } from "@/lib/content/packages";
+import { getPackages, getPackage, getActivePackages } from "@/lib/content/packages";
+import { getDestination } from "@/lib/content/destinations";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
+import { PackageFAQSection, RelatedPackagesRail } from "@/components/packages/PackageGuide";
+import { CTABand } from "@/components/sections/CTABand";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -54,6 +57,11 @@ export default async function PackagePage({ params }: Params) {
   const pkg = await getPackage(slug);
 
   if (!pkg || !pkg.active) notFound();
+
+  const [destination, allActivePackages] = await Promise.all([
+    pkg.destinationSlug ? getDestination(pkg.destinationSlug) : Promise.resolve(undefined),
+    getActivePackages(),
+  ]);
 
   return (
     <>
@@ -156,6 +164,46 @@ export default async function PackagePage({ params }: Params) {
                   </ul>
                 </div>
               </Reveal>
+
+              {/* ── Overview, highlights, who it suits ── */}
+              {pkg.overview || pkg.highlights.length > 0 || pkg.idealTraveller ? (
+                <Reveal delay={0.03} className="mt-6">
+                  <PackagePanel title="Overview" icon="compass">
+                    {pkg.overview ? (
+                      <p className="text-ink-2">{pkg.overview}</p>
+                    ) : null}
+
+                    {pkg.highlights.length > 0 ? (
+                      <ul className={pkg.overview ? "mt-6 space-y-2.5" : "space-y-2.5"}>
+                        {pkg.highlights.map((item) => (
+                          <li key={item} className="flex items-start gap-2.5 text-ink-2">
+                            <Icon
+                              name="check"
+                              size={16}
+                              className="mt-0.5 shrink-0 text-success"
+                            />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+
+                    {pkg.idealTraveller ? (
+                      <div className="mt-6 border-t border-line pt-6">
+                        <p className="eyebrow">Who this suits</p>
+                        <p className="mt-3 text-ink-2">{pkg.idealTraveller}</p>
+                      </div>
+                    ) : null}
+
+                    {pkg.bestSeason ? (
+                      <div className="mt-6 border-t border-line pt-6">
+                        <p className="eyebrow">Best season</p>
+                        <p className="mt-3 text-ink-2">{pkg.bestSeason}</p>
+                      </div>
+                    ) : null}
+                  </PackagePanel>
+                </Reveal>
+              ) : null}
 
               {/* ── Flight details ── */}
               {pkg.flightsIncluded ? (
@@ -342,6 +390,26 @@ export default async function PackagePage({ params }: Params) {
                   </PackagePanel>
                 </Reveal>
               ) : null}
+
+              {/* ── Travel tips ── */}
+              {pkg.travelTips.length > 0 ? (
+                <Reveal delay={0.18} className="mt-6">
+                  <PackagePanel title="Travel tips" icon="sparkle">
+                    <ul className="space-y-3">
+                      {pkg.travelTips.map((tip) => (
+                        <li key={tip} className="flex items-start gap-2.5 text-ink-2">
+                          <Icon
+                            name="check"
+                            size={16}
+                            className="mt-0.5 shrink-0 text-brass"
+                          />
+                          {tip}
+                        </li>
+                      ))}
+                    </ul>
+                  </PackagePanel>
+                </Reveal>
+              ) : null}
             </div>
 
             {/* ── Booking rail ── */}
@@ -363,6 +431,24 @@ export default async function PackagePage({ params }: Params) {
           </div>
         </Container>
       </Section>
+
+      <PackageFAQSection packageName={pkg.name} faqs={pkg.faqs} />
+
+      <RelatedPackagesRail
+        currentSlug={pkg.slug}
+        destinationName={destination?.name}
+        destinationSlug={pkg.destinationSlug}
+        packages={allActivePackages}
+      />
+
+      <CTABand
+        image={pkg.heroImage || "aircraftWing"}
+        eyebrow="Ready to go"
+        title={`Let's confirm your ${pkg.name} dates.`}
+        body="Pick a departure, tell us who's travelling, and a consultant confirms availability within one working day."
+        destination={destination?.name ?? pkg.name}
+        source={`package-cta-${pkg.slug}`}
+      />
     </>
   );
 }

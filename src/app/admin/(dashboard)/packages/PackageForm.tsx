@@ -12,18 +12,22 @@ import { stringifyLines } from "@/lib/admin/textLines";
 import {
   stringifyHotels,
   stringifyItinerary,
+  stringifyFaqs,
   type HotelInput,
   type ItineraryDayInput,
+  type FaqInput,
 } from "@/lib/admin/textBlocks";
 
 const SECTIONS: FormSection[] = [
   { id: "basics", label: "The basics", icon: "grid" },
+  { id: "overview", label: "Overview & highlights", icon: "compass" },
   { id: "flight", label: "Departure flight", icon: "plane" },
   { id: "hotels", label: "Hotels & meals", icon: "bed" },
   { id: "sightseeing", label: "Sightseeing", icon: "map-route" },
   { id: "itinerary", label: "Itinerary", icon: "calendar" },
   { id: "inclusions", label: "Inclusions & exclusions", icon: "check" },
   { id: "policy", label: "Payment & cancellation", icon: "receipt" },
+  { id: "guide", label: "Travel tips & FAQs", icon: "help-circle" },
 ];
 
 type PackageValues = {
@@ -55,6 +59,12 @@ type PackageValues = {
   cancellation_terms: string[];
   active: boolean;
   display_order: number;
+  overview: string;
+  highlights: string[];
+  ideal_traveller: string;
+  best_season: string;
+  travel_tips: string[];
+  faqs: unknown;
 };
 
 export function PackageForm({
@@ -154,6 +164,36 @@ export function PackageForm({
             type="number"
             defaultValue={defaultValues?.display_order ?? 0}
             hint="Lower numbers show first on the /packages page."
+          />
+        </SectionCard>
+
+        <SectionCard id="overview" icon="compass" title="Overview & highlights" accent="cyan">
+          <AdminTextAreaField
+            label="Overview"
+            name="overview"
+            rows={4}
+            hint="A short paragraph introducing the package — what it is, why it's worth booking."
+            defaultValue={defaultValues?.overview ?? ""}
+          />
+          <AdminTextAreaField
+            label="Highlights"
+            name="highlights"
+            rows={5}
+            hint="One line per highlight."
+            defaultValue={stringifyLines(defaultValues?.highlights)}
+          />
+          <AdminTextAreaField
+            label="Ideal traveller"
+            name="ideal_traveller"
+            rows={3}
+            hint="Who this package genuinely suits — families, honeymooners, first-timers, etc."
+            defaultValue={defaultValues?.ideal_traveller ?? ""}
+          />
+          <AdminTextField
+            label="Best season"
+            name="best_season"
+            hint="E.g. 'November to February, the coolest and driest months.'"
+            defaultValue={defaultValues?.best_season ?? ""}
           />
         </SectionCard>
 
@@ -293,6 +333,24 @@ export function PackageForm({
             rows={4}
             hint="One line per item."
             defaultValue={stringifyLines(defaultValues?.cancellation_terms)}
+          />
+        </SectionCard>
+
+        <SectionCard id="guide" icon="help-circle" title="Travel tips & FAQs" accent="cyan">
+          <AdminTextAreaField
+            label="Travel tips"
+            name="travel_tips"
+            rows={6}
+            hint="One line per tip."
+            defaultValue={stringifyLines(defaultValues?.travel_tips)}
+          />
+          <AdminTextAreaField
+            label="FAQs"
+            name="faqs"
+            rows={10}
+            hint={'Blocks separated by "---". Format:\nQuestion: Is this good for families?\nAnswer: One or two sentences.'}
+            defaultValue={stringifyFaqs(defaultValues?.faqs as FaqInput[])}
+            className="font-mono text-xs"
           />
         </SectionCard>
 
