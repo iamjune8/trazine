@@ -476,6 +476,48 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          address_line1: string
+          address_line2: string
+          city: string
+          country: string
+          email: string
+          hours: string
+          id: string
+          phone: string
+          postal_code: string
+          state: string
+          updated_at: string
+        }
+        Insert: {
+          address_line1: string
+          address_line2?: string
+          city: string
+          country?: string
+          email: string
+          hours?: string
+          id?: string
+          phone: string
+          postal_code: string
+          state: string
+          updated_at?: string
+        }
+        Update: {
+          address_line1?: string
+          address_line2?: string
+          city?: string
+          country?: string
+          email?: string
+          hours?: string
+          id?: string
+          phone?: string
+          postal_code?: string
+          state?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           display_order: number

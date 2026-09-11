@@ -2,7 +2,8 @@
 
 import { Icon } from "@/components/ui/Icon";
 import { trackEvent, trackConversion } from "@/lib/analytics";
-import { site, whatsappLink } from "@/data/site";
+import { whatsappLink } from "@/data/site";
+import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { useEnquiry } from "./EnquiryContext";
 
 /**
@@ -24,6 +25,7 @@ export function StickyMobileBar({
   source: string;
 }) {
   const { open } = useEnquiry();
+  const settings = useSiteSettings();
 
   function handleWhatsApp() {
     trackEvent("whatsapp_click", { source, destination });
@@ -38,9 +40,9 @@ export function StickyMobileBar({
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 flex border-t border-line-2 bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm lg:hidden">
       <a
-        href={site.phoneHref}
+        href={settings.phoneHref}
         onClick={handleCall}
-        aria-label={`Call ${site.phone}`}
+        aria-label={`Call ${settings.phone}`}
         className="flex min-h-[52px] flex-1 items-center justify-center gap-2 border-r border-line-2 text-sm font-medium text-ink-2 transition-colors active:bg-paper-2"
       >
         <Icon name="phone" size={17} aria-hidden="true" />
@@ -48,6 +50,7 @@ export function StickyMobileBar({
       </a>
       <a
         href={whatsappLink(
+          settings.whatsapp,
           destination
             ? `Hello, I'd like to plan a trip to ${destination}.`
             : "Hello, I'd like to plan an international trip.",

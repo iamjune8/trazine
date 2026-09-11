@@ -4,8 +4,9 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 
 /**
  * Where lead notifications land. Deliberately its own env var rather than
- * reusing `site.email` — that one is public-facing (shown on the contact
- * page); this can be pointed at a different inbox later without touching it.
+ * reusing the admin-editable contact email (Settings → Contact email,
+ * shown on the contact page) — this can be pointed at a different inbox
+ * later without touching that.
  */
 const NOTIFY_TO = process.env.LEAD_NOTIFICATION_EMAIL || "travelmagazine24@gmail.com";
 

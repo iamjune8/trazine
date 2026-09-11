@@ -1,10 +1,12 @@
 /**
- * Single source of truth for brand, contact and navigation.
+ * Single source of truth for brand and navigation.
  *
- * Phone, email and address are the company's real details. `legalName`
- * and `social` are still placeholders — replace them here (one file)
- * before go-live; every header, footer, contact page and JSON-LD block
- * reads from this object.
+ * Phone, email, address and hours used to live here too, but are now
+ * editable from the admin panel (Settings) and stored in the
+ * `site_settings` table — see `@/lib/content/siteSettings` for the loader
+ * and `@/components/site/SiteSettingsContext` for how client components
+ * read them. `legalName` and `social` are still placeholders — replace
+ * them here (one file) before go-live.
  */
 
 export const site = {
@@ -15,22 +17,6 @@ export const site = {
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf.",
 
   url: "https://travzine.in",
-
-  email: "ops@travzine.in",
-  phone: "+91 81085 31332",
-  phoneHref: "tel:+918108531332",
-  whatsapp: "918108531332",
-
-  address: {
-    line1: "Unit No F9, Upper Section, First Floor, Kohinoor City Mall",
-    line2: "Premier Road, Kurla West",
-    city: "Mumbai",
-    state: "Maharashtra",
-    postalCode: "400070",
-    country: "India",
-  },
-
-  hours: "Monday – Saturday, 10:00 – 19:00 IST",
 
   social: {
     instagram: "https://instagram.com/",
@@ -47,13 +33,7 @@ export const navLinks = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-export const fullAddress = [
-  site.address.line1,
-  site.address.line2,
-  `${site.address.city} ${site.address.postalCode}`,
-  site.address.country,
-].join(", ");
-
-export function whatsappLink(message: string): string {
-  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
+/** `whatsapp` is the digits-only number from `SiteSettings.whatsapp`. */
+export function whatsappLink(whatsapp: string, message: string): string {
+  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
 }

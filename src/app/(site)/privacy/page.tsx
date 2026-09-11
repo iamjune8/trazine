@@ -5,7 +5,8 @@ import { jsonLdScript } from "@/lib/utils";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container, Section } from "@/components/ui/Layout";
 import { Reveal } from "@/components/motion/Reveal";
-import { site, fullAddress } from "@/data/site";
+import { site } from "@/data/site";
+import { getSiteSettings, type SiteSettings } from "@/lib/content/siteSettings";
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
@@ -16,7 +17,10 @@ export const metadata: Metadata = pageMetadata({
 
 const updated = "16 August 2026";
 
-const sections: { title: string; body: React.ReactNode }[] = [
+function buildSections(
+  settings: SiteSettings,
+): { title: string; body: React.ReactNode }[] {
+  return [
   {
     title: "What this covers",
     body: (
@@ -155,8 +159,8 @@ const sections: { title: string; body: React.ReactNode }[] = [
         </ul>
         <p>
           Email{" "}
-          <a href={`mailto:${site.email}`} className="link-underline text-brass-deep">
-            {site.email}
+          <a href={`mailto:${settings.email}`} className="link-underline text-brass-deep">
+            {settings.email}
           </a>{" "}
           and we&rsquo;ll act on it directly — there&rsquo;s no form to fill in.
         </p>
@@ -189,21 +193,25 @@ const sections: { title: string; body: React.ReactNode }[] = [
     title: "Contact",
     body: (
       <p>
-        {site.legalName}, {fullAddress}. Email{" "}
-        <a href={`mailto:${site.email}`} className="link-underline text-brass-deep">
-          {site.email}
+        {site.legalName}, {settings.fullAddress}. Email{" "}
+        <a href={`mailto:${settings.email}`} className="link-underline text-brass-deep">
+          {settings.email}
         </a>{" "}
         or call{" "}
-        <a href={site.phoneHref} className="link-underline text-brass-deep">
-          {site.phone}
+        <a href={settings.phoneHref} className="link-underline text-brass-deep">
+          {settings.phone}
         </a>
         .
       </p>
     ),
   },
-];
+  ];
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const settings = await getSiteSettings();
+  const sections = buildSections(settings);
+
   return (
     <>
       <script

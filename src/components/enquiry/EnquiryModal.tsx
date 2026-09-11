@@ -5,7 +5,7 @@ import { m, useReducedMotion } from "motion/react";
 import { useEnquiry } from "./EnquiryContext";
 import { EnquiryForm } from "./EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
-import { site } from "@/data/site";
+import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { trackEvent, trackConversion } from "@/lib/analytics";
 
 /**
@@ -21,6 +21,7 @@ import { trackEvent, trackConversion } from "@/lib/analytics";
  */
 export function EnquiryModal() {
   const { isOpen, close, destination, source } = useEnquiry();
+  const settings = useSiteSettings();
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const reduced = useReducedMotion();
@@ -149,14 +150,14 @@ export function EnquiryModal() {
               A consultant replies within one working day with a costed, itemised
               proposal — or call{" "}
               <a
-                href={site.phoneHref}
+                href={settings.phoneHref}
                 onClick={() => {
                   trackEvent("call_click", { source: "enquiry-modal" });
                   trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
                 }}
                 className="link-underline text-brass-deep"
               >
-                {site.phone}
+                {settings.phone}
               </a>{" "}
               if it&rsquo;s urgent.
             </p>

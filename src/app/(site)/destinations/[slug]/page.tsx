@@ -16,7 +16,8 @@ import { Icon } from "@/components/ui/Icon";
 import { photo, photoBlur } from "@/lib/images";
 import { getDestinations, getDestination } from "@/lib/content/destinations";
 import { getPackagesForDestination } from "@/lib/content/packages";
-import { site, whatsappLink } from "@/data/site";
+import { getSiteSettings } from "@/lib/content/siteSettings";
+import { whatsappLink } from "@/data/site";
 import { pageMetadata, breadcrumbJsonLd, truncateAtWord } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
 import {
@@ -90,9 +91,10 @@ export default async function DestinationPage({ params }: Params) {
 
   if (!destination) notFound();
 
-  const [allDestinations, relatedPackages] = await Promise.all([
+  const [allDestinations, relatedPackages, settings] = await Promise.all([
     getDestinations(),
     getPackagesForDestination(destination.slug),
+    getSiteSettings(),
   ]);
 
   const flightTimeFact = destination.facts.find((f) =>
@@ -207,6 +209,7 @@ export default async function DestinationPage({ params }: Params) {
 
                   <TrackedExternalButton
                     href={whatsappLink(
+                      settings.whatsapp,
                       `Hello, I'd like to plan a trip to ${destination.name}.`,
                     )}
                     event="whatsapp_click"
@@ -271,12 +274,12 @@ export default async function DestinationPage({ params }: Params) {
                   <p className="mt-7 text-sm text-ink-3">
                     Or call{" "}
                     <TrackedAnchor
-                      href={site.phoneHref}
+                      href={settings.phoneHref}
                       event="call_click"
                       data={{ source: `destination-${destination.slug}`, destination: destination.name }}
                       className="link-underline text-brass-deep"
                     >
-                      {site.phone}
+                      {settings.phone}
                     </TrackedAnchor>
                   </p>
                 </div>

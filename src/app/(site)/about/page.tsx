@@ -10,7 +10,7 @@ import { Container, Section, SectionHeading } from "@/components/ui/Layout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Icon } from "@/components/ui/Icon";
-import { site, fullAddress } from "@/data/site";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 
 export const metadata: Metadata = pageMetadata({
   title: "About",
@@ -45,7 +45,9 @@ const principles = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSiteSettings();
+
   return (
     <>
       <script
@@ -125,11 +127,11 @@ export default function AboutPage() {
                 <address className="mt-4 space-y-3 not-italic text-ink-2">
                   <p className="flex items-start gap-3">
                     <Icon name="pin" size={17} className="mt-1 shrink-0 text-brass" />
-                    <span>{fullAddress}</span>
+                    <span>{settings.fullAddress}</span>
                   </p>
                   <p className="flex items-start gap-3">
                     <Icon name="clock" size={17} className="mt-1 shrink-0 text-brass" />
-                    <span>{site.hours}</span>
+                    <span>{settings.hours}</span>
                   </p>
                 </address>
               </div>

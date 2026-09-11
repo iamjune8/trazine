@@ -21,6 +21,7 @@ const navLinks: NavLink[] = [
   { href: "/admin/services", label: "Services", icon: "wrench" },
   { href: "/admin/testimonials", label: "Testimonials", icon: "quote" },
   { href: "/admin/faqs", label: "FAQs", icon: "help-circle" },
+  { href: "/admin/settings", label: "Settings", icon: "shield" },
 ];
 
 export default async function AdminDashboardLayout({

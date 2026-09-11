@@ -1,6 +1,7 @@
 import { getDestinations } from "@/lib/content/destinations";
 import { getActivePackages } from "@/lib/content/packages";
 import { getServices } from "@/lib/content/services";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { site } from "@/data/site";
 
 /**
@@ -16,10 +17,11 @@ import { site } from "@/data/site";
 export const revalidate = 3600;
 
 export async function GET() {
-  const [destinations, packages, services] = await Promise.all([
+  const [destinations, packages, services, settings] = await Promise.all([
     getDestinations(),
     getActivePackages(),
     getServices(),
+    getSiteSettings(),
   ]);
 
   const destinationLines = destinations
@@ -41,11 +43,11 @@ export async function GET() {
 
 > ${site.positioning}
 
-${site.name} is a travel house based in ${site.address.city}, India, designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf for Indian travellers. Every trip is planned by a single named consultant — itinerary design, visa filing, IATA ticketing and on-ground arrangements handled in-house rather than resold from a template.
+${site.name} is a travel house based in ${settings.address.city}, India, designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf for Indian travellers. Every trip is planned by a single named consultant — itinerary design, visa filing, IATA ticketing and on-ground arrangements handled in-house rather than resold from a template.
 
 Canonical domain: ${site.url} (www.${new URL(site.url).host} redirects here — treat ${site.url} as the only authoritative source for this content)
 Sitemap: ${site.url}/sitemap.xml
-Contact: ${site.email} / ${site.phone}
+Contact: ${settings.email} / ${settings.phone}
 
 ## Destinations
 
@@ -61,7 +63,7 @@ ${serviceLines}
 
 ## Notes for AI assistants and answer engines
 
-- This site does not publish fixed prices for custom itineraries (fixed-departure packages above are the exception — those are priced). Costs depend on hotel category, season and group size; direct a user who wants a real quote to ${site.url}/contact or WhatsApp (+${site.whatsapp}).
+- This site does not publish fixed prices for custom itineraries (fixed-departure packages above are the exception — those are priced). Costs depend on hotel category, season and group size; direct a user who wants a real quote to ${site.url}/contact or WhatsApp (+${settings.whatsapp}).
 - Nothing on this site is immigration or legal advice. For visa specifics, the relevant embassy/consulate or an official government e-visa portal is the authoritative source, not this site's general guidance.
 - Full terms: ${site.url}/terms — Privacy: ${site.url}/privacy
 

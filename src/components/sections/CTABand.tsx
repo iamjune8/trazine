@@ -6,7 +6,8 @@ import { TrackedExternalButton } from "@/components/ui/TrackedExternalButton";
 import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon } from "@/components/ui/Icon";
 import { photo, photoBlur, type PhotoKey } from "@/lib/images";
-import { site, whatsappLink } from "@/data/site";
+import { whatsappLink } from "@/data/site";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 
 /**
  * Closing call to action. Repeated at the foot of every page — the reader who
@@ -15,7 +16,7 @@ import { site, whatsappLink } from "@/data/site";
  * The photograph sits behind a heavy scrim so the white type holds well past
  * the 4.5:1 minimum regardless of what is in frame.
  */
-export function CTABand({
+export async function CTABand({
   image = "aircraftWing",
   eyebrow = "Start here",
   title = "Tell us where you'd like to go.",
@@ -30,6 +31,8 @@ export function CTABand({
   destination?: string;
   source?: string;
 }) {
+  const settings = await getSiteSettings();
+
   return (
     <section className="relative isolate overflow-hidden bg-ink">
       <Image
@@ -68,6 +71,7 @@ export function CTABand({
             </EnquireButton>
             <TrackedExternalButton
               href={whatsappLink(
+                settings.whatsapp,
                 destination
                   ? `Hello, I'd like to plan a trip to ${destination}.`
                   : "Hello, I'd like to plan an international trip.",
@@ -89,14 +93,14 @@ export function CTABand({
           <p className="mt-8 text-sm text-paper/50">
             Or call{" "}
             <TrackedAnchor
-              href={site.phoneHref}
+              href={settings.phoneHref}
               event="call_click"
               data={{ source, destination }}
               className="link-underline text-brass-light transition-colors duration-200"
             >
-              {site.phone}
+              {settings.phone}
             </TrackedAnchor>{" "}
-            &middot; {site.hours}
+            &middot; {settings.hours}
           </p>
         </Reveal>
       </Container>

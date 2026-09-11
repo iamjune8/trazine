@@ -17,7 +17,7 @@ import {
   type FieldErrors,
   type InquiryInput,
 } from "@/lib/inquiry";
-import { site } from "@/data/site";
+import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { cn } from "@/lib/utils";
 import { trackEvent, trackConversion } from "@/lib/analytics";
 
@@ -80,6 +80,7 @@ export function EnquiryForm({
   onSuccess?: () => void;
 }) {
   const reduced = useReducedMotion();
+  const settings = useSiteSettings();
   const honeypotRef = useRef<HTMLInputElement>(null);
   const [values, setValues] = useState<InquiryInput>({
     ...EMPTY,
@@ -182,14 +183,14 @@ export function EnquiryForm({
           A consultant will be in touch within one working day, usually sooner. If
           your dates are tight, call us on{" "}
           <a
-            href={site.phoneHref}
+            href={settings.phoneHref}
             onClick={() => {
               trackEvent("call_click", { source: "enquiry-success" });
               trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
             }}
             className="link-underline font-medium text-brass-deep"
           >
-            {site.phone}
+            {settings.phone}
           </a>{" "}
           and we&rsquo;ll start straight away.
         </p>

@@ -6,7 +6,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { getDestinations } from "@/lib/content/destinations";
 import { getServices } from "@/lib/content/services";
-import { site, fullAddress, navLinks } from "@/data/site";
+import { getSiteSettings } from "@/lib/content/siteSettings";
+import { site, navLinks } from "@/data/site";
 
 /**
  * The site footer, with a scroll-reveal effect on large screens: the dark
@@ -50,7 +51,11 @@ const socials: { name: IconName; href: string; label: string }[] = [
 
 export async function Footer() {
   const year = new Date().getFullYear();
-  const [destinations, services] = await Promise.all([getDestinations(), getServices()]);
+  const [destinations, services, settings] = await Promise.all([
+    getDestinations(),
+    getServices(),
+    getSiteSettings(),
+  ]);
 
   return (
     <footer
@@ -76,30 +81,30 @@ export async function Footer() {
 
                 <address className="mt-9 space-y-4 not-italic">
                   <TrackedAnchor
-                    href={site.phoneHref}
+                    href={settings.phoneHref}
                     event="call_click"
                     data={{ source: "footer" }}
                     className="flex items-start gap-3 text-paper/80 transition-colors duration-200 hover:text-brass-light"
                   >
                     <Icon name="phone" size={17} className="mt-1 shrink-0 text-brass-light" />
-                    <span>{site.phone}</span>
+                    <span>{settings.phone}</span>
                   </TrackedAnchor>
                   <TrackedAnchor
-                    href={`mailto:${site.email}`}
+                    href={`mailto:${settings.email}`}
                     event="email_click"
                     data={{ source: "footer" }}
                     className="flex items-start gap-3 text-paper/80 transition-colors duration-200 hover:text-brass-light"
                   >
                     <Icon name="mail" size={17} className="mt-1 shrink-0 text-brass-light" />
-                    <span className="break-all">{site.email}</span>
+                    <span className="break-all">{settings.email}</span>
                   </TrackedAnchor>
                   <p className="flex items-start gap-3 text-paper/65">
                     <Icon name="pin" size={17} className="mt-1 shrink-0 text-brass-light" />
-                    <span>{fullAddress}</span>
+                    <span>{settings.fullAddress}</span>
                   </p>
                   <p className="flex items-start gap-3 text-paper/65">
                     <Icon name="clock" size={17} className="mt-1 shrink-0 text-brass-light" />
-                    <span>{site.hours}</span>
+                    <span>{settings.hours}</span>
                   </p>
                 </address>
               </Reveal>

@@ -9,8 +9,10 @@ import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
 import { EnquiryModalGate } from "@/components/enquiry/EnquiryModalGate";
 import { PublicMotionProvider } from "@/components/motion/PublicMotionProvider";
+import { SiteSettingsProvider } from "@/components/site/SiteSettingsContext";
 import { site } from "@/data/site";
 import { getDestinations } from "@/lib/content/destinations";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { jsonLdScript } from "@/lib/utils";
 
 /**
@@ -97,7 +99,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const destinations = await getDestinations();
+  const [destinations, settings] = await Promise.all([getDestinations(), getSiteSettings()]);
 
   /** Local-business structured data, so the Mumbai office surfaces in search. */
   const organisationJsonLd = {
@@ -106,19 +108,23 @@ export default async function RootLayout({
     name: site.name,
     legalName: site.legalName,
     url: site.url,
-    telephone: site.phone,
-    email: site.email,
+    telephone: settings.phone,
+    email: settings.email,
     slogan: site.slogan,
     description: site.positioning,
     address: {
       "@type": "PostalAddress",
-      streetAddress: `${site.address.line1}, ${site.address.line2}`,
-      addressLocality: site.address.city,
-      addressRegion: site.address.state,
-      postalCode: site.address.postalCode,
+      streetAddress: `${settings.address.line1}, ${settings.address.line2}`,
+      addressLocality: settings.address.city,
+      addressRegion: settings.address.state,
+      postalCode: settings.address.postalCode,
       addressCountry: "IN",
     },
     areaServed: destinations.flatMap((d) => d.places.map((p) => p.name)),
+    // Deliberately not derived from `settings.hours` — that field is a
+    // free-text display string (e.g. "Monday – Saturday, 10:00 – 19:00
+    // IST"), and reliably converting arbitrary text to schema.org's
+    // "Mo-Sa 10:00-19:00" format isn't something to guess at silently.
     openingHours: "Mo-Sa 10:00-19:00",
   };
 
@@ -178,14 +184,16 @@ export default async function RootLayout({
             its own module (see PublicMotionProvider) so it's a genuinely
             separate chunk, not deduped into the same one as admin's domMax. */}
         <PublicMotionProvider>
-          <EnquiryProvider>
-            <Header />
-            <main id="main" className="flex-1">
-              {children}
-            </main>
-            <Footer />
-            <EnquiryModalGate />
-          </EnquiryProvider>
+          <SiteSettingsProvider settings={settings}>
+            <EnquiryProvider>
+              <Header />
+              <main id="main" className="flex-1">
+                {children}
+              </main>
+              <Footer />
+              <EnquiryModalGate />
+            </EnquiryProvider>
+          </SiteSettingsProvider>
         </PublicMotionProvider>
       </body>
       {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}

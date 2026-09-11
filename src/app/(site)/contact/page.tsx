@@ -9,7 +9,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon, type IconName } from "@/components/ui/Icon";
-import { site, fullAddress, whatsappLink } from "@/data/site";
+import { whatsappLink } from "@/data/site";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
@@ -19,7 +20,7 @@ export const metadata: Metadata = pageMetadata({
   image: "/images/other/contact-cta.jpg",
 });
 
-const channels: {
+type Channel = {
   icon: IconName;
   label: string;
   value: string;
@@ -28,37 +29,41 @@ const channels: {
   event: string;
   conversionLabel?: string;
   external?: boolean;
-}[] = [
-  {
-    icon: "phone",
-    label: "Call",
-    value: site.phone,
-    href: site.phoneHref,
-    note: site.hours,
-    event: "call_click",
-    conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL,
-  },
-  {
-    icon: "whatsapp",
-    label: "WhatsApp",
-    value: site.phone,
-    href: whatsappLink("Hello, I'd like to plan an international trip."),
-    note: "Usually answered within the hour",
-    event: "whatsapp_click",
-    conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP,
-    external: true,
-  },
-  {
-    icon: "mail",
-    label: "Email",
-    value: site.email,
-    href: `mailto:${site.email}`,
-    note: "Replies within one working day",
-    event: "email_click",
-  },
-];
+};
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+
+  const channels: Channel[] = [
+    {
+      icon: "phone",
+      label: "Call",
+      value: settings.phone,
+      href: settings.phoneHref,
+      note: settings.hours,
+      event: "call_click",
+      conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL,
+    },
+    {
+      icon: "whatsapp",
+      label: "WhatsApp",
+      value: settings.phone,
+      href: whatsappLink(settings.whatsapp, "Hello, I'd like to plan an international trip."),
+      note: "Usually answered within the hour",
+      event: "whatsapp_click",
+      conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP,
+      external: true,
+    },
+    {
+      icon: "mail",
+      label: "Email",
+      value: settings.email,
+      href: `mailto:${settings.email}`,
+      note: "Replies within one working day",
+      event: "email_click",
+    },
+  ];
+
   return (
     <>
       <script
@@ -152,11 +157,11 @@ export default function ContactPage() {
                   <address className="mt-4 space-y-3 not-italic text-ink-2">
                     <p className="flex items-start gap-3">
                       <Icon name="pin" size={17} className="mt-1 shrink-0 text-brass" />
-                      <span>{fullAddress}</span>
+                      <span>{settings.fullAddress}</span>
                     </p>
                     <p className="flex items-start gap-3">
                       <Icon name="clock" size={17} className="mt-1 shrink-0 text-brass" />
-                      <span>{site.hours}</span>
+                      <span>{settings.hours}</span>
                     </p>
                   </address>
                   <p className="mt-5 text-sm text-ink-3">
@@ -167,10 +172,11 @@ export default function ContactPage() {
 
                 <div className="mt-6 aspect-[4/3] w-full overflow-hidden border border-line-2">
                   <iframe
-                    // ftid pins the verified "Travel Magazine" Google Business
-                    // listing itself, resolved from the office's Google Maps
-                    // share link — more reliable than geocoding the address text.
-                    src="https://www.google.com/maps?q=Travel+Magazine,+Kohinoor+City+Mall,+Kurla+West,+Mumbai&ftid=0x3be7c996ea9bcf41:0xe16e7d34f7dc83b5&output=embed"
+                    // Built from the address in Settings, so editing the
+                    // address there re-pins this map automatically — trades
+                    // away the exact verified-listing pin a Place ID would
+                    // give for a field that can never go stale.
+                    src={settings.mapsEmbedUrl}
                     title="Map showing the Travel Magazine office location"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"

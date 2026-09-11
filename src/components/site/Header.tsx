@@ -8,6 +8,7 @@ import { Logo } from "./Logo";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { useEnquiry } from "@/components/enquiry/EnquiryContext";
+import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { navLinks, site } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { trackEvent, trackConversion } from "@/lib/analytics";
@@ -33,6 +34,7 @@ function hasDarkHero(pathname: string): boolean {
 export function Header() {
   const pathname = usePathname();
   const { open } = useEnquiry();
+  const settings = useSiteSettings();
   const reduced = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -125,7 +127,7 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             <a
-              href={site.phoneHref}
+              href={settings.phoneHref}
               onClick={() => {
                 trackEvent("call_click", { source: "header" });
                 trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
@@ -138,7 +140,7 @@ export function Header() {
               )}
             >
               <Icon name="phone" size={15} />
-              <span>{site.phone}</span>
+              <span>{settings.phone}</span>
             </a>
 
             <Button
@@ -217,7 +219,7 @@ export function Header() {
                   Plan your journey
                 </Button>
                 <a
-                  href={site.phoneHref}
+                  href={settings.phoneHref}
                   onClick={() => {
                     trackEvent("call_click", { source: "mobile-menu" });
                     trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
@@ -225,15 +227,15 @@ export function Header() {
                   className="mt-5 flex min-h-[44px] items-center gap-3 text-ink-2"
                 >
                   <Icon name="phone" size={17} className="text-brass" />
-                  {site.phone}
+                  {settings.phone}
                 </a>
                 <a
-                  href={`mailto:${site.email}`}
+                  href={`mailto:${settings.email}`}
                   onClick={() => trackEvent("email_click", { source: "mobile-menu" })}
                   className="mt-1 flex min-h-[44px] items-center gap-3 text-ink-2"
                 >
                   <Icon name="mail" size={17} className="text-brass" />
-                  {site.email}
+                  {settings.email}
                 </a>
               </div>
             </nav>
