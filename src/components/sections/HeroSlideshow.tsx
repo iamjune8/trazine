@@ -75,7 +75,7 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
               fill
               // Slide 0 is the LCP element; the rest can load lazily and will
               // still be ready well before their turn six seconds in.
-              priority={i === 0}
+              preload={i === 0}
               loading={i === 0 ? undefined : "lazy"}
               sizes="100vw"
               quality={75}
