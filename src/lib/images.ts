@@ -111,6 +111,14 @@ export const photos = {
   japanTokyoNeon: "/images/catalogue/japanTokyoNeon.jpg", // wet neon-lit street at night, Tokyo
   japanKyotoTemple: "/images/catalogue/japanKyotoTemple.jpg", // red temple near water, Kyoto
 
+  // ── Saudi Arabia ──
+  saudiHegraTomb: "/images/catalogue/saudiHegraTomb.jpg", // Nabataean tomb carved into sandstone, Hegra, AlUla
+  saudiAlulaOasis: "/images/catalogue/saudiAlulaOasis.jpg", // palm oasis below sandstone mountains, AlUla
+  saudiRiyadhSkyline: "/images/catalogue/saudiRiyadhSkyline.jpg", // Riyadh skyline at night, Kingdom Tower lit up
+  saudiAseerMountains: "/images/catalogue/saudiAseerMountains.jpg", // green highland mountains, Abha, Aseer region
+  saudiJeddahMosque: "/images/catalogue/saudiJeddahMosque.jpg", // Al-Rahma floating mosque on Jeddah's Corniche
+  saudiTabukDesert: "/images/catalogue/saudiTabukDesert.jpg", // Hisma Desert sandstone mesas at sunset, Tabuk province
+
   // ── Kazakhstan ──
   kazakhstanAlmatySkyline: "/images/catalogue/kazakhstanAlmatySkyline.jpg", // Almaty city below the snow-capped Tian Shan range
   kazakhstanMountainLake: "/images/catalogue/kazakhstanMountainLake.jpg", // alpine lake ringed by mountains near Almaty
