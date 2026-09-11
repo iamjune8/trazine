@@ -70,6 +70,7 @@ export function SectionHeading({
   align = "left",
   onDark = false,
   className,
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: ReactNode;
@@ -77,6 +78,10 @@ export function SectionHeading({
   align?: "left" | "center";
   onDark?: boolean;
   className?: string;
+  /** Defaults to h2 (a section opener within a page that has its own h1
+      elsewhere). Pass "h1" only when this is the page's sole top-level
+      heading — e.g. a listing page with no MediaHeader/Hero of its own. */
+  as?: "h1" | "h2";
 }) {
   return (
     <Reveal
@@ -89,14 +94,14 @@ export function SectionHeading({
       {eyebrow ? (
         <p className={cn("eyebrow", onDark && "eyebrow-on-dark")}>{eyebrow}</p>
       ) : null}
-      <h2
+      <Heading
         className={cn(
           "font-display mt-5 text-[length:var(--step-h2)]",
           onDark ? "text-paper" : "text-ink",
         )}
       >
         {title}
-      </h2>
+      </Heading>
       {lede ? (
         <p
           className={cn(

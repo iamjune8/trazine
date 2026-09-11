@@ -26,6 +26,7 @@ export default async function PackagesPage() {
     <Section className="pt-32 sm:pt-40">
       <Container>
         <SectionHeading
+          as="h1"
           eyebrow="Fixed departures"
           title="Packages ready to book"
           lede="Flights, stay and sightseeing bundled into one price, with real departure dates and seat counts — pick one and enquire, and we confirm it within a working day."

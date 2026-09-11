@@ -107,6 +107,24 @@ const nextConfig = {
       },
     ];
   },
+  // Both travzine.in and www.travzine.in currently resolve (Hostinger's DNS
+  // points both at this app) — a classic duplicate-content problem, since
+  // search engines see two copies of every page at two hosts. travzine.in
+  // (no www) is the canonical domain everywhere else in this codebase
+  // (site.url in src/data/site.ts, every canonical/OG/JSON-LD URL derives
+  // from it), so this is the enforcement side: any request that arrives on
+  // the www host gets a permanent redirect to the same path on the apex
+  // domain, before it ever reaches a page.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.travzine.in" }],
+        destination: "https://travzine.in/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);
