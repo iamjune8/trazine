@@ -1,7 +1,7 @@
 "use client";
 
 import type { ComponentProps } from "react";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 
 /**
  * A plain `<a>` that reports a data-layer event on click before navigating.
@@ -13,17 +13,22 @@ import { trackEvent } from "@/lib/analytics";
 export function TrackedAnchor({
   event,
   data,
+  conversionLabel,
   onClick,
   ...rest
 }: ComponentProps<"a"> & {
   event: string;
   data?: Record<string, unknown>;
+  /** A NEXT_PUBLIC_GOOGLE_ADS_LABEL_* value — also fires a Google Ads
+      conversion on click when set. */
+  conversionLabel?: string;
 }) {
   return (
     <a
       {...rest}
       onClick={(e) => {
         trackEvent(event, data);
+        trackConversion(conversionLabel);
         onClick?.(e);
       }}
     />

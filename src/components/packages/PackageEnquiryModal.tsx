@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import { Turnstile } from "@/components/ui/Turnstile";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /**
@@ -224,6 +224,12 @@ function PackageEnquiryPanel({
       trackEvent("generate_lead", {
         source: `package-${summary.slug}`,
         destination: summary.packageName,
+      });
+      trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_LEAD, {
+        value: summary.estTotal,
+        currency: summary.currency,
+        email,
+        phone,
       });
       setStatus("success");
     } catch {

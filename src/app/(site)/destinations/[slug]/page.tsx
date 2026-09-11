@@ -209,6 +209,7 @@ export default async function DestinationPage({ params }: Params) {
                     )}
                     event="whatsapp_click"
                     data={{ source: `destination-${destination.slug}`, destination: destination.name }}
+                    conversionLabel={process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP}
                     variant="outline"
                     className="mt-3 w-full"
                   >

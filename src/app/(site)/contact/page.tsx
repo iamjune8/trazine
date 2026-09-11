@@ -26,6 +26,7 @@ const channels: {
   href: string;
   note: string;
   event: string;
+  conversionLabel?: string;
   external?: boolean;
 }[] = [
   {
@@ -35,6 +36,7 @@ const channels: {
     href: site.phoneHref,
     note: site.hours,
     event: "call_click",
+    conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL,
   },
   {
     icon: "whatsapp",
@@ -43,6 +45,7 @@ const channels: {
     href: whatsappLink("Hello, I'd like to plan an international trip."),
     note: "Usually answered within the hour",
     event: "whatsapp_click",
+    conversionLabel: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP,
     external: true,
   },
   {
@@ -115,6 +118,7 @@ export default function ContactPage() {
                         href={channel.href}
                         event={channel.event}
                         data={{ source: "contact-page" }}
+                        conversionLabel={channel.conversionLabel}
                         {...(channel.external
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}

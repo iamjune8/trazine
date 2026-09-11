@@ -6,7 +6,7 @@ import { useEnquiry } from "./EnquiryContext";
 import { EnquiryForm } from "./EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
 import { site } from "@/data/site";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 
 /**
  * Enquiry dialog.
@@ -150,7 +150,10 @@ export function EnquiryModal() {
               proposal — or call{" "}
               <a
                 href={site.phoneHref}
-                onClick={() => trackEvent("call_click", { source: "enquiry-modal" })}
+                onClick={() => {
+                  trackEvent("call_click", { source: "enquiry-modal" });
+                  trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
+                }}
                 className="link-underline text-brass-deep"
               >
                 {site.phone}

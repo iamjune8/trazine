@@ -74,6 +74,7 @@ export function CTABand({
               )}
               event="whatsapp_click"
               data={{ source, destination }}
+              conversionLabel={process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP}
               size="lg"
               variant="ghost"
               className="px-6 text-paper/80 hover:text-paper sm:px-6"

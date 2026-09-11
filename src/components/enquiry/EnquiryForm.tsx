@@ -19,7 +19,7 @@ import {
 } from "@/lib/inquiry";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 
 /**
  * The one enquiry form, used inside the modal, on the contact page and in
@@ -148,6 +148,10 @@ export function EnquiryForm({
       if (!response.ok) throw new Error(`Request failed (${response.status})`);
 
       trackEvent("generate_lead", { source, destination: values.destination });
+      trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_LEAD, {
+        email: values.email,
+        phone: values.phone,
+      });
       setStatus("success");
       onSuccess?.();
     } catch {
@@ -179,7 +183,10 @@ export function EnquiryForm({
           your dates are tight, call us on{" "}
           <a
             href={site.phoneHref}
-            onClick={() => trackEvent("call_click", { source: "enquiry-success" })}
+            onClick={() => {
+              trackEvent("call_click", { source: "enquiry-success" });
+              trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
+            }}
             className="link-underline font-medium text-brass-deep"
           >
             {site.phone}

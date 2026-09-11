@@ -1,6 +1,6 @@
 "use client";
 
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 import { base, sizes, variants, Inner } from "./Button";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +22,7 @@ export function TrackedExternalButton({
   className,
   children,
   withArrow,
+  conversionLabel,
 }: {
   href: string;
   event: string;
@@ -31,13 +32,20 @@ export function TrackedExternalButton({
   children: React.ReactNode;
   className?: string;
   withArrow?: boolean;
+  /** A NEXT_PUBLIC_GOOGLE_ADS_LABEL_* value — pass this to also fire a
+      Google Ads conversion on click (WhatsApp buttons pass the WhatsApp
+      label; a plain external link with no conversion meaning omits it). */
+  conversionLabel?: string;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => trackEvent(event, data)}
+      onClick={() => {
+        trackEvent(event, data);
+        trackConversion(conversionLabel);
+      }}
       className={cn(base, sizes[size], variants[variant], className)}
     >
       <Inner withArrow={withArrow}>{children}</Inner>

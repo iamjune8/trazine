@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { useEnquiry } from "@/components/enquiry/EnquiryContext";
 import { navLinks, site } from "@/data/site";
 import { cn } from "@/lib/utils";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackConversion } from "@/lib/analytics";
 
 /**
  * Sticky header that adapts to what is beneath it.
@@ -126,7 +126,10 @@ export function Header() {
           <div className="flex items-center gap-2">
             <a
               href={site.phoneHref}
-              onClick={() => trackEvent("call_click", { source: "header" })}
+              onClick={() => {
+                trackEvent("call_click", { source: "header" });
+                trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
+              }}
               className={cn(
                 "hidden items-center gap-2 px-3 py-2.5 text-[0.8125rem] tracking-wide transition-colors duration-200 xl:inline-flex",
                 transparent
@@ -215,7 +218,10 @@ export function Header() {
                 </Button>
                 <a
                   href={site.phoneHref}
-                  onClick={() => trackEvent("call_click", { source: "mobile-menu" })}
+                  onClick={() => {
+                    trackEvent("call_click", { source: "mobile-menu" });
+                    trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CALL);
+                  }}
                   className="mt-5 flex min-h-[44px] items-center gap-3 text-ink-2"
                 >
                   <Icon name="phone" size={17} className="text-brass" />
