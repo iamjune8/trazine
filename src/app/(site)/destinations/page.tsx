@@ -13,7 +13,7 @@ import { getPremiumDestinations, getEasyDestinations } from "@/lib/content/desti
 export const metadata: Metadata = pageMetadata({
   title: "Destinations",
   description:
-    "Two ways to travel with us: a Premium Luxury circuit across the whole of Europe and Japan, or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal, Kenya, Kazakhstan and Saudi Arabia.",
+    "Two ways to travel with us: Premium Luxury — a multi-country Europe circuit, plus standalone trips to Japan and Saudi Arabia — or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya.",
   path: "/destinations",
   image: "/images/destinations/dubai-1.jpg",
 });
@@ -57,14 +57,15 @@ export default async function DestinationsPage() {
           <Reveal className="max-w-3xl">
             <p className="text-lg leading-relaxed text-ink-2">
               Below are the two shelves of our catalogue. <strong className="font-medium text-ink">Premium Luxury</strong>{" "}
-              covers the whole of Europe as one circuit — seventeen countries, routed
-              together and narrowed down to the two or three that belong in your trip —
-              built for travellers with the time and budget for something grand.{" "}
-              <strong className="font-medium text-ink">Easy &amp; Affordable</strong> covers
-              Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka,
-              Nepal and Kenya, each its own destination — short flights, straightforward
-              visas, and a holiday that doesn&rsquo;t need two weeks of leave to feel
-              complete.
+              covers the whole of Europe as one multi-country circuit — seventeen
+              countries, routed together and narrowed down to the two or three that
+              belong in your trip — alongside standalone premium trips to Japan and
+              Saudi Arabia, each planned with the same unhurried, no-price-cutting
+              approach. <strong className="font-medium text-ink">Easy &amp; Affordable</strong>{" "}
+              covers Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives,
+              Sri Lanka, Nepal and Kenya, each its own destination — short flights,
+              straightforward visas, and a holiday that doesn&rsquo;t need two weeks of
+              leave to feel complete.
             </p>
             <p className="mt-6 text-lg leading-relaxed text-ink-2">
               Neither is a lesser version of the other. They serve different trips, and we
@@ -76,19 +77,22 @@ export default async function DestinationsPage() {
         </Container>
       </Section>
 
-      {/* ── Premium Luxury — Europe ─────────────────────────────────────── */}
+      {/* ── Premium Luxury — Europe's multi-country circuit, plus Japan and
+             Saudi Arabia as standalone premium trips ──────────────────────── */}
       <Section tone="ink" id="premium" className="scroll-mt-24">
         <Container>
           <Reveal className="max-w-2xl">
             <p className="eyebrow eyebrow-on-dark">Tier one</p>
             <h2 className="font-display mt-5 text-[length:var(--step-h2)] text-paper">
-              Premium Luxury — the whole of Europe, one circuit
+              Premium Luxury — grand circuits, and standalone trips planned the same way
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-paper/75">
-              One page, seventeen countries, mostly under a single Schengen visa. Ten to
-              sixteen nights, two or three bases chosen from wherever in Europe you want to
-              go, and the kind of pace where a country gets the days it deserves rather
-              than a single rushed stop.
+              Europe is the one page, seventeen-country circuit — mostly under a single
+              Schengen visa, ten to sixteen nights, two or three bases chosen from
+              wherever you want to go. Japan and Saudi Arabia sit in the same tier as
+              their own standalone trips: no rushed stops, no price-first planning,
+              just the same unhurried approach applied to a single country instead of
+              a circuit.
             </p>
           </Reveal>
 
