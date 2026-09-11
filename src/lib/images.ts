@@ -106,6 +106,13 @@ export const photos = {
   japanTokyoNeon: "1601042879364-f3947d3f9c16", // wet neon-lit street at night, Tokyo
   japanKyotoTemple: "1558870832-c8db4b5b47d1", // red temple near water, Kyoto
 
+  // ── Kazakhstan ──
+  kazakhstanAlmatySkyline: "1659651117607-d2b397cf100f", // Almaty city below the snow-capped Tian Shan range
+  kazakhstanMountainLake: "1530480667809-b655d4dc3aaa", // alpine lake ringed by mountains near Almaty
+  kazakhstanCharynCanyon: "1702920375620-24aa8b8e42f6", // Charyn Canyon's red rock formations
+  kazakhstanBayterekTower: "1677842296338-eeb8c866d22c", // Bayterek Tower, Astana
+  kazakhstanSteppeYurt: "1783303391423-0085f18dc50e", // yurt on the green steppe below the mountains
+
   // ── Editorial / brand ──
   aircraftWing: "1436491865332-7a61a109cc05", // wing above cloud at sunrise
   planningFlatlay: "/images/other/planning-flatlay.jpg", // AI-generated map, notebook and camera flat-lay
