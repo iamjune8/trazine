@@ -13,6 +13,7 @@ import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
 import { PackageFAQSection, RelatedPackagesRail } from "@/components/packages/PackageGuide";
 import { CTABand } from "@/components/sections/CTABand";
+import { site } from "@/data/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -63,6 +64,37 @@ export default async function PackagePage({ params }: Params) {
     getActivePackages(),
   ]);
 
+  // Any un-sold-out departure with seats means the package is genuinely
+  // bookable right now; an empty departures list also counts as in-stock —
+  // it just means no dates are published yet, not that the package is dead.
+  // Deliberately no AggregateRating/Review here — this site has no real
+  // review data to attach to a package, and fabricating one is exactly the
+  // kind of fake structured data Google's spam policies penalise.
+  const hasAvailableDeparture =
+    pkg.departures.length === 0 ||
+    pkg.departures.some((d) => !d.soldOut && d.seatsLeft > 0);
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pkg.name,
+    description: pkg.overview || `${pkg.name}, ${pkg.nightsSummary}, ex-${pkg.departureCity}.`,
+    image: pkg.heroImage
+      ? pkg.heroImage.startsWith("http")
+        ? pkg.heroImage
+        : `${site.url}${pkg.heroImage}`
+      : undefined,
+    offers: {
+      "@type": "Offer",
+      url: `${site.url}/packages/${pkg.slug}`,
+      priceCurrency: pkg.currency,
+      price: pkg.basePrice,
+      availability: hasAvailableDeparture
+        ? "https://schema.org/InStock"
+        : "https://schema.org/SoldOut",
+    },
+  };
+
   return (
     <>
       <script
@@ -76,6 +108,10 @@ export default async function PackagePage({ params }: Params) {
             ]),
           ),
         }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(productJsonLd) }}
       />
       <Section className="pb-16 pt-32 sm:pb-20 sm:pt-40">
         <Container>
