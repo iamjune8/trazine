@@ -206,7 +206,7 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Overview, highlights, who it suits ── */}
               {pkg.overview || pkg.highlights.length > 0 || pkg.idealTraveller ? (
                 <Reveal delay={0.03} className="mt-6">
-                  <PackagePanel title="Overview" icon="compass">
+                  <PackagePanel title="Overview" icon="compass" accent="brass">
                     {pkg.overview ? (
                       <p className="text-ink-2">{pkg.overview}</p>
                     ) : null}
@@ -246,37 +246,53 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Flight details ── */}
               {pkg.flightsIncluded ? (
                 <Reveal delay={0.05} className="mt-6">
-                  <PackagePanel title="Flight details" icon="plane">
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div className="border border-line-2 bg-paper-2 p-5">
-                        <p className="flex items-center gap-2 text-sm font-medium text-ink">
-                          <Icon name="plane" size={16} className="text-brass-deep" />
-                          Onward
-                        </p>
-                        <p className="mt-3 text-ink">
-                          {pkg.flightCarrier} {pkg.onwardFlightNumber}
-                        </p>
-                        <p className="mt-1 text-ink-2">{pkg.onwardRoute}</p>
-                        <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
-                          <Icon name="clock" size={14} />
-                          Departure: {pkg.onwardDepartureTime}
-                        </p>
+                  <PackagePanel title="Flight details" icon="plane" accent="info">
+                    {pkg.onwardRoute || pkg.returnRoute ? (
+                      <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="border border-line-2 bg-paper-2 p-5">
+                          <p className="flex items-center gap-2 text-sm font-medium text-ink">
+                            <Icon name="plane" size={16} className="text-info" />
+                            Onward
+                          </p>
+                          <p className="mt-3 text-ink">
+                            {pkg.flightCarrier} {pkg.onwardFlightNumber}
+                          </p>
+                          <p className="mt-1 text-ink-2">{pkg.onwardRoute}</p>
+                          {pkg.onwardDepartureTime ? (
+                            <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
+                              <Icon name="clock" size={14} />
+                              Departure: {pkg.onwardDepartureTime}
+                            </p>
+                          ) : null}
+                        </div>
+                        <div className="border border-line-2 bg-paper-2 p-5">
+                          <p className="flex items-center gap-2 text-sm font-medium text-ink">
+                            <Icon name="plane" size={16} className="rotate-180 text-info" />
+                            Return
+                          </p>
+                          <p className="mt-3 text-ink">
+                            {pkg.flightCarrier} {pkg.returnFlightNumber}
+                          </p>
+                          <p className="mt-1 text-ink-2">{pkg.returnRoute}</p>
+                          {pkg.returnDepartureTime ? (
+                            <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
+                              <Icon name="clock" size={14} />
+                              Departure: {pkg.returnDepartureTime}
+                            </p>
+                          ) : null}
+                        </div>
                       </div>
-                      <div className="border border-line-2 bg-paper-2 p-5">
-                        <p className="flex items-center gap-2 text-sm font-medium text-ink">
-                          <Icon name="plane" size={16} className="rotate-180 text-brass-deep" />
-                          Return
-                        </p>
-                        <p className="mt-3 text-ink">
-                          {pkg.flightCarrier} {pkg.returnFlightNumber}
-                        </p>
-                        <p className="mt-1 text-ink-2">{pkg.returnRoute}</p>
-                        <p className="mt-3 flex items-center gap-2 text-sm text-ink-3">
-                          <Icon name="clock" size={14} />
-                          Departure: {pkg.returnDepartureTime}
-                        </p>
-                      </div>
-                    </div>
+                    ) : (
+                      // Exact flight numbers/times aren't always set at the
+                      // time a package is first published — a plain
+                      // carrier line beats showing empty onward/return
+                      // fields until a consultant fills those in.
+                      <p className="flex items-center gap-2 text-ink-2">
+                        <Icon name="plane" size={16} className="text-info" />
+                        International and domestic flights included
+                        {pkg.flightCarrier ? `, operated by ${pkg.flightCarrier}` : ""}.
+                      </p>
+                    )}
                   </PackagePanel>
                 </Reveal>
               ) : null}
@@ -284,14 +300,14 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Hotels & meal plan ── */}
               {pkg.hotels.length > 0 ? (
                 <Reveal delay={0.08} className="mt-6">
-                  <PackagePanel title="Hotels & meal plan" icon="bed">
+                  <PackagePanel title="Hotels & meal plan" icon="bed" accent="violet">
                     <ul className="space-y-4">
                       {pkg.hotels.map((hotel, i) => (
                         <li
                           key={i}
                           className="flex flex-wrap items-start gap-4 border border-line-2 bg-paper-2 p-5"
                         >
-                          <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line-2 bg-paper text-ink-3">
+                          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet/10 text-violet">
                             <Icon name="bed" size={18} />
                           </span>
                           <div className="min-w-0 flex-1">
@@ -321,14 +337,14 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Sightseeing ── */}
               {pkg.sightseeing.length > 0 ? (
                 <Reveal delay={0.1} className="mt-6">
-                  <PackagePanel title="Sightseeing" icon="map-route">
+                  <PackagePanel title="Sightseeing" icon="map-route" accent="amber">
                     <ul className="space-y-3">
                       {pkg.sightseeing.map((item) => (
                         <li key={item} className="flex items-start gap-3">
                           <Icon
                             name="check"
                             size={16}
-                            className="mt-0.5 shrink-0 text-success"
+                            className="mt-0.5 shrink-0 text-amber"
                           />
                           <span className="text-ink-2">{item}</span>
                         </li>
@@ -341,11 +357,11 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Itinerary ── */}
               {pkg.itinerary.length > 0 ? (
                 <Reveal delay={0.12} className="mt-6">
-                  <PackagePanel title="Itinerary" icon="calendar">
+                  <PackagePanel title="Itinerary" icon="calendar" accent="indigo">
                     <ol className="space-y-7">
                       {pkg.itinerary.map((day, i) => (
-                        <li key={i} className="border-l-2 border-line-2 pl-5">
-                          <p className="font-display text-lg text-ink">{day.title}</p>
+                        <li key={i} className="border-l-2 border-indigo/25 pl-5">
+                          <p className="font-display text-lg text-indigo">{day.title}</p>
                           <ul className="mt-2 space-y-1.5">
                             {day.lines.map((line, j) => (
                               <li key={j} className="text-ink-2">
@@ -366,7 +382,12 @@ export default async function PackagePage({ params }: Params) {
                   <h2 className="font-display text-xl text-ink">Detailed inclusions</h2>
                   <div className="mt-6 grid gap-8 sm:grid-cols-2">
                     <div>
-                      <p className="eyebrow">Inclusions</p>
+                      <p className="eyebrow flex items-center gap-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
+                          <Icon name="check" size={14} />
+                        </span>
+                        Inclusions
+                      </p>
                       <ul className="mt-4 space-y-2.5">
                         {pkg.inclusions.map((item) => (
                           <li key={item} className="flex items-start gap-2.5 text-ink-2">
@@ -381,7 +402,12 @@ export default async function PackagePage({ params }: Params) {
                       </ul>
                     </div>
                     <div>
-                      <p className="eyebrow">Exclusions</p>
+                      <p className="eyebrow flex items-center gap-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-danger/10 text-danger">
+                          <Icon name="close" size={14} />
+                        </span>
+                        Exclusions
+                      </p>
                       <ul className="mt-4 space-y-2.5">
                         {pkg.exclusions.map((item) => (
                           <li key={item} className="flex items-start gap-2.5 text-ink-2">
@@ -402,7 +428,7 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Payment & cancellation ── */}
               {(pkg.paymentTerms.length > 0 || pkg.cancellationTerms.length > 0) ? (
                 <Reveal delay={0.16} className="mt-6">
-                  <PackagePanel title="Payment & cancellation policy" icon="receipt">
+                  <PackagePanel title="Payment & cancellation policy" icon="receipt" accent="teal">
                     <div className="grid gap-8 sm:grid-cols-2">
                       {pkg.paymentTerms.length > 0 ? (
                         <div>
@@ -432,14 +458,14 @@ export default async function PackagePage({ params }: Params) {
               {/* ── Travel tips ── */}
               {pkg.travelTips.length > 0 ? (
                 <Reveal delay={0.18} className="mt-6">
-                  <PackagePanel title="Travel tips" icon="sparkle">
+                  <PackagePanel title="Travel tips" icon="sparkle" accent="rose">
                     <ul className="space-y-3">
                       {pkg.travelTips.map((tip) => (
                         <li key={tip} className="flex items-start gap-2.5 text-ink-2">
                           <Icon
                             name="check"
                             size={16}
-                            className="mt-0.5 shrink-0 text-brass"
+                            className="mt-0.5 shrink-0 text-rose"
                           />
                           {tip}
                         </li>

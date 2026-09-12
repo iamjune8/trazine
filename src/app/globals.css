@@ -74,6 +74,20 @@
   --color-success: #2f6b45;
   --color-danger: #a02c1f;
 
+  /* ── Package-page section accents ──────────────────────────────────────
+   * A deliberately small, named set — not a general-purpose palette. Used
+   * only to tell apart the fixed set of package-page sections (flights,
+   * hotels, sightseeing, itinerary, payment terms, travel tips) at a
+   * glance; every other part of the site still reads through brass alone.
+   * Each is picked dark/saturated enough to hold body-text contrast on
+   * paper, the same bar brass/success/danger above are held to. */
+  --color-info: #1d5f8f; /* flights */
+  --color-violet: #6d4a93; /* hotels */
+  --color-amber: #a1501a; /* sightseeing */
+  --color-indigo: #40488f; /* itinerary */
+  --color-teal: #1f6b5c; /* payment & cancellation */
+  --color-rose: #9c3a63; /* travel tips */
+
   /* ── Type ── */
   --font-display: var(--font-playfair), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
