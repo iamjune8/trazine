@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Container, Section } from "@/components/ui/Layout";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { PackagePanel } from "@/components/packages/PackagePanel";
 import { PackageBookingCard } from "@/components/packages/PackageBookingCard";
@@ -12,6 +13,7 @@ import { getPackages, getPackage, getActivePackages } from "@/lib/content/packag
 import { getDestination } from "@/lib/content/destinations";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
+import { photo, photoBlur } from "@/lib/images";
 import { PackageFAQSection, RelatedPackagesRail } from "@/components/packages/PackageGuide";
 import { CTABand } from "@/components/sections/CTABand";
 import { site } from "@/data/site";
@@ -202,6 +204,39 @@ export default async function PackagePage({ params }: Params) {
                   </ul>
                 </div>
               </Reveal>
+
+              {/* ── Gallery — the linked destination's own photo set, so a
+                  package page shows more than the single hero image without
+                  needing separate photos entered per package. Local catalogue
+                  files only (no Unsplash), same as everywhere else on the
+                  site. ── */}
+              {destination && destination.gallery.length > 0 ? (
+                <Reveal delay={0.02} className="mt-6">
+                  <Stagger
+                    as="ul"
+                    className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+                  >
+                    {destination.gallery.map((key, index) => (
+                      <StaggerItem
+                        as="li"
+                        key={key}
+                        className="relative aspect-[4/3] overflow-hidden bg-paper-3"
+                      >
+                        <Image
+                          src={photo(key, 700)}
+                          alt={`${destination.name} — photograph ${index + 1}`}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 19vw"
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL={photoBlur(key)}
+                          className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05]"
+                        />
+                      </StaggerItem>
+                    ))}
+                  </Stagger>
+                </Reveal>
+              ) : null}
 
               {/* ── Overview, highlights, who it suits ── */}
               {pkg.overview || pkg.highlights.length > 0 || pkg.idealTraveller ? (
