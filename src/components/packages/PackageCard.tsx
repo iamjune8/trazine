@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
+import { PackageHeroImage } from "./PackageHeroImage";
 import type { TourPackage } from "@/lib/content/packages";
 
 function formatMoney(amount: number, currency: string) {
@@ -21,10 +22,10 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
     >
       {pkg.heroImage ? (
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-3">
-          {/* eslint-disable-next-line @next/next/no-img-element -- admin-pasted URL from any host */}
-          <img
+          <PackageHeroImage
             src={pkg.heroImage}
             alt={pkg.name}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
         </div>

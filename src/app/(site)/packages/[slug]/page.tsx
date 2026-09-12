@@ -7,6 +7,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { PackagePanel } from "@/components/packages/PackagePanel";
 import { PackageBookingCard } from "@/components/packages/PackageBookingCard";
+import { PackageHeroImage } from "@/components/packages/PackageHeroImage";
 import { getPackages, getPackage, getActivePackages } from "@/lib/content/packages";
 import { getDestination } from "@/lib/content/destinations";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
@@ -139,10 +140,11 @@ export default async function PackagePage({ params }: Params) {
               <Reveal>
                 {pkg.heroImage ? (
                   <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden bg-ink-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- admin-pasted URL from any host */}
-                    <img
+                    <PackageHeroImage
                       src={pkg.heroImage}
                       alt={pkg.name}
+                      sizes="(max-width: 1024px) 100vw, 58vw"
+                      priority
                       className="h-full w-full object-cover"
                     />
                   </div>
