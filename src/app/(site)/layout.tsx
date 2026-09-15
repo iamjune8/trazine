@@ -156,6 +156,19 @@ export default async function RootLayout({
     >
       {gtmContainerId && <GoogleTagManager gtmId={gtmContainerId} />}
       <body className="flex min-h-dvh flex-col">
+        {/* @next/third-parties' GoogleTagManager only injects the gtm.js
+            script, not this fallback — GTM's own snippet ships both, so it's
+            added here to match. */}
+        {gtmContainerId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmContainerId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
         {/* Marks the document as scripted BEFORE the body paints. Every
             scroll-reveal's hidden state is scoped to `.js`, so if this never
             runs — scripting disabled, bundle blocked — the page renders fully
