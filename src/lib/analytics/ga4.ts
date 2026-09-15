@@ -3,7 +3,7 @@ import { cache } from "react";
 
 /**
  * Server-only GA4 Data API client for /admin/analytics. Reads the same
- * property the public site's gtag snippet writes to (NEXT_PUBLIC_GA_
+ * property GTM's GA4 Configuration tag writes to (NEXT_PUBLIC_GA_
  * MEASUREMENT_ID) via a service account granted Viewer access — see
  * .env.example for how that's provisioned. Every exported function is
  * resilient by design: a missing/misconfigured credential or a failed

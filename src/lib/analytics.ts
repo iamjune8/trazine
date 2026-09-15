@@ -1,45 +1,43 @@
 /**
- * Reports an event to whichever tag is actually listening.
+ * Reports an event to GTM by pushing it onto dataLayer — the sole tracking
+ * pipe for this codebase. GTM (NEXT_PUBLIC_GTM_CONTAINER_ID) owns GA4
+ * entirely: its own GA4 Configuration tag initializes the property, and its
+ * GA4 event tags trigger off these pushes via GTM's Custom Event trigger.
  *
- * Previously this only pushed a plain object ({event, ...data}) onto
- * dataLayer — the format Google Tag Manager's container script watches for.
- * That's fine once a GTM container is live, but this site currently has
- * NEXT_PUBLIC_GA_MEASUREMENT_ID set and NEXT_PUBLIC_GTM_CONTAINER_ID unset
- * (see .env.local) — bare GA4 via gtag.js, no GTM. gtag.js's own dataLayer
- * processing loop only understands *its* command format (arguments arrays
- * starting with 'event'/'config'/'js', pushed by calling `gtag(...)`), not
- * GTM's plain-object convention. So every call_click/whatsapp_click/
- * generate_lead event fired by this codebase has been landing in the
- * dataLayer array and then going precisely nowhere — not reaching GA4, not
- * reaching Google Ads, silently.
- *
- * Fix: call `window.gtag(...)` directly when it exists (true the moment
- * <GoogleAnalytics> from @next/third-parties has rendered), which is the
- * correct, working call for a bare-GA4 setup. Also still push the
- * GTM-shaped object, so nothing needs touching here if a GTM container is
- * added later instead of/alongside gtag.js.
+ * This used to also call `window.gtag(...)` directly, as a second pipe for
+ * when GA4 ran bare (no GTM container). Once GTM went live, that became
+ * actively harmful rather than redundant: `gtag()` is itself implemented as
+ * `dataLayer.push(arguments)`, so the direct call landed a *second*,
+ * differently-shaped entry in the same dataLayer GTM already reads from —
+ * satisfying GTM's Custom Event trigger a second time and double-firing
+ * every GA4 tag (confirmed via GTM Preview: generate_lead firing twice per
+ * submission). Now there is exactly one push per call, so exactly one tag
+ * fire per event.
  */
 export function trackEvent(event: string, data?: Record<string, unknown>) {
   if (typeof window === "undefined") return;
 
   window.dataLayer = window.dataLayer ?? [];
   window.dataLayer.push({ event, ...data });
-
-  if (typeof window.gtag === "function") {
-    window.gtag("event", event, data);
-  }
 }
 
 /**
- * Fires a Google Ads conversion alongside the GA4 event above. Inert until
- * NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID is set (same "safe to call
- * unconditionally, does nothing until configured" pattern as GA4/GTM/
- * Turnstile/Resend elsewhere in this codebase) — every call site below can
- * call this without an `if` guard.
+ * Pushes a dataLayer event a Google Ads Conversion Tracking tag inside GTM
+ * can trigger on. Inert until both NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID and
+ * a conversion label are set (same "safe to call unconditionally, does
+ * nothing until configured" pattern as GA4/GTM/Turnstile/Resend elsewhere in
+ * this codebase) — every call site below can call this without an `if`
+ * guard.
  *
- * `email`/`phone` enable Google Ads' Enhanced Conversions for leads: gtag.js
- * hashes them client-side before sending, this code never transmits them in
- * the clear and never stores them — see
+ * Previously called `gtag('event', 'conversion', ...)` directly — a second
+ * tracking pipe entirely outside GTM, invisible to the container the same
+ * way the old trackEvent() gtag call was. The actual Ads conversion tag
+ * (built from the conversion ID + label) now lives in GTM, triggered off
+ * this push instead.
+ *
+ * `email`/`phone` are passed through unhashed for GTM's own Enhanced
+ * Conversions / User-Provided Data variable to hash — this code never
+ * transmits them anywhere itself, same guarantee as before — see
  * https://support.google.com/google-ads/answer/9888656
  */
 export function trackConversion(
@@ -50,26 +48,23 @@ export function trackConversion(
 ) {
   if (typeof window === "undefined" || !conversionLabel) return;
   const conversionId = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID;
-  if (!conversionId || typeof window.gtag !== "function") return;
+  if (!conversionId) return;
 
   const { value, currency = "INR", email, phone } = options ?? {};
 
-  if (email || phone) {
-    window.gtag("set", "user_data", {
-      ...(email ? { email } : {}),
-      ...(phone ? { phone_number: phone } : {}),
-    });
-  }
-
-  window.gtag("event", "conversion", {
-    send_to: `${conversionId}/${conversionLabel}`,
+  window.dataLayer = window.dataLayer ?? [];
+  window.dataLayer.push({
+    event: "ads_conversion",
+    conversion_id: conversionId,
+    conversion_label: conversionLabel,
     ...(value !== undefined ? { value, currency } : {}),
+    ...(email ? { email } : {}),
+    ...(phone ? { phone } : {}),
   });
 }
 
 declare global {
   interface Window {
     dataLayer?: Record<string, unknown>[];
-    gtag?: (...args: unknown[]) => void;
   }
 }

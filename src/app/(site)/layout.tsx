@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import Script from "next/script";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "../globals.css";
 
 import { Header } from "@/components/site/Header";
@@ -85,13 +85,12 @@ export const viewport: Viewport = {
 };
 
 /**
- * Both read from env so analytics stays fully inert — no script tag, no
- * network request — until an ID is actually set. Fill these in via
- * `.env.local` (see `.env.example`) once tracking is ready to go live; no
- * code change needed here. If both are set, configure GA4 as a tag inside
- * GTM rather than sending pageviews through both, to avoid double-counting.
+ * Reads from env so analytics stays fully inert — no script tag, no network
+ * request — until a container ID is actually set. GTM is the sole GA4
+ * initializer: its GA4 Configuration tag owns G-P3BJPKEXYZ, so there is no
+ * separate direct gtag.js/<GoogleAnalytics> component here to double-init
+ * the same property.
  */
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
 
 export default async function RootLayout({
@@ -209,7 +208,6 @@ export default async function RootLayout({
           </SiteSettingsProvider>
         </PublicMotionProvider>
       </body>
-      {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
     </html>
   );
 }

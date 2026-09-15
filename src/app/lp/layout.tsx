@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "../globals.css";
 
 import { SiteSettingsProvider } from "@/components/site/SiteSettingsContext";
@@ -21,9 +21,11 @@ import { site } from "@/data/site";
  *   pages at all, not even the trimmed domAnimation bundle the rest of the
  *   site uses
  *
- * GA4/GTM/the fonts are still loaded — tracking and brand typography matter
- * here just as much as anywhere else, they're just not shared code with the
- * (site) layout since this is a separate document root.
+ * GTM/the fonts are still loaded — tracking and brand typography matter here
+ * just as much as anywhere else, they're just not shared code with the
+ * (site) layout since this is a separate document root. GA4 itself is
+ * initialized once, inside GTM's own GA4 Configuration tag — not duplicated
+ * here via a direct gtag.js component.
  */
 
 const playfair = Playfair_Display({
@@ -51,7 +53,6 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
 
 export default async function LandingLayout({
@@ -80,7 +81,6 @@ export default async function LandingLayout({
         )}
         <SiteSettingsProvider settings={settings}>{children}</SiteSettingsProvider>
       </body>
-      {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
     </html>
   );
 }
