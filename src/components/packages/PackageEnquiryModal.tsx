@@ -175,6 +175,11 @@ function PackageEnquiryPanel({
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Re-entrancy guard — see the matching comment in EnquiryForm.tsx: the
+    // submit button's `disabled` lags one render behind this handler
+    // starting, so a fast double-click can invoke it twice before that
+    // commit. `status` is read fresh on every render, closing that race.
+    if (status === "submitting") return;
     setServerError(null);
 
     const nextErrors: Record<string, string> = {};

@@ -108,6 +108,14 @@ export function EnquiryForm({
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Re-entrancy guard: the submit button's `disabled` only takes effect
+    // once React commits the next render, which lags slightly behind this
+    // handler starting — a fast double-click/double-tap can invoke this
+    // twice before that commit. `status` is read fresh on every render, so
+    // the second invocation sees "submitting" here even before the DOM
+    // reflects it, closing that race (confirmed cause of a real duplicate
+    // generate_lead + ads_conversion push per user-perceived submission).
+    if (status === "submitting") return;
     setServerError(null);
 
     if (hasErrors(allErrors)) {
