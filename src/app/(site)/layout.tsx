@@ -153,8 +153,14 @@ export default async function RootLayout({
       // scroll position instead of resetting to the top.
       data-scroll-behavior="smooth"
     >
-      {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
       <body className="flex min-h-dvh flex-col">
+        {/* Must be inside <body> — <html> can only contain <head> and
+            <body>, and unlike afterInteractive (which Next.js portals into
+            place regardless of where it's rendered), beforeInteractive is
+            rendered in the JSX tree as-is; placing it as a sibling of
+            <body> produced an invalid <script> child of <html> and a real
+            hydration error. */}
+        {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
         {gtmContainerId && (
           <noscript>
             <iframe

@@ -41,31 +41,34 @@ const nextConfig = {
   // Hostinger/CDN layer, so it's applied here instead.
   //
   // The CSP below was written after auditing every third party this app
-  // actually loads: GA4 (script + beacons to *.google-analytics.com and
-  // googletagmanager.com), the Contact page's Google Maps iframe, and
-  // Unsplash destination photography. GTM isn't in the allowlist — it's
-  // only rendered when NEXT_PUBLIC_GTM_CONTAINER_ID is set, which it
-  // currently isn't; add https://www.googletagmanager.com to connect-src
-  // if that changes. Resend and Supabase never need an entry here — both
-  // only run server-side (Server Actions/API routes), so the browser never
-  // talks to them directly and CSP (a browser-only mechanism) doesn't
+  // actually loads: GTM (script/connect to googletagmanager.com), GA4 and
+  // Google Ads' own conversion tag inside that container (beacons/scripts
+  // to *.google-analytics.com, doubleclick.net and googleads.g.doubleclick.net
+  // — added once a live Ads conversion tag existed and was confirmed
+  // CSP-blocked), the Contact page's Google Maps iframe, and Unsplash
+  // destination photography. Resend and Supabase never need an entry here —
+  // both only run server-side (Server Actions/API routes), so the browser
+  // never talks to them directly and CSP (a browser-only mechanism) doesn't
   // apply.
   //
-  // script-src allows 'unsafe-inline' rather than a hash or nonce: this
-  // site uses next/script's `beforeInteractive` strategy for one inline
-  // script (marks <html> as scripted before first paint, avoiding a flash
-  // of hidden content on scroll-reveal elements). Next.js injects that
-  // through its own internal bootstrap code at runtime rather than a
-  // static <script> tag, so a hash would be pinned to Next's internal
-  // implementation and could silently break on a framework upgrade; a
-  // nonce needs a fresh value per request, which conflicts with this
-  // app's static/ISR-cached pages (home, about, destinations). If this
-  // app moves to nonce-based CSP later, every cached route needs to
-  // become dynamic first, or the nonce would go stale in the cached HTML.
+  // script-src allows 'unsafe-inline' rather than a hash or nonce: this site
+  // uses next/script's `beforeInteractive` strategy for a couple of inline
+  // scripts (GTM's bootstrap; marking <html> as scripted before first paint,
+  // avoiding a flash of hidden content on scroll-reveal elements). Next.js
+  // injects those through its own internal bootstrap code at runtime rather
+  // than a static <script> tag, so a hash would be pinned to Next's internal
+  // implementation and could silently break on a framework upgrade; a nonce
+  // needs a fresh value per request, which conflicts with this app's
+  // static/ISR-cached pages (home, about, destinations). If this app moves
+  // to nonce-based CSP later, every cached route needs to become dynamic
+  // first, or the nonce would go stale in the cached HTML.
   async headers() {
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com",
+      // googleads.g.doubleclick.net: the Google Ads conversion tag GTM
+      // loads (viewthroughconversion) — added once a live Ads conversion
+      // tag existed in the container; confirmed blocked/failing before this.
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com https://googleads.g.doubleclick.net",
       "style-src 'self' 'unsafe-inline'",
       // www.google.com and www.google.co.in: GA4's ad-audience-sync pixel
       // (/ads/ga-audiences), which loads as an <img>, not a fetch — and
@@ -78,7 +81,9 @@ const nextConfig = {
       // GA4's actual collect beacon fans out across several Google-owned
       // domains depending on browser/consent signals — confirmed by testing
       // a real production build, not assumed from docs.
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com",
+      // ad.doubleclick.net: the Ads conversion tag's own collect beacon,
+      // same batch as googleads.g.doubleclick.net above.
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com",
       "frame-src https://www.google.com https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",

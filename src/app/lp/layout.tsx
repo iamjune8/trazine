@@ -64,8 +64,11 @@ export default async function LandingLayout({
 
   return (
     <html lang="en-IN" className={`${playfair.variable} ${inter.variable}`}>
-      {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
       <body className="flex min-h-dvh flex-col bg-paper">
+        {/* Must be inside <body> — see the matching comment in
+            (site)/layout.tsx: placing it as a sibling of <body> produced an
+            invalid <script> child of <html> and a real hydration error. */}
+        {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
         {gtmContainerId && (
           <noscript>
             <iframe
