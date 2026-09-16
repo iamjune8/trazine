@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import Script from "next/script";
-import { GoogleTagManager } from "@next/third-parties/google";
 import "../globals.css";
 
+import { GtmScript } from "@/components/analytics/GtmScript";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
@@ -153,11 +153,8 @@ export default async function RootLayout({
       // scroll position instead of resetting to the top.
       data-scroll-behavior="smooth"
     >
-      {gtmContainerId && <GoogleTagManager gtmId={gtmContainerId} />}
+      {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
       <body className="flex min-h-dvh flex-col">
-        {/* @next/third-parties' GoogleTagManager only injects the gtm.js
-            script, not this fallback — GTM's own snippet ships both, so it's
-            added here to match. */}
         {gtmContainerId && (
           <noscript>
             <iframe

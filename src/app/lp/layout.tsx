@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
-import { GoogleTagManager } from "@next/third-parties/google";
 import "../globals.css";
 
+import { GtmScript } from "@/components/analytics/GtmScript";
 import { SiteSettingsProvider } from "@/components/site/SiteSettingsContext";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { site } from "@/data/site";
@@ -64,11 +64,8 @@ export default async function LandingLayout({
 
   return (
     <html lang="en-IN" className={`${playfair.variable} ${inter.variable}`}>
-      {gtmContainerId && <GoogleTagManager gtmId={gtmContainerId} />}
+      {gtmContainerId && <GtmScript gtmId={gtmContainerId} />}
       <body className="flex min-h-dvh flex-col bg-paper">
-        {/* @next/third-parties' GoogleTagManager only injects the gtm.js
-            script, not this fallback — GTM's own snippet ships both, so it's
-            added here to match. */}
         {gtmContainerId && (
           <noscript>
             <iframe
