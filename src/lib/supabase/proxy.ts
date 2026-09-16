@@ -41,8 +41,16 @@ export async function updateSession(request: NextRequest) {
   const isAuthRoute =
     request.nextUrl.pathname.startsWith("/admin/login") ||
     request.nextUrl.pathname.startsWith("/admin/signup");
+  // Supabase's password-recovery redirect lands here with the session token
+  // in the URL fragment, which the server never sees — only the client-side
+  // Supabase SDK can read and exchange it after the page loads. This route
+  // needs to skip the "no session → login" redirect below (like the auth
+  // routes do) but, unlike them, must NOT bounce a visitor away once that
+  // exchange succeeds and `user` becomes truthy — that's exactly when they
+  // need to still be on this page to set their new password.
+  const isResetPasswordRoute = request.nextUrl.pathname.startsWith("/admin/reset-password");
 
-  if (isAdminRoute && !isAuthRoute && !user) {
+  if (isAdminRoute && !isAuthRoute && !isResetPasswordRoute && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     return NextResponse.redirect(url);
