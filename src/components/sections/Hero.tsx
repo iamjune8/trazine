@@ -92,8 +92,9 @@ export async function Hero() {
         <div className="animate-rise mt-9 max-w-xl" style={{ animationDelay: "0.95s" }}>
           <p className="text-lg leading-relaxed text-paper/85">
             Grand circuits across Europe, or easy, affordable escapes across Asia
-            and the Gulf — private itineraries, visas filed in-house, and one
-            consultant with you from the first call until you are home.
+            and the Gulf — private itineraries, visa paperwork guided end to
+            end, and one consultant with you from the first call until you are
+            home.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">

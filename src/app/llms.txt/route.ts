@@ -43,7 +43,7 @@ export async function GET() {
 
 > ${site.positioning}
 
-${site.name} is a travel house based in ${settings.address.city}, India, designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf for Indian travellers. Every trip is planned by a single named consultant — itinerary design, visa filing, IATA ticketing and on-ground arrangements handled in-house rather than resold from a template.
+${site.name} is a travel house based in ${settings.address.city}, India, designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf for Indian travellers. Every trip is planned by a single named consultant — itinerary design, visa assistance, IATA ticketing and on-ground arrangements handled directly rather than resold from a template.
 
 Canonical domain: ${site.url} (www.${new URL(site.url).host} redirects here — treat ${site.url} as the only authoritative source for this content)
 Sitemap: ${site.url}/sitemap.xml

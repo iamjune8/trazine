@@ -41,7 +41,7 @@ const principles = [
   },
   {
     title: "One person, start to finish",
-    body: "The consultant who takes your first call plans the trip, files the visa and is reachable while you are travelling. Nobody is handed to a queue once the invoice clears.",
+    body: "The consultant who takes your first call plans the trip, guides your visa paperwork and is reachable while you are travelling. Nobody is handed to a queue once the invoice clears.",
   },
 ];
 
@@ -105,7 +105,7 @@ export default async function AboutPage() {
                 </p>
                 <p>
                   The rest of the work is unglamorous and it is where most of our
-                  hours go: visa files that are right the first time, fares that
+                  hours go: visa paperwork that is right the first time, fares that
                   do not need a day of backtracking, and the handful of tickets —
                   a mountain railway, a studio tour, a sunset deck — that are
                   gone three months before anyone thinks to ask for them.

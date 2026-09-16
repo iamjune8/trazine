@@ -21,7 +21,7 @@ export const metadata: Metadata = pageMetadata({
   title:
     "Travel Magazine — Europe tour packages & easy Asia getaways from India",
   description:
-    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visas filed in-house, IATA ticketing, and one consultant throughout.",
+    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visa assistance, IATA ticketing, and one consultant throughout.",
   path: "/",
   image: "/images/destinations/dubai-hero.jpg",
 });
