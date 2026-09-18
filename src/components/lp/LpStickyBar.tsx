@@ -10,6 +10,10 @@ import { useSiteSettings } from "@/components/site/SiteSettingsContext";
  * scrolls to the inline form instead of opening a modal — this route tree
  * has no EnquiryProvider (see src/app/lp/layout.tsx for why), and a modal
  * would be one more chunk of JS a page built to load fast doesn't need.
+ *
+ * `lg:hidden` matches StickyMobileBar's own convention exactly — mobile/
+ * tablet only, hidden from `lg` (1024px) up. Missing here previously, which
+ * left this bar rendered at full desktop width.
  */
 export function LpStickyBar({
   destination,
@@ -35,7 +39,7 @@ export function LpStickyBar({
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 flex border-t border-line-2 bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm">
+    <div className="fixed inset-x-0 bottom-0 z-40 flex border-t border-line-2 bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm lg:hidden">
       <a
         href={settings.phoneHref}
         onClick={handleCall}

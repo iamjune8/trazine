@@ -139,6 +139,13 @@ export const approach = [
 export const stats = [
   { value: "5", suffix: "+", label: "Years planning journeys" },
   { value: "1,000", suffix: "+", label: "Happy customers" },
-  { value: "96", suffix: "%", label: "Visa applications approved first time" },
+  // Replaced an unsupported "96% visa applications approved" claim — flagged
+  // during a Google Ads landing-page audit as both an unverifiable stat and
+  // wording that reads as a government-document-service claim. IATA
+  // accreditation is a real, already-stated credential (see the ticketing
+  // service description and FAQ elsewhere in this file), not a number, so it
+  // renders as a static value with no count-up (Counter no-ops on non-numeric
+  // values — see src/components/motion/Counter.tsx).
+  { value: "IATA", suffix: "", label: "Accredited ticketing agency" },
   { value: "1", suffix: "", label: "Named consultant per journey" },
 ] as const;
