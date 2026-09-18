@@ -148,7 +148,7 @@ export function EnquiryModal() {
             </h2>
             <p className="mt-4 max-w-xl text-ink-2">
               A consultant replies within one working day with a costed, itemised
-              proposal — or call{" "}
+              proposal — or{" "}
               <a
                 href={settings.phoneHref}
                 onClick={() => {
@@ -157,7 +157,7 @@ export function EnquiryModal() {
                 }}
                 className="link-underline text-brass-deep"
               >
-                {settings.phone}
+                call us
               </a>{" "}
               if it&rsquo;s urgent.
             </p>

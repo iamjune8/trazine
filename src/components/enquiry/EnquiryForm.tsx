@@ -189,7 +189,7 @@ export function EnquiryForm({
         </h3>
         <p className="mx-auto mt-4 max-w-md text-ink-2">
           A consultant will be in touch within one working day, usually sooner. If
-          your dates are tight, call us on{" "}
+          your dates are tight,{" "}
           <a
             href={settings.phoneHref}
             onClick={() => {
@@ -198,7 +198,7 @@ export function EnquiryForm({
             }}
             className="link-underline font-medium text-brass-deep"
           >
-            {settings.phone}
+            call us
           </a>{" "}
           and we&rsquo;ll start straight away.
         </p>
@@ -252,7 +252,6 @@ export function EnquiryForm({
           required
           autoComplete="tel"
           inputMode="tel"
-          placeholder="+91 81085 31332"
           hint="We'll call at a time that suits you."
           value={values.phone}
           error={visibleErrors.phone}
@@ -266,7 +265,6 @@ export function EnquiryForm({
           required
           autoComplete="email"
           inputMode="email"
-          placeholder="you@example.com"
           value={values.email}
           error={visibleErrors.email}
           onChange={(e) => update("email", e.target.value)}

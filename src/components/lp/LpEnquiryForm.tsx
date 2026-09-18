@@ -159,7 +159,6 @@ export function LpEnquiryForm({ destination, source }: { destination: string; so
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="+91 81085 31332"
         />
         <TextField
           label="Email"
@@ -168,7 +167,6 @@ export function LpEnquiryForm({ destination, source }: { destination: string; so
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
         />
         <SelectField
           label="Preferred travel month"
