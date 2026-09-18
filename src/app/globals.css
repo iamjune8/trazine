@@ -573,6 +573,34 @@ body {
   animation: status-glow 1.6s ease-in-out infinite;
 }
 
+/* Silent, zero-duration animations used only as an event hook: Chrome/Safari
+   fire `animationstart` when their native autofill styling engages or lifts,
+   which is otherwise the only reliable signal that a field gained a value
+   without a React input/change event (autofill can bypass those). Field.tsx
+   listens for these names to keep a floating label up over an autofilled
+   value. Scoped to `.field-control` so it never touches admin inputs. */
+@keyframes field-autofill-start {
+  from,
+  to {
+    opacity: 1;
+  }
+}
+@keyframes field-autofill-cancel {
+  from,
+  to {
+    opacity: 1;
+  }
+}
+.field-control:autofill,
+.field-control:-webkit-autofill {
+  animation-name: field-autofill-start;
+  animation-duration: 1ms;
+}
+.field-control:not(:autofill):not(:-webkit-autofill) {
+  animation-name: field-autofill-cancel;
+  animation-duration: 1ms;
+}
+
 /* ── Reduced motion ───────────────────────────────────────────────────────
    A global kill switch. Components ALSO check useReducedMotion() so that
    JS-driven values (ken-burns scale, parallax) never even start. */

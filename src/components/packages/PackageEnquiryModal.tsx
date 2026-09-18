@@ -4,19 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion } from "motion/react";
 import { Icon } from "@/components/ui/Icon";
 import { Turnstile } from "@/components/ui/Turnstile";
+import { Button } from "@/components/ui/Button";
+import { TextField, TextAreaField } from "@/components/ui/Field";
 import { trackEvent, trackConversion } from "@/lib/analytics";
-import { cn } from "@/lib/utils";
 
 /**
  * A dedicated enquiry dialog for the package booking flow — deliberately not
  * the site-wide <EnquiryModal>. That one is a wide, editorial, multi-section
  * form built for someone still deciding where to go; this one opens with the
  * decision already made (package, date, pax, price all fixed by the booking
- * card), so it's a compact confirmation-style card that summarises the
- * booking back before asking only for who's asking: name, mobile, email,
- * an optional note. Rounded corners and a boxed summary panel are used
- * nowhere else on the site, on purpose — it should read as "checkout", not
- * as another editorial page.
+ * card), so it's a compact confirmation-style card that summarises the trip
+ * back before asking only for who's asking: name, mobile, email, an optional
+ * note. Compact sizing and the boxed summary panel are the only things that
+ * still set it apart from the rest of the site — everything else (fields,
+ * type, focus, buttons) is the shared Travzine language, since this is an
+ * enquiry a consultant follows up on, not a checkout that takes payment.
  */
 
 export type PackageEnquirySummary = {
@@ -128,13 +130,13 @@ export function PackageEnquiryModal({
             : { opacity: 0, y: 20, scale: 0.98 }
         }
         transition={{ duration: reduced ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
-        className="relative max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-2xl bg-paper p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:p-8"
+        className="relative max-h-[92dvh] w-full max-w-md overflow-y-auto bg-paper p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:p-8"
       >
             <button
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute right-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-ink-3 transition-colors duration-200 hover:bg-paper-2 hover:text-ink"
+              className="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center text-ink-3 transition-colors duration-200 hover:text-ink"
             >
               <Icon name="close" size={20} />
             </button>
@@ -253,48 +255,44 @@ function PackageEnquiryPanel({
         className="py-6 text-center"
         role="status"
       >
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success/10 text-success">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-brass text-brass-deep">
           <Icon name="check" size={26} />
         </span>
-        <h2 className="mt-6 text-xl font-semibold text-ink">Enquiry sent — we&rsquo;ve got it.</h2>
+        <h2 className="font-display mt-6 text-xl text-ink">Enquiry sent — we&rsquo;ve got it.</h2>
         <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-ink-2">
           A consultant will call or email you within one working day to confirm this departure
           and lock your seats.
         </p>
-        <button
-          type="button"
-          onClick={onClose}
-          className="mt-7 cursor-pointer rounded-lg bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 hover:bg-brass-deep"
-        >
+        <Button type="button" onClick={onClose} className="mt-7">
           Done
-        </button>
+        </Button>
       </m.div>
     );
   }
 
   return (
     <>
-      <h2 id="package-enquiry-title" className="pr-8 text-xl font-semibold text-ink">
-        Submit enquiry
+      <h2 id="package-enquiry-title" className="font-display pr-8 text-xl text-ink">
+        Enquire about this trip
       </h2>
 
-      <div className="mt-5 rounded-xl border border-line-2 bg-paper-2 p-5">
+      <div className="mt-5 border border-line-2 bg-paper-2 p-5">
         <p className="text-sm font-medium text-ink">
           {summary.packageName}
           {summary.departureCode ? ` | ${summary.departureCode}` : ""}
         </p>
         <div className="mt-4 flex items-start justify-between gap-4 text-sm">
           <div>
-            <p className="text-ink-3">Departure:</p>
+            <p className="text-ink-3">Departure</p>
             <p className="mt-0.5 font-medium text-ink">{summary.departureDateLabel}</p>
           </div>
           <div className="text-right">
-            <p className="text-ink-3">Pax:</p>
+            <p className="text-ink-3">Travellers</p>
             <p className="mt-0.5 font-medium text-ink">{summary.pax}</p>
           </div>
         </div>
         <div className="mt-4 flex items-baseline justify-between border-t border-line-2 pt-4">
-          <p className="text-sm text-ink-3">Est. Total:</p>
+          <p className="text-sm text-ink-3">Estimated price</p>
           <p className="text-xl font-semibold text-brass-deep">{summary.estTotalLabel}</p>
         </div>
       </div>
@@ -311,17 +309,19 @@ function PackageEnquiryPanel({
         />
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <ModalField
-            label="Customer Name"
+          <TextField
+            label="Your name"
+            name="name"
             required
             value={name}
             error={errors.name}
-            placeholder="Your name"
+            placeholder="e.g. Ananya Deshmukh"
             autoComplete="name"
-            onChange={(v) => setName(v)}
+            onChange={(e) => setName(e.target.value)}
           />
-          <ModalField
-            label="Mobile Number (10 digits)"
+          <TextField
+            label="Phone"
+            name="phone"
             required
             type="tel"
             inputMode="tel"
@@ -329,12 +329,13 @@ function PackageEnquiryPanel({
             error={errors.phone}
             placeholder="9876543210"
             autoComplete="tel"
-            onChange={(v) => setPhone(v)}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
 
-        <ModalField
+        <TextField
           label="Email"
+          name="email"
           required
           type="email"
           inputMode="email"
@@ -342,26 +343,21 @@ function PackageEnquiryPanel({
           error={errors.email}
           placeholder="you@example.com"
           autoComplete="email"
-          onChange={(v) => setEmail(v)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <div>
-          <label htmlFor="package-enquiry-notes" className="block text-sm font-medium text-ink">
-            Special Requests (Optional)
-          </label>
-          <textarea
-            id="package-enquiry-notes"
-            rows={3}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Any special requirements or questions…"
-            className="mt-2 w-full resize-y rounded-lg border border-line-2 bg-paper px-3.5 py-3 text-sm text-ink placeholder:text-ink-3/70 transition-colors duration-200 focus:border-brass-deep focus:outline-none focus:ring-2 focus:ring-brass-deep/25"
-          />
-        </div>
+        <TextAreaField
+          label="Special requests"
+          name="notes"
+          rows={3}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="Any special requirements or questions…"
+        />
 
         {serverError ? (
           <p
-            className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger"
+            className="flex items-start gap-2 border-l-2 border-danger bg-danger/5 px-4 py-3 text-sm text-danger"
             role="alert"
           >
             <Icon name="close" size={16} className="mt-0.5 shrink-0" />
@@ -375,62 +371,14 @@ function PackageEnquiryPanel({
         />
 
         <div className="flex gap-3 pt-1">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 cursor-pointer rounded-lg border border-line-2 py-3 text-sm font-medium text-ink-2 transition-colors duration-200 hover:border-ink hover:text-ink"
-          >
+          <Button type="button" variant="outline" onClick={onClose} className="flex-1">
             Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={status === "submitting"}
-            className="flex-1 cursor-pointer rounded-lg bg-ink py-3 text-sm font-medium text-paper transition-colors duration-200 hover:bg-brass-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
+          </Button>
+          <Button type="submit" disabled={status === "submitting"} className="flex-1">
             {status === "submitting" ? "Sending…" : "Submit Enquiry"}
-          </button>
+          </Button>
         </div>
       </form>
     </>
-  );
-}
-
-function ModalField({
-  label,
-  value,
-  onChange,
-  error,
-  required,
-  type = "text",
-  ...rest
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  error?: string;
-  required?: boolean;
-  type?: string;
-} & Omit<React.ComponentProps<"input">, "value" | "onChange" | "type">) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-ink">
-        {label}
-        {required ? <span className="text-brass-deep"> *</span> : null}
-      </label>
-      <input
-        type={type}
-        value={value}
-        required={required}
-        aria-invalid={error ? true : undefined}
-        onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          "mt-2 w-full rounded-lg border px-3.5 py-3 text-sm text-ink placeholder:text-ink-3/70",
-          "transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brass-deep/25",
-          error ? "border-danger" : "border-line-2 focus:border-brass-deep",
-        )}
-        {...rest}
-      />
-      {error ? <p className="mt-1.5 text-sm text-danger">{error}</p> : null}
-    </div>
   );
 }
