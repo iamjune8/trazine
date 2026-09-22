@@ -20,6 +20,7 @@ import {
 import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { cn } from "@/lib/utils";
 import { trackEvent, trackConversion } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 
 /**
  * The one enquiry form, used inside the modal, on the contact page and in
@@ -161,6 +162,12 @@ export function EnquiryForm({
         email: values.email,
         phone: values.phone,
       });
+      // Meta's own, independent Lead event — see src/lib/meta-pixel.ts.
+      // Same success branch as the Google Ads conversion above, so it
+      // inherits the same re-entrancy guard (the `status === "submitting"`
+      // check at the top of this function) and fires exactly once per
+      // successful submission, never on validation failure or API error.
+      trackMetaEvent("Lead");
       setStatus("success");
       onSuccess?.();
     } catch {

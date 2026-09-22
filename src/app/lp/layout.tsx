@@ -3,6 +3,8 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "../globals.css";
 
 import { GtmScript } from "@/components/analytics/GtmScript";
+import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
+import { MetaPixelPageview } from "@/components/analytics/MetaPixelPageview";
 import { SiteSettingsProvider } from "@/components/site/SiteSettingsContext";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { site } from "@/data/site";
@@ -54,6 +56,8 @@ export const viewport: Viewport = {
 };
 
 const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
+/** See the matching comment in (site)/layout.tsx — same inert-until-set pattern. */
+const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export default async function LandingLayout({
   children,
@@ -79,6 +83,8 @@ export default async function LandingLayout({
             />
           </noscript>
         )}
+        {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
+        {metaPixelId && <MetaPixelPageview />}
         <SiteSettingsProvider settings={settings}>{children}</SiteSettingsProvider>
       </body>
     </html>

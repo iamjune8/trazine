@@ -51,6 +51,13 @@ const nextConfig = {
   // never talks to them directly and CSP (a browser-only mechanism) doesn't
   // apply.
   //
+  // connect.facebook.net / www.facebook.com: Meta Pixel — added ahead of the
+  // Pixel actually going live (NEXT_PUBLIC_META_PIXEL_ID unset means
+  // src/components/analytics/MetaPixelScript.tsx never renders, so nothing
+  // currently loads from either domain), so that setting the ID later
+  // doesn't also require a second CSP change. Independent of the Google Ads
+  // entries above — see src/lib/meta-pixel.ts for why the two stay separate.
+  //
   // script-src allows 'unsafe-inline' rather than a hash or nonce: this site
   // uses next/script's `beforeInteractive` strategy for a couple of inline
   // scripts (GTM's bootstrap; marking <html> as scripted before first paint,
@@ -68,7 +75,10 @@ const nextConfig = {
       // googleads.g.doubleclick.net: the Google Ads conversion tag GTM
       // loads (viewthroughconversion) — added once a live Ads conversion
       // tag existed in the container; confirmed blocked/failing before this.
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com https://googleads.g.doubleclick.net",
+      // connect.facebook.net: Meta Pixel's own fbevents.js — independent of
+      // and unrelated to the Google Ads/GTM entries above; see
+      // src/lib/meta-pixel.ts for why the two pipes are kept separate.
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://connect.facebook.net",
       "style-src 'self' 'unsafe-inline'",
       // www.google.com and www.google.co.in: GA4's ad-audience-sync pixel
       // (/ads/ga-audiences), which loads as an <img>, not a fetch — and
@@ -76,14 +86,18 @@ const nextConfig = {
       // this site's near-entirely Indian audience; a visitor on a different
       // regional TLD (.co.uk, .de, ...) would silently lose just that one
       // remarketing-audience pixel, not core pageview tracking.
-      "img-src 'self' data: https: https://www.google.com https://www.google.co.in",
+      // www.facebook.com: Meta Pixel's <noscript> fallback <img> beacon.
+      "img-src 'self' data: https: https://www.google.com https://www.google.co.in https://www.facebook.com",
       "font-src 'self'",
       // GA4's actual collect beacon fans out across several Google-owned
       // domains depending on browser/consent signals — confirmed by testing
       // a real production build, not assumed from docs.
       // ad.doubleclick.net: the Ads conversion tag's own collect beacon,
       // same batch as googleads.g.doubleclick.net above.
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com",
+      // www.facebook.com: Meta Pixel's JS-fired tracking beacon (fbevents.js
+      // posts events here) — separate from the img-src entry above, which
+      // only covers the <noscript> fallback.
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com https://www.facebook.com",
       "frame-src https://www.google.com https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",

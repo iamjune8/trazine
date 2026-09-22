@@ -4,6 +4,8 @@ import Script from "next/script";
 import "../globals.css";
 
 import { GtmScript } from "@/components/analytics/GtmScript";
+import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
+import { MetaPixelPageview } from "@/components/analytics/MetaPixelPageview";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EnquiryProvider } from "@/components/enquiry/EnquiryContext";
@@ -74,6 +76,14 @@ export const metadata: Metadata = {
     description: site.positioning,
   },
   robots: { index: true, follow: true },
+  // Meta Business Manager domain verification for travzine.in (Travel
+  // Magazine Mumbai business portfolio) — proves site ownership so the
+  // domain can be attributed to the TRAVELMAGAZINE Website Pixel/Dataset.
+  verification: {
+    other: {
+      "facebook-domain-verification": "nvu4hn38490fa8iive4mmgg61p8dfw",
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -92,6 +102,13 @@ export const viewport: Viewport = {
  * the same property.
  */
 const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
+/**
+ * Meta (Facebook) Pixel — a second, independent tracking pipe from GTM/GA4/
+ * Google Ads above. Same "inert until configured" pattern: unset, nothing
+ * loads, nothing fires. See src/lib/meta-pixel.ts for why this is kept
+ * fully separate from the dataLayer/GTM pipe rather than routed through it.
+ */
+const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export default async function RootLayout({
   children,
@@ -171,6 +188,8 @@ export default async function RootLayout({
             />
           </noscript>
         )}
+        {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
+        {metaPixelId && <MetaPixelPageview />}
         {/* Marks the document as scripted BEFORE the body paints. Every
             scroll-reveal's hidden state is scoped to `.js`, so if this never
             runs — scripting disabled, bundle blocked — the page renders fully

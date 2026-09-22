@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Turnstile } from "@/components/ui/Turnstile";
 import { trackEvent, trackConversion } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 
 const MONTHS = [
@@ -106,6 +107,8 @@ export function LpEnquiryForm({ destination, source }: { destination: string; so
 
       trackEvent("generate_lead", { source, destination });
       trackConversion(process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_LEAD, { email, phone });
+      // Meta's own, independent Lead event — see src/lib/meta-pixel.ts.
+      trackMetaEvent("Lead");
       setStatus("success");
     } catch {
       setStatus("error");

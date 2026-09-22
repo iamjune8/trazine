@@ -7,6 +7,7 @@ import { Turnstile } from "@/components/ui/Turnstile";
 import { Button } from "@/components/ui/Button";
 import { TextField, TextAreaField } from "@/components/ui/Field";
 import { trackEvent, trackConversion } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 
 /**
  * A dedicated enquiry dialog for the package booking flow — deliberately not
@@ -238,6 +239,8 @@ function PackageEnquiryPanel({
         email,
         phone,
       });
+      // Meta's own, independent Lead event — see src/lib/meta-pixel.ts.
+      trackMetaEvent("Lead");
       setStatus("success");
     } catch {
       setStatus("error");
