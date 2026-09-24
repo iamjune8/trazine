@@ -56,10 +56,20 @@ export async function logIn(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
 
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  let signInFailed = false;
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      console.error("[admin/login] signInWithPassword error:", error.status, error.message);
+      signInFailed = true;
+    }
+  } catch (err) {
+    console.error("[admin/login] signInWithPassword threw:", err);
+    fail("/admin/login", "Server error during login — check runtime logs.");
+  }
 
-  if (error) {
+  if (signInFailed) {
     fail("/admin/login", "Incorrect email or password.");
   }
 
