@@ -487,6 +487,7 @@ export type Database = {
           id: string
           phone: string
           postal_code: string
+          show_package_prices: boolean
           state: string
           updated_at: string
         }
@@ -500,6 +501,7 @@ export type Database = {
           id?: string
           phone: string
           postal_code: string
+          show_package_prices?: boolean
           state: string
           updated_at?: string
         }
@@ -513,6 +515,7 @@ export type Database = {
           id?: string
           phone?: string
           postal_code?: string
+          show_package_prices?: boolean
           state?: string
           updated_at?: string
         }

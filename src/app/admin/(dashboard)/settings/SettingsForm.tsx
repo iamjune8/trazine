@@ -1,4 +1,4 @@
-import { AdminTextField } from "@/components/admin/ui/AdminField";
+import { AdminCheckboxField, AdminTextField } from "@/components/admin/ui/AdminField";
 import { AdminButton } from "@/components/admin/ui/AdminButton";
 import { Card } from "@/components/admin/ui/Card";
 
@@ -17,6 +17,7 @@ export function SettingsForm({
     postal_code: string;
     country: string;
     hours: string;
+    show_package_prices?: boolean | null;
   };
 }) {
   return (
@@ -83,6 +84,15 @@ export function SettingsForm({
           defaultValue={defaultValues.hours}
           hint="Free text, shown as-is — e.g. Monday – Saturday, 10:00 – 19:00 IST."
         />
+
+        <div className="border-t border-admin-border-soft pt-6">
+          <AdminCheckboxField
+            label="Show package prices on the website"
+            name="show_package_prices"
+            defaultChecked={defaultValues.show_package_prices === true}
+            hint="Controls every package price on the public site — the Packages listing, package cards on destination pages, the price and total on each package page, and the price in search-engine data. When off, visitors see an enquire-for-price prompt instead. Prices you've entered on each package are kept either way."
+          />
+        </div>
 
         <AdminButton type="submit" icon="check" withArrow>
           Save changes

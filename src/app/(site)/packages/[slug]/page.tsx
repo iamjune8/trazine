@@ -11,6 +11,7 @@ import { PackageBookingCard } from "@/components/packages/PackageBookingCard";
 import { PackageHeroImage } from "@/components/packages/PackageHeroImage";
 import { getPackages, getPackage, getActivePackages } from "@/lib/content/packages";
 import { getDestination } from "@/lib/content/destinations";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
 import { photo, photoBlur } from "@/lib/images";
@@ -35,13 +36,17 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = await getPackage(slug);
+  const [pkg, { showPackagePrices }] = await Promise.all([getPackage(slug), getSiteSettings()]);
 
   if (!pkg) return { title: "Package not found" };
 
+  const priceClause = showPackagePrices
+    ? ` — starting at ${pkg.basePrice.toLocaleString("en-IN")} ${pkg.currency} per person`
+    : "";
+
   return pageMetadata({
     title: `${pkg.name} — ${pkg.nightsSummary} package`,
-    description: `${pkg.name}, ${pkg.nightsSummary}, ex-${pkg.departureCity}. Flights, stay and sightseeing included — starting at ${pkg.basePrice.toLocaleString("en-IN")} ${pkg.currency} per person.`,
+    description: `${pkg.name}, ${pkg.nightsSummary}, ex-${pkg.departureCity}. Flights, stay and sightseeing included${priceClause}.`,
     path: `/packages/${pkg.slug}`,
     image: pkg.heroImage || undefined,
   });
@@ -62,9 +67,10 @@ export default async function PackagePage({ params }: Params) {
 
   if (!pkg || !pkg.active) notFound();
 
-  const [destination, allActivePackages] = await Promise.all([
+  const [destination, allActivePackages, { showPackagePrices }] = await Promise.all([
     pkg.destinationSlug ? getDestination(pkg.destinationSlug) : Promise.resolve(undefined),
     getActivePackages(),
+    getSiteSettings(),
   ]);
 
   // Any un-sold-out departure with seats means the package is genuinely
@@ -87,15 +93,19 @@ export default async function PackagePage({ params }: Params) {
         ? pkg.heroImage
         : `${site.url}${pkg.heroImage}`
       : undefined,
-    offers: {
-      "@type": "Offer",
-      url: `${site.url}/packages/${pkg.slug}`,
-      priceCurrency: pkg.currency,
-      price: pkg.basePrice,
-      availability: hasAvailableDeparture
-        ? "https://schema.org/InStock"
-        : "https://schema.org/SoldOut",
-    },
+    // Structured-data prices have to match what's visible on the page, so
+    // the whole offer is dropped while prices are hidden.
+    offers: showPackagePrices
+      ? {
+          "@type": "Offer",
+          url: `${site.url}/packages/${pkg.slug}`,
+          priceCurrency: pkg.currency,
+          price: pkg.basePrice,
+          availability: hasAvailableDeparture
+            ? "https://schema.org/InStock"
+            : "https://schema.org/SoldOut",
+        }
+      : undefined,
   };
 
   return (
@@ -170,15 +180,17 @@ export default async function PackagePage({ params }: Params) {
                       ) : null}
                     </div>
 
-                    <div className="shrink-0 border-t border-line-2 pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:text-right">
-                      <p className="text-xs uppercase tracking-[0.14em] text-ink-3">
-                        Starting at
-                      </p>
-                      <p className="font-display mt-1 text-3xl text-brass-deep">
-                        {formatMoney(pkg.basePrice, pkg.currency)}
-                      </p>
-                      <p className="text-sm text-ink-3">per person</p>
-                    </div>
+                    {showPackagePrices ? (
+                      <div className="shrink-0 border-t border-line-2 pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:text-right">
+                        <p className="text-xs uppercase tracking-[0.14em] text-ink-3">
+                          Starting at
+                        </p>
+                        <p className="font-display mt-1 text-3xl text-brass-deep">
+                          {formatMoney(pkg.basePrice, pkg.currency)}
+                        </p>
+                        <p className="text-sm text-ink-3">per person</p>
+                      </div>
+                    ) : null}
                   </div>
 
                   <ul className="flex flex-wrap gap-x-8 gap-y-3 border-t border-line px-7 py-5 sm:px-8">
@@ -524,6 +536,7 @@ export default async function PackagePage({ params }: Params) {
                   basePrice={pkg.basePrice}
                   currency={pkg.currency}
                   departures={pkg.departures}
+                  showPrice={showPackagePrices}
                 />
               </Reveal>
             </div>

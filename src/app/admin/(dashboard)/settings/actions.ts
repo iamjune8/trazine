@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 /**
- * Every public page reads this row (phone, email, address, hours) in its
- * header, footer, or own contact section — so a save here has to invalidate
+ * Every public page reads this row (phone, email, address, hours, whether
+ * package prices are shown) in its header, footer, or own contact section — so a save here has to invalidate
  * the whole (site) route group at once rather than a handful of named
  * paths, the way a single destination or package edit does.
  */
@@ -24,6 +24,7 @@ function readFields(formData: FormData) {
   const postalCode = String(formData.get("postal_code") ?? "").trim();
   const country = String(formData.get("country") ?? "").trim();
   const hours = String(formData.get("hours") ?? "").trim();
+  const showPackagePrices = formData.get("show_package_prices") === "on";
 
   if (!phone || !email || !addressLine1 || !city || !state || !postalCode || !country) {
     throw new Error(
@@ -49,6 +50,7 @@ function readFields(formData: FormData) {
     postal_code: postalCode,
     country,
     hours,
+    show_package_prices: showPackagePrices,
   };
 }
 

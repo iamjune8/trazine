@@ -30,6 +30,8 @@ export type PackageEnquirySummary = {
   pax: number;
   estTotalLabel: string;
   estTotal: number;
+  /** When false the estimate is still sent to the consultant, but never shown to the visitor. */
+  showPrice: boolean;
   currency: string;
   slug: string;
   /** Set fresh each time the modal opens — used as a React key so the form
@@ -294,10 +296,12 @@ function PackageEnquiryPanel({
             <p className="mt-0.5 font-medium text-ink">{summary.pax}</p>
           </div>
         </div>
-        <div className="mt-4 flex items-baseline justify-between border-t border-line-2 pt-4">
-          <p className="text-sm text-ink-3">Estimated price</p>
-          <p className="text-xl font-semibold text-brass-deep">{summary.estTotalLabel}</p>
-        </div>
+        {summary.showPrice ? (
+          <div className="mt-4 flex items-baseline justify-between border-t border-line-2 pt-4">
+            <p className="text-sm text-ink-3">Estimated price</p>
+            <p className="text-xl font-semibold text-brass-deep">{summary.estTotalLabel}</p>
+          </div>
+        ) : null}
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">

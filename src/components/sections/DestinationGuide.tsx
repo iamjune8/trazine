@@ -3,6 +3,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Accordion } from "@/components/ui/Accordion";
 import { PackageCard } from "@/components/packages/PackageCard";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { jsonLdScript } from "@/lib/utils";
 import type {
   ThingToDo,
@@ -269,7 +270,7 @@ export function TravelTips({ tips }: { tips: string[] }) {
   );
 }
 
-export function RelatedPackages({
+export async function RelatedPackages({
   destinationName,
   packages,
 }: {
@@ -277,6 +278,7 @@ export function RelatedPackages({
   packages: TourPackage[];
 }) {
   if (!packages?.length) return null;
+  const { showPackagePrices } = await getSiteSettings();
 
   return (
     <Section>
@@ -284,7 +286,7 @@ export function RelatedPackages({
         <SectionHeading
           eyebrow="Ready to book"
           title={`${destinationName} packages with real dates`}
-          lede="Priced, dated departures — flights, stay and sightseeing already bundled in."
+          lede={`${showPackagePrices ? "Priced, dated" : "Dated"} departures — flights, stay and sightseeing already bundled in.`}
         />
         <Stagger
           as="ul"

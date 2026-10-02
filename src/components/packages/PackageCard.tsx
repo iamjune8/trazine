@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { PackageHeroImage } from "./PackageHeroImage";
 import type { TourPackage } from "@/lib/content/packages";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 
 function formatMoney(amount: number, currency: string) {
   const locale = currency === "INR" ? "en-IN" : "en-US";
@@ -12,7 +13,8 @@ function formatMoney(amount: number, currency: string) {
   }).format(amount);
 }
 
-export function PackageCard({ pkg }: { pkg: TourPackage }) {
+export async function PackageCard({ pkg }: { pkg: TourPackage }) {
+  const { showPackagePrices } = await getSiteSettings();
   const bookableDates = pkg.departures.filter((d) => !d.soldOut && d.seatsLeft > 0).length;
 
   return (
@@ -43,12 +45,18 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
         {pkg.routeLabel ? <p className="mt-1.5 text-sm text-ink-2">{pkg.routeLabel}</p> : null}
 
         <div className="mt-5 flex items-end justify-between border-t border-line pt-4">
-          <div>
-            <p className="text-[0.65rem] uppercase tracking-[0.12em] text-ink-3">Starting at</p>
-            <p className="font-display text-lg text-brass-deep">
-              {formatMoney(pkg.basePrice, pkg.currency)}
+          {showPackagePrices ? (
+            <div>
+              <p className="text-[0.65rem] uppercase tracking-[0.12em] text-ink-3">Starting at</p>
+              <p className="font-display text-lg text-brass-deep">
+                {formatMoney(pkg.basePrice, pkg.currency)}
+              </p>
+            </div>
+          ) : (
+            <p className="text-[0.65rem] uppercase tracking-[0.12em] text-ink-3">
+              Enquire for price
             </p>
-          </div>
+          )}
           {bookableDates > 0 ? (
             <p className="flex items-center gap-1.5 text-xs text-ink-3">
               <Icon name="calendar" size={13} />

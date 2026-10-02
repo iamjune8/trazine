@@ -21,8 +21,8 @@ export default async function SettingsPage({ searchParams }: Props) {
     <div>
       <PageHeader
         eyebrow="Site"
-        title="Contact settings"
-        description="The one phone number, email and address used everywhere on the public site — header, footer, contact page, and every Call/WhatsApp button. Change it here once and it updates everywhere, no code change needed."
+        title="Site settings"
+        description="The one phone number, email and address used everywhere on the public site — header, footer, contact page, and every Call/WhatsApp button — plus whether package prices are shown. Change it here once and it updates everywhere, no code change needed."
       />
 
       {error || !settings ? (

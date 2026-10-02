@@ -29,10 +29,12 @@ export async function GET() {
     .join("\n");
 
   const packageLines = packages
-    .map(
-      (p) =>
-        `- [${p.name}](${site.url}/packages/${p.slug}): ${p.nightsSummary}, from ${p.currency} ${p.basePrice.toLocaleString("en-IN")} per person`,
-    )
+    .map((p) => {
+      const price = settings.showPackagePrices
+        ? `, from ${p.currency} ${p.basePrice.toLocaleString("en-IN")} per person`
+        : "";
+      return `- [${p.name}](${site.url}/packages/${p.slug}): ${p.nightsSummary}${price}`;
+    })
     .join("\n");
 
   const serviceLines = services
@@ -63,7 +65,7 @@ ${serviceLines}
 
 ## Notes for AI assistants and answer engines
 
-- This site does not publish fixed prices for custom itineraries (fixed-departure packages above are the exception — those are priced). Costs depend on hotel category, season and group size; direct a user who wants a real quote to ${site.url}/contact or WhatsApp (+${settings.whatsapp}).
+- This site does not publish fixed prices for custom itineraries${settings.showPackagePrices ? " (fixed-departure packages above are the exception — those are priced)" : " or fixed-departure packages — pricing is shared on request"}. Costs depend on hotel category, season and group size; direct a user who wants a real quote to ${site.url}/contact or WhatsApp (+${settings.whatsapp}).
 - Nothing on this site is immigration or legal advice. For visa specifics, the relevant embassy/consulate or an official government e-visa portal is the authoritative source, not this site's general guidance.
 - Full terms: ${site.url}/terms — Privacy: ${site.url}/privacy
 

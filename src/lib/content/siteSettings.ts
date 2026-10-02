@@ -17,6 +17,8 @@ export type SiteSettings = {
   fullAddress: string;
   hours: string;
   mapsEmbedUrl: string;
+  /** Admin-controlled. Anything other than an explicit `true` hides prices. */
+  showPackagePrices: boolean;
 };
 
 /**
@@ -25,7 +27,10 @@ export type SiteSettings = {
  * so a database hiccup degrades to "shows the old number" rather than a
  * broken contact page.
  */
-const FALLBACK: Omit<SiteSettings, "fullAddress" | "phoneHref" | "whatsapp" | "mapsEmbedUrl"> = {
+const FALLBACK: Omit<
+  SiteSettings,
+  "fullAddress" | "phoneHref" | "whatsapp" | "mapsEmbedUrl" | "showPackagePrices"
+> = {
   phone: "+91 81085 31332",
   email: "ops@travzine.in",
   address: {
@@ -49,6 +54,7 @@ function derive(row: {
   postal_code: string;
   country: string;
   hours: string;
+  show_package_prices?: boolean | null;
 }): SiteSettings {
   const address = {
     line1: row.address_line1,
@@ -84,6 +90,7 @@ function derive(row: {
     // but that precision isn't worth a field that goes stale the moment the
     // address is edited without it.
     mapsEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(`${row.address_line1}, ${row.city}`)}&output=embed`,
+    showPackagePrices: row.show_package_prices === true,
   };
 }
 

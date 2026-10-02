@@ -55,6 +55,7 @@ export function PackageBookingCard({
   basePrice,
   currency,
   departures,
+  showPrice,
 }: {
   packageName: string;
   departureCode: string;
@@ -65,6 +66,7 @@ export function PackageBookingCard({
   basePrice: number;
   currency: string;
   departures: PackageDeparture[];
+  showPrice: boolean;
 }) {
   const dateSelectId = useId();
   const enquiryCount = useRef(0);
@@ -92,6 +94,7 @@ export function PackageBookingCard({
       pax: adults,
       estTotalLabel: formatMoney(total, currency),
       estTotal: total,
+      showPrice,
       currency,
       slug,
       openedAt: (enquiryCount.current += 1),
@@ -199,21 +202,23 @@ export function PackageBookingCard({
         </div>
       </div>
 
-      <div className="mt-8 flex items-end justify-between gap-4 border-t border-line-2 pt-6">
-        <span className="text-sm text-ink-3">
-          Total ({adults} {adults === 1 ? "adult" : "adults"})
-        </span>
-        <span className="font-display text-2xl text-ink">
-          {formatMoney(total, currency)}
-        </span>
-      </div>
+      {showPrice ? (
+        <div className="mt-8 flex items-end justify-between gap-4 border-t border-line-2 pt-6">
+          <span className="text-sm text-ink-3">
+            Total ({adults} {adults === 1 ? "adult" : "adults"})
+          </span>
+          <span className="font-display text-2xl text-ink">
+            {formatMoney(total, currency)}
+          </span>
+        </div>
+      ) : null}
 
       <Button
         type="button"
         size="lg"
         onClick={handleEnquire}
         withArrow
-        className="mt-6 w-full"
+        className={cn("w-full", showPrice ? "mt-6" : "mt-8")}
       >
         Enquire now
       </Button>

@@ -5,16 +5,20 @@ import { Container, Section, SectionHeading } from "@/components/ui/Layout";
 import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { PackageCard } from "@/components/packages/PackageCard";
 import { getActivePackages } from "@/lib/content/packages";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Fixed departure packages",
-  description:
-    "Priced, dated tour packages with flights, stay and sightseeing bundled in — pick a departure and enquire.",
-  path: "/packages",
-  image: "/images/catalogue/packageThailandHero.jpg",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const { showPackagePrices } = await getSiteSettings();
+
+  return pageMetadata({
+    title: "Fixed departure packages",
+    description: `${showPackagePrices ? "Priced, dated" : "Dated"} tour packages with flights, stay and sightseeing bundled in — pick a departure and enquire.`,
+    path: "/packages",
+    image: "/images/catalogue/packageThailandHero.jpg",
+  });
+}
 
 const breadcrumb = [{ label: "Home", href: "/" }];
 
@@ -26,7 +30,10 @@ const breadcrumb = [{ label: "Home", href: "/" }];
 export const revalidate = 60;
 
 export default async function PackagesPage() {
-  const packages = await getActivePackages();
+  const [packages, { showPackagePrices }] = await Promise.all([
+    getActivePackages(),
+    getSiteSettings(),
+  ]);
 
   return (
     <Section className="pt-32 sm:pt-40">
@@ -55,7 +62,7 @@ export default async function PackagesPage() {
           as="h1"
           eyebrow="Fixed departures"
           title="Packages ready to book"
-          lede="Flights, stay and sightseeing bundled into one price, with real departure dates and seat counts — pick one and enquire, and we confirm it within a working day."
+          lede={`Flights, stay and sightseeing bundled ${showPackagePrices ? "into one price" : "together"}, with real departure dates and seat counts — pick one and enquire, and we confirm it within a working day.`}
         />
 
         {packages.length === 0 ? (
