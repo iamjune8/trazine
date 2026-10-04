@@ -22,6 +22,8 @@ export function truncateAtWord(text: string, maxLength: number): string {
  * exists so each of the ~10 call sites doesn't hand-roll the same
  * openGraph/twitter shape and drift out of sync with each other.
  */
+type ShareImage = string | { url: string; width: number; height: number; alt: string };
+
 export function pageMetadata({
   title,
   description,
@@ -33,8 +35,10 @@ export function pageMetadata({
   title: string;
   description: string;
   path: string;
-  /** Local path under /public, or an already-resolved photo() URL. */
-  image?: string;
+  /** Local path under /public, or an already-resolved photo() URL. Pass an
+      object to declare dimensions and alt text (og:image:width/height/alt) —
+      LinkedIn and others use them to size the card without fetching first. */
+  image?: ShareImage;
   /** Override for openGraph/twitter title, when the page <title> (often
       tuned for search, e.g. "X Tour Packages from India") reads worse as a
       social card headline than a tagline-style alternative would. */
@@ -47,7 +51,7 @@ export function pageMetadata({
       competing, near-identical pages. */
   canonicalPath?: string;
 }): Metadata {
-  const images = image ? [{ url: image }] : undefined;
+  const images = image ? [typeof image === "string" ? { url: image } : image] : undefined;
   const shareTitle = socialTitle ?? title;
 
   return {

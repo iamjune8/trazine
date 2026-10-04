@@ -23,7 +23,12 @@ export const metadata: Metadata = pageMetadata({
   description:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visa assistance, IATA ticketing, and one consultant throughout.",
   path: "/",
-  image: "/images/destinations/dubai-hero.jpg",
+  image: {
+    url: "/og/travzine-home-1200x627.jpg",
+    width: 1200,
+    height: 627,
+    alt: "Travel Magazine — Two ways to travel, planned as though we were coming with you. A family laughs in an infinity pool at sunset with the Burj Khalifa behind them.",
+  },
 });
 
 // Safety net alongside the admin's on-demand revalidatePath() calls: some
