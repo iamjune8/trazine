@@ -6,6 +6,7 @@ import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { PackageCard } from "@/components/packages/PackageCard";
 import { getActivePackages } from "@/lib/content/packages";
 import { getSiteSettings } from "@/lib/content/siteSettings";
+import { pageCard } from "@/lib/ogCards";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
 
@@ -16,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Fixed departure packages",
     description: `${showPackagePrices ? "Priced, dated" : "Dated"} tour packages with flights, stay and sightseeing bundled in — pick a departure and enquire.`,
     path: "/packages",
-    image: "/images/catalogue/packageThailandHero.jpg",
+    image: pageCard("packages", "Travel Magazine — Fixed departure packages ready to book."),
   });
 }
 

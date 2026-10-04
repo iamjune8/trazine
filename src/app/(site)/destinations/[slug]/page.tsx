@@ -19,6 +19,7 @@ import { getPackagesForDestination } from "@/lib/content/packages";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { whatsappLink } from "@/data/site";
 import { pageMetadata, breadcrumbJsonLd, truncateAtWord } from "@/lib/seo";
+import { entityCard } from "@/lib/ogCards";
 import { jsonLdScript } from "@/lib/utils";
 import {
   GoodToKnow,
@@ -80,7 +81,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title,
     description,
     path: `/destinations/${destination.slug}`,
-    image: photo(destination.heroImage, 1200),
+    image:
+      entityCard("destinations", destination.slug, `${destination.name} — ${destination.tagline}`) ??
+      photo(destination.heroImage, 1200),
     socialTitle: `${destination.name} — ${destination.tagline}`,
   });
 }

@@ -22,7 +22,7 @@ export function truncateAtWord(text: string, maxLength: number): string {
  * exists so each of the ~10 call sites doesn't hand-roll the same
  * openGraph/twitter shape and drift out of sync with each other.
  */
-type ShareImage = string | { url: string; width: number; height: number; alt: string };
+export type ShareImage = string | { url: string; width: number; height: number; alt: string };
 
 export function pageMetadata({
   title,

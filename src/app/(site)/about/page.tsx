@@ -11,13 +11,14 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Icon } from "@/components/ui/Icon";
 import { getSiteSettings } from "@/lib/content/siteSettings";
+import { pageCard } from "@/lib/ogCards";
 
 export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
     "A travel house working across two disciplined tiers — Premium Luxury circuits through Europe and Easy & Affordable journeys across Asia and the Gulf — with one named consultant on every trip.",
   path: "/about",
-  image: "/images/other/about-trust.jpg",
+  image: pageCard("about", "Travel Magazine — About: two disciplined tiers, one named consultant on every trip."),
 });
 
 // Safety net alongside the admin's on-demand revalidatePath() calls: some

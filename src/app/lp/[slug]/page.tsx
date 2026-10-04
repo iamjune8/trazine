@@ -11,6 +11,7 @@ import { Icon } from "@/components/ui/Icon";
 import { getDestination } from "@/lib/content/destinations";
 import { photo } from "@/lib/images";
 import { pageMetadata, truncateAtWord } from "@/lib/seo";
+import { entityCard } from "@/lib/ogCards";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -50,7 +51,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     // than this trimmed paid-traffic version, so the two don't compete as
     // near-duplicate content — see the doc comment on pageMetadata().
     canonicalPath: `/destinations/${slug}`,
-    image: photo(destination.heroImage, 1200),
+    image:
+      entityCard("destinations", destination.slug, `${destination.name} — ${destination.tagline}`) ??
+      photo(destination.heroImage, 1200),
   });
 }
 

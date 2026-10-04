@@ -11,13 +11,14 @@ import { TrackedAnchor } from "@/components/analytics/TrackedAnchor";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { whatsappLink } from "@/data/site";
 import { getSiteSettings } from "@/lib/content/siteSettings";
+import { pageCard } from "@/lib/ogCards";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
     "Talk to a consultant about a Premium Luxury European circuit or an Easy & Affordable trip across Asia and the Gulf. Call, WhatsApp, email, or send an enquiry and we'll reply within one working day.",
   path: "/contact",
-  image: "/images/other/contact-cta.jpg",
+  image: pageCard("contact", "Travel Magazine — Contact: talk to a consultant."),
 });
 
 type Channel = {

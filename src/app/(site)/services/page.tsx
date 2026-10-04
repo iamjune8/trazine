@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { pageCard } from "@/lib/ogCards";
 import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { CTABand } from "@/components/sections/CTABand";
@@ -39,7 +40,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Itinerary design, visa assistance across Europe, Asia and the Gulf, IATA-accredited ticketing from Mumbai, travel insurance and forex, on-ground arrangements, and support throughout your journey.",
   path: "/services",
-  image: "/images/other/ticketing.jpg",
+  image: pageCard("services", "Travel Magazine — Services: the difficult parts, handled."),
 });
 
 export default async function ServicesPage() {

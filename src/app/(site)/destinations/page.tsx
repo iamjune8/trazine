@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { pageCard } from "@/lib/ogCards";
 import { jsonLdScript } from "@/lib/utils";
 import { MediaHeader } from "@/components/sections/MediaHeader";
 import { DestinationCard } from "@/components/DestinationCard";
@@ -15,7 +16,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Two ways to travel with us: Premium Luxury — a multi-country Europe circuit, plus standalone trips to Japan and Saudi Arabia — or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya.",
   path: "/destinations",
-  image: "/images/destinations/dubai-1.jpg",
+  image: pageCard("destinations", "Travel Magazine — Destinations: Premium Luxury circuits and Easy & Affordable getaways."),
 });
 
 // Revalidate every hour so destination changes appear within 60 minutes without

@@ -1,0 +1,61 @@
+{
+  "version": "v1",
+  "pages": [
+    {
+      "file": "destinations",
+      "eyebrow": "Destinations",
+      "title": "Premium Luxury circuits and Easy & Affordable getaways",
+      "sub": "",
+      "photo": "/images/destinations/dubai-1.jpg"
+    },
+    {
+      "file": "packages",
+      "eyebrow": "Fixed departures",
+      "title": "Packages ready to book",
+      "sub": "Flights, stay and sightseeing bundled together, with real departure dates and seat counts.",
+      "photo": "/images/catalogue/packageThailandHero.jpg"
+    },
+    {
+      "file": "services",
+      "eyebrow": "Services",
+      "title": "The difficult parts, handled",
+      "sub": "Itinerary design, visa assistance, IATA ticketing, insurance and on-ground support.",
+      "photo": "/images/other/ticketing.jpg"
+    },
+    {
+      "file": "about",
+      "eyebrow": "About",
+      "title": "Two disciplined tiers, one named consultant on every trip",
+      "sub": "",
+      "photo": "/images/other/about-trust.jpg"
+    },
+    {
+      "file": "contact",
+      "eyebrow": "Contact",
+      "title": "Talk to a consultant",
+      "sub": "Call, WhatsApp, email or send an enquiry. We reply within one working day.",
+      "photo": "/images/other/contact-cta.jpg"
+    }
+  ],
+  "destinations": [
+    { "slug": "europe", "name": "Europe", "tier": "premium", "tagline": "Paris to the fjords, planned as one long journey rather than four short ones", "photo": "/images/destinations/paris-hero.jpg", "fx": 1.0 },
+    { "slug": "japan", "name": "Japan", "tier": "premium", "tagline": "Cherry blossoms, ancient temples and bustling neon streets", "photo": "/images/catalogue/japanHeroFuji.jpg" },
+    { "slug": "bali", "name": "Bali", "tier": "easy", "tagline": "Rice terraces, cliff temples and a coastline built for golden hour", "photo": "/images/destinations/bali-1.jpg" },
+    { "slug": "dubai", "name": "Dubai", "tier": "easy", "tagline": "Desert light, glass towers and a three-hour flight", "photo": "/images/destinations/dubai-hero.jpg" },
+    { "slug": "vietnam", "name": "Vietnam", "tier": "easy", "tagline": "Limestone bays, lantern-lit old towns and some of Asia's best street food", "photo": "hoiAnLanterns" },
+    { "slug": "malaysia", "name": "Malaysia", "tier": "easy", "tagline": "Petronas Towers by night, and hill-country and island escapes close behind", "photo": "kualaLumpurPetronas" },
+    { "slug": "singapore", "name": "Singapore", "tier": "easy", "tagline": "Gardens, hawker centres and a skyline, all within one compact, spotless city", "photo": "singaporeGardens" },
+    { "slug": "maldives", "name": "Maldives", "tier": "easy", "tagline": "Overwater villas and a house reef, with almost nothing else on the itinerary by design", "photo": "/images/destinations/maldives-2.jpg" },
+    { "slug": "sri-lanka", "name": "Sri Lanka", "tier": "easy", "tagline": "Rock fortresses, tea country and beaches, all within a few hours' drive of each other", "photo": "/images/destinations/sri-lanka-3.jpg" },
+    { "slug": "nepal", "name": "Nepal", "tier": "easy", "tagline": "Mountain air, temple squares and a scenic flight that passes within sight of Everest", "photo": "/images/destinations/nepal-1.jpg" },
+    { "slug": "thailand", "name": "Thailand", "tier": "easy", "tagline": "Gold-spired temples, river life and a rooftop skyline after dark", "photo": "/images/destinations/thailand-4.jpg" },
+    { "slug": "kenya", "name": "Kenya", "tier": "easy", "tagline": "Balloon-lit savanna, big-cat game drives and a camp deck facing the herd", "photo": "/images/destinations/kenya-3.jpg" },
+    { "slug": "kazakhstan", "name": "Kazakhstan", "tier": "easy", "tagline": "Snow-capped peaks, canyon country and a steppe as wide as the sky", "photo": "kazakhstanAlmatySkyline" },
+    { "slug": "saudi-arabia", "name": "Saudi Arabia", "tier": "premium", "tagline": "Ancient tombs, red mountains and a coastline just opening to the world", "photo": "saudiHegraTomb" }
+  ],
+  "packages": [
+    { "slug": "japan", "name": "Japan", "code": "EX-BOM", "route": "3N Osaka · 1N Hakone · 3N Tokyo", "flights": false, "photo": "/images/catalogue/packageJapanHero.jpg" },
+    { "slug": "thailand-phuket-krabi-festival", "name": "Phuket + Krabi Festival Special", "code": "EX-BOM", "route": "3N Phuket · 2N Krabi", "flights": true, "photo": "/images/catalogue/packageThailandHero.jpg" },
+    { "slug": "vietnam-getaway", "name": "Vietnam Getaway", "code": "EX-BOM", "route": "3N Hanoi · 2N Da Nang · 2N Ho Chi Minh City", "flights": true, "photo": "vietnamHaLongBayJunks" }
+  ]
+}
