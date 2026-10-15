@@ -2,6 +2,7 @@ import { getDestinations } from "@/lib/content/destinations";
 import { getActivePackages } from "@/lib/content/packages";
 import { getServices } from "@/lib/content/services";
 import { getSiteSettings } from "@/lib/content/siteSettings";
+import { guides } from "@/data/guides";
 import { site } from "@/data/site";
 
 /**
@@ -41,6 +42,10 @@ export async function GET() {
     .map((s) => `- [${s.title}](${site.url}/services#${s.slug}): ${s.summary}`)
     .join("\n");
 
+  const guideLines = guides
+    .map((g) => `- [${g.title}](${site.url}/guides/${g.slug}): ${g.description}`)
+    .join("\n");
+
   const body = `# ${site.name}
 
 > ${site.positioning}
@@ -62,6 +67,10 @@ ${packageLines || "- See " + site.url + "/packages for current departures."}
 ## Services
 
 ${serviceLines}
+
+## Guides
+
+${guideLines}
 
 ## Notes for AI assistants and answer engines
 

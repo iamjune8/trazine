@@ -138,6 +138,7 @@ export async function Footer() {
                         {link.label}
                       </FooterLink>
                     ))}
+                    <FooterLink href="/guides">Guides</FooterLink>
                   </FooterColumn>
                 </Reveal>
               </div>
