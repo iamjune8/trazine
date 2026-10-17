@@ -13,6 +13,7 @@ import { getPackages, getPackage, getActivePackages } from "@/lib/content/packag
 import { getDestination } from "@/lib/content/destinations";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { packageTitle, packageDescription } from "@/lib/packageMetadata";
 import { entityCard } from "@/lib/ogCards";
 import { jsonLdScript } from "@/lib/utils";
 import { photo, photoBlur } from "@/lib/images";
@@ -46,8 +47,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     : "";
 
   return pageMetadata({
-    title: `${pkg.name} — ${pkg.nightsSummary} package`,
-    description: `${pkg.name}, ${pkg.nightsSummary}, ex-${pkg.departureCity}. Flights, stay and sightseeing included${priceClause}.`,
+    title: packageTitle(pkg),
+    description: packageDescription(pkg, priceClause),
     path: `/packages/${pkg.slug}`,
     image: entityCard("packages", pkg.slug, `${pkg.name} — ${pkg.routeLabel}`) ?? (pkg.heroImage || undefined),
   });
