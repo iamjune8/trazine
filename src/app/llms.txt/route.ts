@@ -68,6 +68,10 @@ ${packageLines || "- See " + site.url + "/packages for current departures."}
 
 ${serviceLines}
 
+## B2B partners
+
+- [Become a B2B partner](${site.url}/b2b-partners): land packages and visa processing assistance for associates who sell international trips to their own customers. Rates and terms are shared directly with partners who get in touch.
+
 ## Guides
 
 ${guideLines}

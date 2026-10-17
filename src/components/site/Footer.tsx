@@ -139,6 +139,7 @@ export async function Footer() {
                       </FooterLink>
                     ))}
                     <FooterLink href="/guides">Guides</FooterLink>
+                    <FooterLink href="/b2b-partners">B2B partners</FooterLink>
                   </FooterColumn>
                 </Reveal>
               </div>
