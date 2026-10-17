@@ -128,6 +128,9 @@ export default async function RootLayout({
     email: settings.email,
     slogan: site.slogan,
     description: site.positioning,
+    // Only the LinkedIn page is listed: the Instagram and Facebook URLs in
+    // site.social are still placeholders, and sameAs must point at real profiles.
+    sameAs: [site.social.linkedin],
     address: {
       "@type": "PostalAddress",
       streetAddress: `${settings.address.line1}, ${settings.address.line2}`,
