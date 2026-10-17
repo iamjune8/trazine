@@ -14,7 +14,7 @@ import { getPremiumDestinations, getEasyDestinations } from "@/lib/content/desti
 export const metadata: Metadata = pageMetadata({
   title: "Destinations",
   description:
-    "Two ways to travel with us: Premium Luxury — a multi-country Europe circuit, plus standalone trips to Japan and Saudi Arabia — or Easy & Affordable getaways to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya.",
+    "Premium Luxury: a multi-country Europe circuit, plus Japan and Saudi Arabia. Easy & Affordable: Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore and more.",
   path: "/destinations",
   image: pageCard("destinations", "Travel Magazine — Destinations: Premium Luxury circuits and Easy & Affordable getaways."),
 });

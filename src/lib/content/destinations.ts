@@ -54,6 +54,7 @@ type DestinationRow = {
   monthly_climate: unknown;
   ideal_for: string[];
   featured: boolean;
+  updated_at?: string;
 };
 
 function mapRow(row: DestinationRow): Destination {
@@ -88,6 +89,7 @@ function mapRow(row: DestinationRow): Destination {
     suggestedItinerary: row.suggested_itinerary as ItineraryDay[],
     travelTips: row.travel_tips,
     faqs: row.faqs as DestinationFaq[],
+    updatedAt: row.updated_at,
   };
 }
 

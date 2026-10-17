@@ -16,7 +16,7 @@ import { pageCard } from "@/lib/ogCards";
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
-    "Talk to a consultant about a Premium Luxury European circuit or an Easy & Affordable trip across Asia and the Gulf. Call, WhatsApp, email, or send an enquiry and we'll reply within one working day.",
+    "Talk to a consultant about a Europe circuit or an Asia or Gulf trip. Call, WhatsApp, email or send an enquiry, and we'll reply within one working day.",
   path: "/contact",
   image: pageCard("contact", "Travel Magazine — Contact: talk to a consultant."),
 });

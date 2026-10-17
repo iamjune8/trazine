@@ -16,7 +16,7 @@ import { pageCard } from "@/lib/ogCards";
 export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
-    "A travel house working across two disciplined tiers — Premium Luxury circuits through Europe and Easy & Affordable journeys across Asia and the Gulf — with one named consultant on every trip.",
+    "A travel house with two tiers, Premium Luxury circuits in Europe and Easy & Affordable journeys across Asia and the Gulf, and one named consultant per trip.",
   path: "/about",
   image: pageCard("about", "Travel Magazine — About: two disciplined tiers, one named consultant on every trip."),
 });

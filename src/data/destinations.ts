@@ -90,6 +90,8 @@ export type Destination = {
   idealFor: string[];
   /** Featured on the homepage showcase. */
   featured: boolean;
+  /** ISO timestamp of the last admin edit, when known. Drives sitemap lastmod. */
+  updatedAt?: string;
 
   /**
    * The fields below are optional on the type because the static array

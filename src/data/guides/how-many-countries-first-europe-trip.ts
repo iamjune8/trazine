@@ -6,7 +6,7 @@ export const howManyCountriesFirstEuropeTrip: Guide = {
   headline: "How many countries, really?",
   eyebrow: "Europe planning",
   description:
-    "Two or three countries is the right number for most first trips to Europe from India. Here's the reasoning, four routes that work, and the visa catch to plan around.",
+    "Two or three countries is the right number for most first Europe trips from India. Here's why, four routes that work, and the visa catch.",
   lede: "Two or three countries is the right number for most first trips. Here's the reasoning, four routes that work, and the visa catch.",
   image: "europeOldTown",
   imageAlt: "A European old town at golden hour",

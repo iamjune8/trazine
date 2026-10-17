@@ -72,6 +72,8 @@ export type TourPackage = {
   active: boolean;
   displayOrder: number;
   departures: PackageDeparture[];
+  /** ISO timestamp of the last admin edit, when known. Drives sitemap lastmod. */
+  updatedAt?: string;
 };
 
 type PackageRow = {
@@ -109,6 +111,7 @@ type PackageRow = {
   cancellation_terms: string[];
   active: boolean;
   display_order: number;
+  updated_at?: string;
 };
 
 type DepartureRow = {
@@ -166,6 +169,7 @@ function mapRow(row: PackageRow, departures: DepartureRow[]): TourPackage {
     cancellationTerms: row.cancellation_terms ?? [],
     active: row.active,
     displayOrder: row.display_order,
+    updatedAt: row.updated_at,
     departures: departures
       .filter((d) => d.package_slug === row.slug)
       .map(mapDeparture)

@@ -21,7 +21,7 @@ export const metadata: Metadata = pageMetadata({
   title:
     "Travel Magazine — Europe tour packages & easy Asia getaways from India",
   description:
-    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf. Itinerary design, visa assistance, IATA ticketing, and one consultant throughout.",
+    "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf, with one consultant from visa to ticket.",
   path: "/",
   image: {
     url: "/og/travzine-home-v2-1200x627.jpg",
