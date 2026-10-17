@@ -21,7 +21,7 @@ export const site = {
   social: {
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",
-    linkedin: "https://linkedin.com/",
+    linkedin: "https://www.linkedin.com/company/travzine",
   },
 } as const;
 
