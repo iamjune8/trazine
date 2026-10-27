@@ -31,7 +31,7 @@ const FALLBACK: Omit<
   SiteSettings,
   "fullAddress" | "phoneHref" | "whatsapp" | "mapsEmbedUrl" | "showPackagePrices"
 > = {
-  phone: "+91 81085 31332",
+  phone: "+91 96768 50085",
   email: "ops@travzine.in",
   address: {
     line1: "Unit No F9, Upper Section, First Floor, Kohinoor City Mall",

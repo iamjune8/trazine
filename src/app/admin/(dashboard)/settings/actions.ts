@@ -33,7 +33,7 @@ function readFields(formData: FormData) {
   }
   if (!/^\+?[\d\s]{7,}$/.test(phone)) {
     throw new Error(
-      "Phone should be digits (with spaces) and an optional leading +, e.g. +91 81085 31332.",
+      "Phone should be digits (with spaces) and an optional leading +, e.g. +91 96768 50085.",
     );
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

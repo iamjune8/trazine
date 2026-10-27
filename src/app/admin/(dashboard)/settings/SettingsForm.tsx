@@ -28,7 +28,7 @@ export function SettingsForm({
           name="phone"
           required
           defaultValue={defaultValues.phone}
-          hint="One number for the whole site — shown in the header, footer, contact page and every Call/WhatsApp button. Include the country code, e.g. +91 81085 31332. WhatsApp links and click-to-call both derive from this single field."
+          hint="One number for the whole site — shown in the header, footer, contact page and every Call/WhatsApp button. Include the country code, e.g. +91 96768 50085. WhatsApp links and click-to-call both derive from this single field."
         />
         <AdminTextField
           label="Email"
