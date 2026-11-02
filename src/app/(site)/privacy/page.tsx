@@ -13,6 +13,12 @@ export const metadata: Metadata = pageMetadata({
   description:
     "How Travel Magazine collects, uses and protects the information you share with us through an enquiry, a call or WhatsApp.",
   path: "/privacy",
+  image: {
+    url: "/og/travzine-home-v2-1200x627.jpg",
+    width: 1200,
+    height: 627,
+    alt: "Travel Magazine",
+  },
 });
 
 const updated = "16 August 2026";

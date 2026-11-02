@@ -2,7 +2,7 @@ import type { Guide } from "./types";
 
 export const schengenVisaFromIndia: Guide = {
   slug: "schengen-visa-from-india-guide",
-  title: "Schengen visa from India: documents and timeline",
+  title: "Schengen visa from India: the full process",
   headline: "The Schengen visa, step by step",
   eyebrow: "Visa guide",
   description:

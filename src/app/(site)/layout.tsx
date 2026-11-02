@@ -38,7 +38,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Europe tour packages & easy Asia getaways from India`,
+    default: "Travel Magazine (Travzine): Europe & Asia Tour Packages",
     template: `%s | ${site.name}`,
   },
   description:
@@ -122,10 +122,21 @@ export default async function RootLayout({
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     name: site.name,
+    alternateName: "Travzine",
     legalName: site.legalName,
     url: site.url,
+    logo: `${site.url}/icon.svg`,
+    image: `${site.url}/og/travzine-home-v2-1200x627.jpg`,
+    hasMap: `https://www.google.com/maps?q=${encodeURIComponent(`${settings.address.line1}, ${settings.address.city}`)}`,
     telephone: settings.phone,
     email: settings.email,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: settings.phone,
+      email: settings.email,
+      areaServed: "IN",
+    },
     slogan: site.slogan,
     description: site.positioning,
     // Only the LinkedIn page is listed: the Instagram and Facebook URLs in

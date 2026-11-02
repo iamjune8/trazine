@@ -19,7 +19,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title:
-    "Travel Magazine — Europe tour packages & easy Asia getaways from India",
+    "Travel Magazine (Travzine): Europe & Asia Tour Packages",
   description:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf, with one consultant from visa to ticket.",
   path: "/",

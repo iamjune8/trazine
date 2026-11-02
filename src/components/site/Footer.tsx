@@ -43,11 +43,20 @@ import { site, navLinks } from "@/data/site";
 
 const LG_HEIGHT = "680px";
 
-const socials: { name: IconName; href: string; label: string }[] = [
+const allSocials: { name: IconName; href: string; label: string }[] = [
   { name: "instagram", href: site.social.instagram, label: "Instagram" },
   { name: "facebook", href: site.social.facebook, label: "Facebook" },
   { name: "linkedin", href: site.social.linkedin, label: "LinkedIn" },
 ];
+
+/**
+ * A link that only points at a platform's home page (instagram.com/) is a
+ * placeholder, not a profile, so it stays hidden until a real profile URL is
+ * set in `site.social`.
+ */
+const socials = allSocials.filter(
+  (social) => new URL(social.href).pathname.replace(/\/+$/, "") !== "",
+);
 
 export async function Footer() {
   const year = new Date().getFullYear();

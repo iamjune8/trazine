@@ -13,6 +13,12 @@ export const metadata: Metadata = pageMetadata({
   description:
     "The terms that govern using the Travel Magazine website — separate from the booking conditions that apply once a trip is actually confirmed.",
   path: "/terms",
+  image: {
+    url: "/og/travzine-home-v2-1200x627.jpg",
+    width: 1200,
+    height: 627,
+    alt: "Travel Magazine",
+  },
 });
 
 const updated = "16 August 2026";

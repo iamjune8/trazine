@@ -14,7 +14,7 @@ import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageCard } from "@/lib/ogCards";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About",
+  title: "About Us: An IATA-Accredited Travel Agency",
   description:
     "A travel house with two tiers, Premium Luxury circuits in Europe and Easy & Affordable journeys across Asia and the Gulf, and one named consultant per trip.",
   path: "/about",
