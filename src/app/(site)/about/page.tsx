@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
@@ -14,9 +15,9 @@ import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageCard } from "@/lib/ogCards";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About Us: An IATA-Accredited Travel Agency",
+  title: "IATA-Accredited Travel Agency in Mumbai",
   description:
-    "A travel house with two tiers, Premium Luxury circuits in Europe and Easy & Affordable journeys across Asia and the Gulf, and one named consultant per trip.",
+    "About Travel Magazine, a small Kurla West team planning Europe circuits and Asia and Gulf holidays from Mumbai, with one named consultant per trip.",
   path: "/about",
   image: pageCard("about", "Travel Magazine — About: two disciplined tiers, one named consultant on every trip."),
 });
@@ -26,6 +27,18 @@ export const metadata: Metadata = pageMetadata({
 // so this guarantees admin edits (testimonials, etc.) surface within a
 // minute regardless.
 export const revalidate = 60;
+
+/** Where a reader who now trusts the agency is most likely to go next. */
+const destinationLinks = [
+  { href: "/destinations/europe", label: "Europe tour packages from Mumbai" },
+  { href: "/destinations/vietnam", label: "Vietnam tour packages from Mumbai" },
+  { href: "/destinations/dubai", label: "Dubai tour packages from Mumbai" },
+  { href: "/destinations/thailand", label: "Thailand tour packages from Mumbai" },
+  { href: "/destinations/singapore", label: "Singapore tour packages from Mumbai" },
+  { href: "/packages", label: "Fixed-departure packages" },
+  { href: "/services", label: "Visa, flights and insurance" },
+  { href: "/contact", label: "Contact our Kurla West office" },
+] as const;
 
 const principles = [
   {
@@ -68,7 +81,7 @@ export default async function AboutPage() {
         objectPosition="55% 15%"
         eyebrow="About us"
         title="A travel house, not a booking counter"
-        lede="We are a small team in Kurla West who spend most of our week on two kinds of journey — grand European circuits and easy, affordable escapes across Asia and the Gulf — and the paperwork that stands between our clients and them."
+        lede="We are a small team in Kurla West, Mumbai who spend most of our week on two kinds of journey — grand European circuits and easy, affordable escapes across Asia and the Gulf — and the paperwork that stands between our clients and them."
         breadcrumb={[{ label: "Home", href: "/" }]}
         breadcrumbLabel="About"
       />
@@ -171,6 +184,35 @@ export default async function AboutPage() {
       </Section>
 
       <Testimonials />
+
+      <Section>
+        <Container>
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">Where we plan holidays from</p>
+            <h2 className="font-display mt-4 text-[length:var(--step-h2)]">
+              Holidays we plan from Mumbai
+            </h2>
+            <p className="mt-5 text-lg text-ink-2">
+              Our fixed-departure packages leave from Mumbai, and every trip we
+              build starts with a conversation at our Kurla West office. Here
+              is where to begin, whether you are planning a Europe circuit, an
+              escape in Asia or the Gulf, or the paperwork around either.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-10">
+            <ul className="grid gap-x-10 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+              {destinationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="link-underline text-brass-deep">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </Container>
+      </Section>
 
       <CTABand
         image="swissPeaksAboveCloud"

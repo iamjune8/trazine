@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
@@ -14,12 +15,23 @@ import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageCard } from "@/lib/ogCards";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact",
+  title: "Contact: Mumbai Travel Agency, Kurla West",
   description:
-    "Talk to a consultant about a Europe circuit or an Asia or Gulf trip. Call, WhatsApp, email or send an enquiry, and we'll reply within one working day.",
+    "Visit or contact Travel Magazine, a travel agency in Kurla West, Mumbai. Call, WhatsApp, email or send an enquiry for Europe, Asia and Gulf holidays.",
   path: "/contact",
   image: pageCard("contact", "Travel Magazine — Contact: talk to a consultant."),
 });
+
+/** Where a Mumbai traveller is most likely to go next from this page. */
+const destinationLinks = [
+  { href: "/destinations/europe", label: "Europe tour packages from Mumbai" },
+  { href: "/destinations/vietnam", label: "Vietnam tour packages from Mumbai" },
+  { href: "/destinations/dubai", label: "Dubai tour packages from Mumbai" },
+  { href: "/destinations/thailand", label: "Thailand tour packages from Mumbai" },
+  { href: "/destinations/singapore", label: "Singapore tour packages from Mumbai" },
+  { href: "/packages", label: "Fixed-departure packages" },
+  { href: "/services", label: "Visa, flights and insurance" },
+] as const;
 
 type Channel = {
   icon: IconName;
@@ -81,9 +93,9 @@ export default async function ContactPage() {
       <MediaHeader
         image="/images/other/contact-cta.jpg"
         imageAlt="An open coastal road, the sea alongside it"
-        eyebrow="Contact"
+        eyebrow="Contact · Kurla West, Mumbai"
         title="Tell us where you'd like to go"
-        lede="Send the form below and a consultant will come back within one working day with an itemised proposal — or simply call, and we'll start straight away."
+        lede="Send the form below and a consultant at our Kurla West office will come back within one working day with an itemised proposal — or simply call, and we'll start straight away."
         breadcrumb={[{ label: "Home", href: "/" }]}
         breadcrumbLabel="Contact"
       />
@@ -190,7 +202,37 @@ export default async function ContactPage() {
         </Container>
       </Section>
 
-      <FAQSection tone="paper-2" />
+      <Section tone="paper-2">
+        <Container>
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">From our Kurla West office</p>
+            <h2 className="font-display mt-4 text-[length:var(--step-h2)]">
+              International holidays planned in Mumbai
+            </h2>
+            <p className="mt-5 text-lg text-ink-2">
+              Our office in Kurla West, Mumbai plans international holidays for
+              travellers across the city and the rest of India: Premium Luxury
+              circuits in Europe, and Easy &amp; Affordable journeys across Asia
+              and the Gulf. Tell us where you are thinking of going, or start
+              from one of these.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-10">
+            <ul className="grid gap-x-10 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+              {destinationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="link-underline text-brass-deep">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </Container>
+      </Section>
+
+      <FAQSection tone="paper" />
     </>
   );
 }

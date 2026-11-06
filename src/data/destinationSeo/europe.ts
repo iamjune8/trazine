@@ -1,37 +1,13 @@
-import type { Faq } from "@/data/faqs";
+import type { DestinationSeo } from "./types";
 
 /**
- * Search-intent layer for destination pages.
- *
- * Destination copy itself lives in the database (edited from the admin panel),
- * so the wording that targets what people actually type into Google is kept
- * here, in code, where it is versioned and reviewed. Each entry is keyed by
- * destination slug. A destination without an entry renders exactly as before.
- *
  * Keyword targets come from Ubersuggest (India, English, Nov 2026):
  *   "tour packages for europe from mumbai"  ~1.9K/mo, difficulty 23
  *   "europe tour packages from mumbai"      ~1.6K/mo, difficulty 34
  *   "europe tour cost from india"           ~1.6K/mo, difficulty 45
  *   "europe tour package price from india"  ~110/mo,  difficulty 16
  */
-export type DestinationSeo = {
-  readonly title: string;
-  readonly description: string;
-  /** One plain-language sentence near the top that states what is on offer. */
-  readonly answerLead: string;
-  readonly cost: {
-    readonly eyebrow: string;
-    readonly title: string;
-    readonly lede: string;
-    readonly drivers: readonly { readonly label: string; readonly text: string }[];
-    readonly closing: string;
-    /** Internal links to the guides that answer the reader's next question. */
-    readonly links: readonly { readonly href: string; readonly label: string }[];
-  };
-  readonly extraFaqs: readonly Faq[];
-};
-
-const europe: DestinationSeo = {
+export const europe: DestinationSeo = {
   title: "Europe Tour Packages from Mumbai & India",
   description:
     "Europe tour packages from Mumbai: private itineraries, Schengen visa filing, flights and a named consultant. Itemised proposal within one working day.",
@@ -41,7 +17,7 @@ const europe: DestinationSeo = {
     eyebrow: "Europe tour cost from India",
     title: "What a Europe tour costs, and what moves the price",
     lede: "There is no single Europe package price, because the same two weeks can cost very different amounts depending on how it is built. These are the five things that move the number most.",
-    drivers: [
+    items: [
       {
         label: "When you travel",
         text: "Flights and hotels from Mumbai cost noticeably more in the northern summer and around Christmas than in the shoulder months either side.",
@@ -104,9 +80,3 @@ const europe: DestinationSeo = {
     },
   ],
 };
-
-const seoBySlug: Readonly<Record<string, DestinationSeo>> = { europe };
-
-export function getDestinationSeo(slug: string): DestinationSeo | undefined {
-  return seoBySlug[slug];
-}

@@ -150,9 +150,11 @@ export default async function DestinationPage({ params }: Params) {
         image={destination.heroImage}
         imageAlt={`${destination.name} — ${destination.tagline}`}
         eyebrow={destination.region}
-        title={destination.name}
+        title={seo?.h1 ?? destination.name}
+        titleClassName={seo?.h1 ? "max-w-[22ch]" : undefined}
         lede={destination.tagline}
         breadcrumb={breadcrumbTrail.slice(0, 3)}
+        breadcrumbLabel={destination.name}
         facts={destination.facts.slice(0, 3)}
       />
 
@@ -308,11 +310,26 @@ export default async function DestinationPage({ params }: Params) {
         </Container>
       </Section>
 
+      {seo?.plan ? (
+        <DestinationCost
+          destinationName={destination.name}
+          slug={destination.slug}
+          section={seo.plan}
+          sectionKey="plan"
+          tone="paper"
+        />
+      ) : null}
+
       {seo ? (
         <DestinationCost
           destinationName={destination.name}
           slug={destination.slug}
-          cost={seo.cost}
+          section={seo.cost}
+          sectionKey="cost"
+          whatsappHref={whatsappLink(
+            settings.whatsapp,
+            `Hello, I'd like ${destination.name} tour package details from Mumbai.`,
+          )}
         />
       ) : null}
 

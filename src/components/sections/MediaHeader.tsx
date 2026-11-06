@@ -23,6 +23,7 @@ export function MediaHeader({
   breadcrumbLabel,
   facts,
   objectPosition,
+  titleClassName = "max-w-[14ch]",
 }: {
   image: PhotoKey;
   imageAlt: string;
@@ -37,6 +38,9 @@ export function MediaHeader({
   facts?: { label: string; value: string }[];
   /** CSS object-position, for source photos whose subject isn't centred. */
   objectPosition?: string;
+  /** Width cap for the H1. The default suits a short title or place name; a
+      longer keyword-bearing heading needs a wider cap to avoid a tall stack. */
+  titleClassName?: string;
 }) {
   return (
     <header className="relative flex min-h-[72svh] flex-col justify-end overflow-hidden bg-ink">
@@ -96,7 +100,7 @@ export function MediaHeader({
           text={title}
           as="h1"
           delay={0.22}
-          className="font-display mt-5 max-w-[14ch] text-[length:var(--step-h1)] text-paper"
+          className={`font-display mt-5 ${titleClassName} text-[length:var(--step-h1)] text-paper`}
         />
 
         {lede ? (
