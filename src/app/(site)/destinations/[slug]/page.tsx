@@ -18,6 +18,8 @@ import { getDestinations, getDestination } from "@/lib/content/destinations";
 import { getPackagesForDestination } from "@/lib/content/packages";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { whatsappLink } from "@/data/site";
+import { getDestinationSeo } from "@/data/destinationSeo";
+import { DestinationCost } from "@/components/sections/DestinationCost";
 import { pageMetadata, breadcrumbJsonLd, truncateAtWord } from "@/lib/seo";
 import { entityCard } from "@/lib/ogCards";
 import { jsonLdScript } from "@/lib/utils";
@@ -73,9 +75,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   // against how TravelTriangle/MakeMyTrip/Thomas Cook title their own
   // destination pages) — "from Mumbai" narrows the query to one city, and
   // Mumbai is already established elsewhere on the page (BOM code, address).
-  const title = `${destination.name} Tour Packages from India`;
+  // Destinations with an entry in destinationSeo.ts carry copy written for a
+  // specific search (keyword data from Ubersuggest); the rest keep the default.
+  const seo = getDestinationSeo(destination.slug);
+  const title = seo?.title ?? `${destination.name} Tour Packages from India`;
   const rawDescription = `${destination.tagline ?? ""}. ${destination.intro ?? ""}`.trim();
-  const description = truncateAtWord(rawDescription, 155);
+  const description = seo?.description ?? truncateAtWord(rawDescription, 155);
 
   return pageMetadata({
     title,
@@ -99,6 +104,9 @@ export default async function DestinationPage({ params }: Params) {
     getPackagesForDestination(destination.slug),
     getSiteSettings(),
   ]);
+
+  const seo = getDestinationSeo(destination.slug);
+  const faqs = [...(destination.faqs ?? []), ...(seo?.extraFaqs ?? [])];
 
   const flightTimeFact = destination.facts.find((f) =>
     f.label.toLowerCase().includes("flight"),
@@ -153,6 +161,14 @@ export default async function DestinationPage({ params }: Params) {
         <Container>
           <div className="grid gap-16 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
+              {seo ? (
+                <Reveal>
+                  <p className="mb-8 border-l-2 border-brass pl-5 text-lg text-ink-2">
+                    {seo.answerLead}
+                  </p>
+                </Reveal>
+              ) : null}
+
               <Reveal>
                 <p className="font-display text-[length:var(--step-h3)] leading-[1.4] text-ink">
                   {destination.intro}
@@ -291,6 +307,14 @@ export default async function DestinationPage({ params }: Params) {
           </div>
         </Container>
       </Section>
+
+      {seo ? (
+        <DestinationCost
+          destinationName={destination.name}
+          slug={destination.slug}
+          cost={seo.cost}
+        />
+      ) : null}
 
       <StatsBand />
 
@@ -499,7 +523,7 @@ export default async function DestinationPage({ params }: Params) {
 
       <DestinationFAQSection
         destinationName={destination.name}
-        faqs={destination.faqs ?? []}
+        faqs={faqs}
       />
 
       <RelatedPackages destinationName={destination.name} packages={relatedPackages} />
