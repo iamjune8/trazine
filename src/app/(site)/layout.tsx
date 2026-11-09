@@ -38,7 +38,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Travel Magazine (Travzine): Europe & Asia Tour Packages",
+    default: "Travel Magazine Tours & Travels (Travzine): Europe & Asia Tour Packages",
     template: `%s | ${site.name}`,
   },
   description:

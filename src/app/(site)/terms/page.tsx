@@ -11,13 +11,13 @@ import { getSiteSettings, type SiteSettings } from "@/lib/content/siteSettings";
 export const metadata: Metadata = pageMetadata({
   title: "Terms of Use",
   description:
-    "The terms that govern using the Travel Magazine website — separate from the booking conditions that apply once a trip is actually confirmed.",
+    "The terms that govern using the Travel Magazine Tours & Travels website — separate from the booking conditions that apply once a trip is actually confirmed.",
   path: "/terms",
   image: {
     url: "/og/travzine-home-v2-1200x627.jpg",
     width: 1200,
     height: 627,
-    alt: "Travel Magazine",
+    alt: "Travel Magazine Tours & Travels",
   },
 });
 

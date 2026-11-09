@@ -93,7 +93,7 @@ export default function ResetPasswordPage() {
             <Icon name="sparkle" size={20} />
           </span>
           <div>
-            <p className="text-sm font-semibold text-admin-text">Travel Magazine</p>
+            <p className="text-sm font-semibold text-admin-text">Travel Magazine Tours & Travels</p>
             <p className="text-[0.65rem] uppercase tracking-[0.16em] text-admin-text-3">
               Control room
             </p>

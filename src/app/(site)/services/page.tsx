@@ -40,7 +40,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Itinerary design, visa assistance, IATA-accredited ticketing from Mumbai, insurance and forex, on-ground arrangements, and support throughout your journey.",
   path: "/services",
-  image: pageCard("services", "Travel Magazine — Services: the difficult parts, handled."),
+  image: pageCard("services", "Travel Magazine Tours & Travels — Services: the difficult parts, handled."),
 });
 
 export default async function ServicesPage() {

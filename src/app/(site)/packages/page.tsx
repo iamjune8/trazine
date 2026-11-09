@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Fixed departure packages",
     description: `${showPackagePrices ? "Priced, dated" : "Dated"} tour packages with flights, stay and sightseeing bundled in — pick a departure and enquire.`,
     path: "/packages",
-    image: pageCard("packages", "Travel Magazine — Fixed departure packages ready to book."),
+    image: pageCard("packages", "Travel Magazine Tours & Travels — Fixed departure packages ready to book."),
   });
 }
 

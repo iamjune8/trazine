@@ -23,7 +23,7 @@ export function AdminSidebar({ links, email }: { links: NavLink[]; email: string
           <Icon name="sparkle" size={17} />
         </span>
         <span className="leading-tight">
-          <span className="block text-sm font-semibold text-admin-text">Travel Magazine</span>
+          <span className="block text-sm font-semibold text-admin-text">Travel Magazine Tours & Travels</span>
           <span className="block text-[0.65rem] uppercase tracking-[0.16em] text-admin-text-3">
             Control room
           </span>

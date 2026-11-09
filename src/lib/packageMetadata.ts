@@ -1,8 +1,13 @@
 import type { TourPackage } from "@/lib/content/packages";
 import { truncateAtWord } from "@/lib/seo";
+import { site } from "@/data/site";
 
-/** The site title template appends " | Travel Magazine" (18 characters). */
-const MAX_TITLE = 42;
+/**
+ * The site title template appends " | <site name>", so a title has to leave
+ * room for it inside the roughly 60 characters a search result shows.
+ */
+const TITLE_BUDGET = 60;
+const MAX_TITLE = TITLE_BUDGET - " | ".length - site.name.length;
 const MAX_DESCRIPTION = 160;
 
 /** "7N Japan" -> "7". Undefined when the summary doesn't start with a night count. */

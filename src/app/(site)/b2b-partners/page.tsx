@@ -81,7 +81,7 @@ export default async function B2BPartnersPage() {
   ];
   const whatsappHref = whatsappLink(
     settings.whatsapp,
-    "Hello, I'd like to know about becoming a B2B partner with Travel Magazine for land packages and visa support.",
+    "Hello, I'd like to know about becoming a B2B partner with Travel Magazine Tours & Travels for land packages and visa support.",
   );
 
   return (

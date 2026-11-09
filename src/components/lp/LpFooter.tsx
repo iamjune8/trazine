@@ -20,7 +20,7 @@ export async function LpFooter() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-5 text-center text-xs text-ink-3 sm:px-8">
         <p>{settings.fullAddress}</p>
         <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-          <span>© {year} Travel Magazine</span>
+          <span>© {year} Travel Magazine Tours & Travels</span>
           <Link href="/privacy" className="link-underline">
             Privacy Policy
           </Link>

@@ -17,9 +17,9 @@ import { pageCard } from "@/lib/ogCards";
 export const metadata: Metadata = pageMetadata({
   title: "IATA-Accredited Travel Agency in Mumbai",
   description:
-    "About Travel Magazine, a small Kurla West team planning Europe circuits and Asia and Gulf holidays from Mumbai, with one named consultant per trip.",
+    "About Travel Magazine Tours & Travels, a small Kurla West team planning Europe circuits and Asia and Gulf holidays from Mumbai, with one named consultant per trip.",
   path: "/about",
-  image: pageCard("about", "Travel Magazine — About: two disciplined tiers, one named consultant on every trip."),
+  image: pageCard("about", "Travel Magazine Tours & Travels — About: two disciplined tiers, one named consultant on every trip."),
 });
 
 // Safety net alongside the admin's on-demand revalidatePath() calls: some
@@ -93,7 +93,7 @@ export default async function AboutPage() {
             <div className="lg:col-span-6">
               <Reveal>
                 <p className="font-display text-[length:var(--step-h3)] leading-[1.4] text-ink">
-                  Travel Magazine began in 2020 with a ticketing desk, a landline
+                  Travel Magazine Tours & Travels began in 2020 with a ticketing desk, a landline
                   and a stubborn view about how much of a holiday should be left
                   to chance.
                 </p>

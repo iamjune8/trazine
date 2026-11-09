@@ -19,7 +19,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title:
-    "Travel Magazine (Travzine): Europe & Asia Tour Packages",
+    "Travel Magazine Tours & Travels (Travzine): Europe & Asia Tour Packages",
   description:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf, with one consultant from visa to ticket.",
   path: "/",
@@ -27,7 +27,7 @@ export const metadata: Metadata = pageMetadata({
     url: "/og/travzine-home-v2-1200x627.jpg",
     width: 1200,
     height: 627,
-    alt: "Travel Magazine — Two ways to travel, planned as though we were coming with you. A family laughs in an infinity pool at sunset with the Burj Khalifa behind them.",
+    alt: "Travel Magazine Tours & Travels — Two ways to travel, planned as though we were coming with you. A family laughs in an infinity pool at sunset with the Burj Khalifa behind them.",
   },
 });
 

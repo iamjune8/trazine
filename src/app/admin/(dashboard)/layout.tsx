@@ -46,7 +46,7 @@ export default async function AdminDashboardLayout({
         <header className="flex items-center justify-between gap-4 border-b border-admin-border-soft px-5 py-4 sm:px-8">
           <AdminMobileNav links={navLinks} />
           <span className="text-sm font-medium text-admin-text-2 lg:hidden">
-            Travel Magazine <span className="text-admin-text-3">/ Admin</span>
+            Travel Magazine Tours & Travels <span className="text-admin-text-3">/ Admin</span>
           </span>
           <div className="ml-auto flex items-center gap-3">
             <span className="hidden truncate text-xs text-admin-text-3 sm:inline">{email}</span>

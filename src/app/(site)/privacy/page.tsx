@@ -11,13 +11,13 @@ import { getSiteSettings, type SiteSettings } from "@/lib/content/siteSettings";
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
   description:
-    "How Travel Magazine collects, uses and protects the information you share with us through an enquiry, a call or WhatsApp.",
+    "How Travel Magazine Tours & Travels collects, uses and protects the information you share with us through an enquiry, a call or WhatsApp.",
   path: "/privacy",
   image: {
     url: "/og/travzine-home-v2-1200x627.jpg",
     width: 1200,
     height: 627,
-    alt: "Travel Magazine",
+    alt: "Travel Magazine Tours & Travels",
   },
 });
 

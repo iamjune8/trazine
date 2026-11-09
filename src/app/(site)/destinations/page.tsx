@@ -16,7 +16,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Premium Luxury: a multi-country Europe circuit, plus Japan and Saudi Arabia. Easy & Affordable: Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore and more.",
   path: "/destinations",
-  image: pageCard("destinations", "Travel Magazine — Destinations: Premium Luxury circuits and Easy & Affordable getaways."),
+  image: pageCard("destinations", "Travel Magazine Tours & Travels — Destinations: Premium Luxury circuits and Easy & Affordable getaways."),
 });
 
 // Revalidate every hour so destination changes appear within 60 minutes without

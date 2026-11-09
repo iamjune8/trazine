@@ -15,7 +15,7 @@ const NOTIFY_TO = process.env.LEAD_NOTIFICATION_EMAIL || "travelmagazine24@gmail
  * the only address Resend will send from — fine for now, replace once a
  * real domain is verified (see .env.example).
  */
-const FROM = process.env.RESEND_FROM_EMAIL || "Travel Magazine <onboarding@resend.dev>";
+const FROM = process.env.RESEND_FROM_EMAIL || "Travel Magazine Tours & Travels <onboarding@resend.dev>";
 
 export type LeadNotification = {
   id: string;
@@ -80,7 +80,7 @@ function renderLeadEmail(lead: LeadNotification): string {
 
   return `
     <div style="font-family:Georgia,'Times New Roman',serif;max-width:480px;margin:0 auto;padding:24px;">
-      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#a97a2b;margin:0 0 8px;">Travel Magazine</p>
+      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#a97a2b;margin:0 0 8px;">Travel Magazine Tours &amp; Travels</p>
       <h1 style="font-size:22px;color:#17140f;margin:0 0 20px;">New enquiry</h1>
       <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
         ${row("Name", lead.name)}
@@ -168,7 +168,7 @@ function renderPackageEnquiryEmail(enquiry: PackageEnquiryNotification): string 
 
   return `
     <div style="font-family:Georgia,'Times New Roman',serif;max-width:480px;margin:0 auto;padding:24px;">
-      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#a97a2b;margin:0 0 8px;">Travel Magazine</p>
+      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#a97a2b;margin:0 0 8px;">Travel Magazine Tours &amp; Travels</p>
       <h1 style="font-size:22px;color:#17140f;margin:0 0 20px;">New package enquiry</h1>
       <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
         ${row("Package", `${enquiry.packageName}${enquiry.departureCode ? ` (${enquiry.departureCode})` : ""}`)}

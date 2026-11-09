@@ -17,9 +17,9 @@ import { pageCard } from "@/lib/ogCards";
 export const metadata: Metadata = pageMetadata({
   title: "Contact: Mumbai Travel Agency, Kurla West",
   description:
-    "Visit or contact Travel Magazine, a travel agency in Kurla West, Mumbai. Call, WhatsApp, email or send an enquiry for Europe, Asia and Gulf holidays.",
+    "Visit or contact Travel Magazine Tours & Travels, a travel agency in Kurla West, Mumbai. Call, WhatsApp, email or send an enquiry for Europe, Asia and Gulf holidays.",
   path: "/contact",
-  image: pageCard("contact", "Travel Magazine — Contact: talk to a consultant."),
+  image: pageCard("contact", "Travel Magazine Tours & Travels — Contact: talk to a consultant."),
 });
 
 /** Where a Mumbai traveller is most likely to go next from this page. */
@@ -190,7 +190,7 @@ export default async function ContactPage() {
                     // away the exact verified-listing pin a Place ID would
                     // give for a field that can never go stale.
                     src={settings.mapsEmbedUrl}
-                    title="Map showing the Travel Magazine office location"
+                    title="Map showing the Travel Magazine Tours & Travels office location"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="h-full w-full border-0"
