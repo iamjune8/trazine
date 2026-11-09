@@ -46,8 +46,7 @@ export async function CorporateAndLeisureBanners() {
                 <div className="relative aspect-[5/4] overflow-hidden bg-paper-3">
                   <Image
                     src={photo(service.image!, 1200)}
-                    alt=""
-                    aria-hidden="true"
+                    alt={service.title}
                     fill
                     sizes="(max-width: 640px) 100vw, 50vw"
                     loading="lazy"

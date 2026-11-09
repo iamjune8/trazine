@@ -16,8 +16,17 @@ import { getSiteSettings } from "@/lib/content/siteSettings";
  * The photograph sits behind a heavy scrim so the white type holds well past
  * the 4.5:1 minimum regardless of what is in frame.
  */
+/** Descriptions for the photographs the band is used with across the site. */
+const BAND_ALT: Readonly<Record<string, string>> = {
+  aircraftWing: "An aircraft wing above the clouds at sunrise",
+  swissPeaksAboveCloud: "Swiss Alpine peaks rising above a sea of cloud",
+  planningFlatlay: "A desk laid out with maps and notes for planning a trip",
+  londonBusDusk: "A London bus at dusk",
+};
+
 export async function CTABand({
   image = "aircraftWing",
+  imageAlt,
   eyebrow = "Start here",
   title = "Tell us where you'd like to go.",
   body = "One conversation, and you will have an itinerary with the reasoning attached — hotels named, inclusions listed, exclusions stated plainly.",
@@ -25,6 +34,9 @@ export async function CTABand({
   source = "cta-band",
 }: {
   image?: PhotoKey;
+  /** Describes the background photograph. Defaults to a known description for
+      the stock photos, or a generic one for anything else. */
+  imageAlt?: string;
   eyebrow?: string;
   title?: string;
   body?: string;
@@ -37,8 +49,7 @@ export async function CTABand({
     <section className="relative isolate overflow-hidden bg-ink">
       <Image
         src={photo(image, 2000)}
-        alt=""
-        aria-hidden="true"
+        alt={imageAlt ?? BAND_ALT[image] ?? "A travel photograph"}
         fill
         sizes="100vw"
         quality={70}

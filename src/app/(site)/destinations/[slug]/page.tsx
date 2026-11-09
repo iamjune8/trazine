@@ -564,6 +564,7 @@ export default async function DestinationPage({ params }: Params) {
 
       <CTABand
         image={destination.gallery[0] ?? destination.heroImage}
+        imageAlt={`${destination.name} — a view of the destination`}
         eyebrow="Start here"
         title={`Let's plan your ${destination.name} journey.`}
         body="One conversation, then an itinerary with the reasoning attached — hotels named, inclusions listed, exclusions stated plainly."

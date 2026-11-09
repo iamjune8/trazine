@@ -557,6 +557,7 @@ export default async function PackagePage({ params }: Params) {
 
       <CTABand
         image={pkg.heroImage || "aircraftWing"}
+        imageAlt={pkg.heroImage ? `${pkg.name} — a view from the trip` : undefined}
         eyebrow="Ready to go"
         title={`Let's confirm your ${pkg.name} dates.`}
         body="Pick a departure, tell us who's travelling, and a consultant confirms availability within one working day."
