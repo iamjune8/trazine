@@ -217,7 +217,7 @@ export function EnquiryForm({
   const sectionGap = compact ? "mt-7" : "mt-9";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="w-full">
+    <form onSubmit={handleSubmit} noValidate data-clarity-mask="True" className="w-full">
       {/* Honeypot — invisible to a real visitor, irresistible to a bot that
           fills every field it finds. Off-screen rather than display:none,
           since some bots specifically skip hidden inputs; tabIndex -1 and

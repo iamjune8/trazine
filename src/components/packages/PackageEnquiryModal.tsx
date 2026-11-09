@@ -304,7 +304,7 @@ function PackageEnquiryPanel({
         ) : null}
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
+      <form onSubmit={handleSubmit} noValidate data-clarity-mask="True" className="mt-6 space-y-5">
         <input
           ref={honeypotRef}
           type="text"

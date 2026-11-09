@@ -135,7 +135,7 @@ export function LpEnquiryForm({ destination, source }: { destination: string; so
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="w-full">
+    <form onSubmit={handleSubmit} noValidate data-clarity-mask="True" className="w-full">
       <input
         ref={honeypotRef}
         type="text"

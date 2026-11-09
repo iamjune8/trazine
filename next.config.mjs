@@ -78,7 +78,7 @@ const nextConfig = {
       // connect.facebook.net: Meta Pixel's own fbevents.js — independent of
       // and unrelated to the Google Ads/GTM entries above; see
       // src/lib/meta-pixel.ts for why the two pipes are kept separate.
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://connect.facebook.net",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://connect.facebook.net https://www.clarity.ms https://scripts.clarity.ms",
       "style-src 'self' 'unsafe-inline'",
       // www.google.com and www.google.co.in: GA4's ad-audience-sync pixel
       // (/ads/ga-audiences), which loads as an <img>, not a fetch — and
@@ -97,7 +97,9 @@ const nextConfig = {
       // www.facebook.com: Meta Pixel's JS-fired tracking beacon (fbevents.js
       // posts events here) — separate from the img-src entry above, which
       // only covers the <noscript> fallback.
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com https://www.facebook.com",
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.com https://challenges.cloudflare.com https://www.facebook.com https://*.clarity.ms https://c.bing.com",
+      // Clarity compresses what it records in a Web Worker built from a blob.
+      "worker-src 'self' blob:",
       "frame-src https://www.google.com https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",

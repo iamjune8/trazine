@@ -4,6 +4,8 @@ import "../globals.css";
 
 import { GtmScript } from "@/components/analytics/GtmScript";
 import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
+import { ClarityScript } from "@/components/analytics/ClarityScript";
+import { CLARITY_PROJECT_ID } from "@/lib/clarity";
 import { MetaPixelPageview } from "@/components/analytics/MetaPixelPageview";
 import { SiteSettingsProvider } from "@/components/site/SiteSettingsContext";
 import { getSiteSettings } from "@/lib/content/siteSettings";
@@ -85,6 +87,7 @@ export default async function LandingLayout({
         )}
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
         {metaPixelId && <MetaPixelPageview />}
+        {CLARITY_PROJECT_ID && <ClarityScript projectId={CLARITY_PROJECT_ID} />}
         <SiteSettingsProvider settings={settings}>{children}</SiteSettingsProvider>
       </body>
     </html>

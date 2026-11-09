@@ -5,6 +5,8 @@ import "../globals.css";
 
 import { GtmScript } from "@/components/analytics/GtmScript";
 import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
+import { ClarityScript } from "@/components/analytics/ClarityScript";
+import { CLARITY_PROJECT_ID } from "@/lib/clarity";
 import { MetaPixelPageview } from "@/components/analytics/MetaPixelPageview";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -204,6 +206,7 @@ export default async function RootLayout({
         )}
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
         {metaPixelId && <MetaPixelPageview />}
+        {CLARITY_PROJECT_ID && <ClarityScript projectId={CLARITY_PROJECT_ID} />}
         {/* Marks the document as scripted BEFORE the body paints. Every
             scroll-reveal's hidden state is scoped to `.js`, so if this never
             runs — scripting disabled, bundle blocked — the page renders fully

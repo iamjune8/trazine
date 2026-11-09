@@ -128,11 +128,16 @@ function buildSections(
     body: (
       <>
         <p>
-          This site can use Google Analytics and Google Tag Manager to understand, in
+          This site can use Google Analytics, Google Tag Manager and Microsoft Clarity to understand, in
           aggregate, how the site is used — which pages get read, roughly where visitors
           come from — so we can improve it. These tools may set cookies in your browser.
           We don&rsquo;t use them to identify you personally, and they play no part in
           how your enquiry itself is handled.
+        </p>
+        <p>
+          Microsoft Clarity records how pages are used, such as scrolling and clicking,
+          as session replays and heatmaps. Anything typed into our enquiry forms is
+          masked and not recorded.
         </p>
         <p>
           You can block or delete these cookies in your browser settings at any time;
