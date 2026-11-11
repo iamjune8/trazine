@@ -1,6 +1,9 @@
 import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 
+const GOOGLE_MAPS_EMBED_URL =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.5916503699564!2d72.88634689999999!3d19.0816834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c996ea9bcf41%3A0xe16e7d34f7dc83b5!2sTravel%20Magazine%20Tours%20%26%20Travels!5e0!3m2!1sen!2sin!4v1794386913518!5m2!1sen!2sin";
+
 export type SiteSettings = {
   phone: string;
   phoneHref: string;
@@ -84,12 +87,10 @@ function derive(row: {
     address,
     fullAddress,
     hours: row.hours,
-    // A plain address-query embed regenerates itself whenever the address
-    // changes — no separate "paste your embed code" field for the admin to
-    // keep in sync. Trades away the exact-listing pin a Place ID/ftid gives,
-    // but that precision isn't worth a field that goes stale the moment the
-    // address is edited without it.
-    mapsEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(`${row.address_line1}, ${row.city}`)}&output=embed`,
+    // Embed of the verified Google Business Profile listing (Place ID), so
+    // the map drops one pin on the office and nothing else. Replace this
+    // value if the listing is ever recreated.
+    mapsEmbedUrl: GOOGLE_MAPS_EMBED_URL,
     showPackagePrices: row.show_package_prices === true,
   };
 }
