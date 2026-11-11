@@ -18,6 +18,8 @@ export const site = {
 
   url: "https://travzine.in",
 
+  owner: { name: "Juned Shaikh", role: "Owner" },
+
   social: {
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",

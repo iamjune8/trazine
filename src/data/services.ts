@@ -54,7 +54,7 @@ export const services: Service[] = [
     slug: "flights-ticketing",
     title: "Flights & ticketing",
     summary:
-      "IATA-accredited ticketing out of Mumbai, including the open-jaw and multi-city routings that consolidator sites quietly hide.",
+      "Flight ticketing out of Mumbai, including the open-jaw and multi-city routings that consolidator sites quietly hide.",
     detail:
       "Booking into Paris and home out of Zürich costs less than most travellers expect and saves an entire day of backtracking — but it is exactly the fare online engines are worst at showing. We hold seats through the visa process where the airline allows it, so an approval that arrives late does not cost you the fare you were quoted.",
     points: [
@@ -139,13 +139,9 @@ export const approach = [
 export const stats = [
   { value: "5", suffix: "+", label: "Years planning journeys" },
   { value: "1,000", suffix: "+", label: "Happy customers" },
-  // Replaced an unsupported "96% visa applications approved" claim — flagged
-  // during a Google Ads landing-page audit as both an unverifiable stat and
-  // wording that reads as a government-document-service claim. IATA
-  // accreditation is a real, already-stated credential (see the ticketing
-  // service description and FAQ elsewhere in this file), not a number, so it
-  // renders as a static value with no count-up (Counter no-ops on non-numeric
-  // values — see src/components/motion/Counter.tsx).
-  { value: "IATA", suffix: "", label: "Accredited ticketing agency" },
+  // Static, non-numeric value: Counter no-ops on it (see
+  // src/components/motion/Counter.tsx). Keep this slot to claims that can be
+  // verified; an accreditation goes here only once its number is issued.
+  { value: "Mumbai", suffix: "", label: "Kurla West office, visits welcome" },
   { value: "1", suffix: "", label: "Named consultant per journey" },
 ] as const;

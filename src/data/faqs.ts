@@ -29,6 +29,6 @@ export const faqs: Faq[] = [
   {
     question: "We only need flights, or only the visa. Is that fine?",
     answer:
-      "Completely fine. Plenty of clients come to us for IATA-accredited ticketing or visa filing alone and plan the rest themselves. There is no obligation to take the full arrangement.",
+      "Completely fine. Plenty of clients come to us for flight ticketing or visa filing alone and plan the rest themselves. There is no obligation to take the full arrangement.",
   },
 ];

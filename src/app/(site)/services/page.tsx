@@ -38,7 +38,7 @@ const SERVICE_IMAGES: Partial<Record<string, PhotoKey>> = {
 export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
-    "Itinerary design, visa assistance, IATA-accredited ticketing from Mumbai, insurance and forex, on-ground arrangements, and support throughout your journey.",
+    "Itinerary design, visa assistance, flight ticketing from Mumbai, insurance and forex, on-ground arrangements, and support throughout your journey.",
   path: "/services",
   image: pageCard("services", "Travel Magazine Tours & Travels — Services: the difficult parts, handled."),
 });

@@ -17,7 +17,7 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 export const metadata: Metadata = pageMetadata({
   title: "Become a B2B Travel Partner",
   description:
-    "An IATA-accredited B2B partner for associates who sell international trips: land packages across Europe, Asia and the Gulf, plus visa processing assistance.",
+    "A Mumbai B2B partner for associates who sell international trips: land packages across Europe, Asia and the Gulf, plus visa processing assistance.",
   path: "/b2b-partners",
   image: photo("departureBoardRetro", 1200),
 });
@@ -67,7 +67,7 @@ const steps = [
 ];
 
 const facts = [
-  { label: "Accreditation", value: "IATA-accredited" },
+  { label: "Proposals", value: "Within 1 working day" },
   { label: "Trading since", value: "2020" },
   { label: "Customers served", value: "1,000+" },
   { label: "Based in", value: "Mumbai" },

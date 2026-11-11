@@ -13,9 +13,10 @@ import { ParallaxImage } from "@/components/motion/ParallaxImage";
 import { Icon } from "@/components/ui/Icon";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageCard } from "@/lib/ogCards";
+import { site } from "@/data/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "IATA-Accredited Travel Agency in Mumbai",
+  title: "Travel Agency in Kurla West, Mumbai",
   description:
     "About Travel Magazine Tours & Travels, a small Kurla West team planning Europe circuits and Asia and Gulf holidays from Mumbai, with one named consultant per trip.",
   path: "/about",
@@ -151,6 +152,32 @@ export default async function AboutPage() {
               </div>
             </Reveal>
           </div>
+        </Container>
+      </Section>
+
+      {/* Owner */}
+      <Section tone="paper-2">
+        <Container>
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">Who runs it</p>
+            <h2 className="font-display mt-4 text-[length:var(--step-h2)]">
+              {site.owner.name}
+            </h2>
+            <p className="mt-2 text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-brass-deep">
+              {site.owner.role}, {site.name}
+            </p>
+            <p className="mt-6 text-lg text-ink-2">
+              {site.name} is owned and run by {site.owner.name} from the Kurla
+              West office in Mumbai. If you would rather speak to the owner
+              about a quote, a booking or anything on your trip, ask for him by
+              name when you call or visit.
+            </p>
+            <p className="mt-6">
+              <Link href="/contact" className="link-underline text-brass-deep">
+                Contact the office
+              </Link>
+            </p>
+          </Reveal>
         </Container>
       </Section>
 
