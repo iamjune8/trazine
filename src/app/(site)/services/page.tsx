@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { pageCard } from "@/lib/ogCards";
@@ -36,9 +37,9 @@ const SERVICE_IMAGES: Partial<Record<string, PhotoKey>> = {
 };
 
 export const metadata: Metadata = pageMetadata({
-  title: "Services",
+  title: "Visa & Flight Services from Mumbai",
   description:
-    "Itinerary design, visa assistance, flight ticketing from Mumbai, insurance and forex, on-ground arrangements, and support throughout your journey.",
+    "Visa assistance, flight ticketing, travel insurance, forex and custom itinerary design for travellers from Mumbai. One named consultant from start to finish.",
   path: "/services",
   image: pageCard("services", "Travel Magazine Tours & Travels — Services: the difficult parts, handled."),
 });
@@ -63,11 +64,45 @@ export default async function ServicesPage() {
         image="/images/other/ticketing.jpg"
         imageAlt="An aircraft wing above the clouds at sunrise"
         eyebrow="What we handle"
-        title="Everything between the idea and the boarding gate"
-        lede="Most of what makes international travel stressful happens months before departure, in an office, with paperwork. That is the part we take on — and the part we are measured by."
+        title="Visa, flights and itineraries, planned from Mumbai"
+        lede="Most of what makes international travel stressful happens months before departure, in an office, with paperwork. That is the part we take on, and the part we are measured by."
         breadcrumb={[{ label: "Home", href: "/" }]}
         breadcrumbLabel="Services"
+        titleClassName="max-w-[22ch]"
       />
+
+      {/* Overview: every service at a glance, each linking to its section */}
+      <Section>
+        <Container>
+          <Reveal className="max-w-3xl">
+            <h2 className="font-display text-[length:var(--step-h2)]">
+              Travel services from Mumbai, in one place
+            </h2>
+            <p className="mt-5 text-lg text-ink-2">
+              Between choosing a destination and boarding, a trip needs a visa,
+              a ticket, insurance, currency and someone to arrange the days on the
+              ground. We handle each of these from our Kurla West office, so you
+              speak to one team rather than five.
+            </p>
+          </Reveal>
+
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <li key={service.slug} className="border border-line-2 p-8 transition-colors duration-300 hover:border-brass">
+                <span className="flex h-11 w-11 items-center justify-center border border-line-2 text-brass-deep">
+                  <Icon name={service.icon} size={20} />
+                </span>
+                <h3 className="font-display mt-6 text-xl text-ink">
+                  <Link href={`#${service.slug}`} className="link-underline">
+                    {service.title}
+                  </Link>
+                </h3>
+                <p className="mt-3 text-ink-2">{service.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
 
       {/* Long-form service list */}
       <Section>
