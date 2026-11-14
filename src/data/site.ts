@@ -11,6 +11,8 @@
 
 export const site = {
   name: "Travel Magazine Tours & Travels",
+  /** Short form for page-title suffixes, so titles stay inside search-result limits. */
+  shortName: "Travel Magazine Tours",
   legalName: "Travel Magazine Tours & Travels",
   slogan: "Capture World, Page by Page",
   positioning:

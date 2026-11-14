@@ -11,7 +11,7 @@ import type { DestinationSeo } from "./types";
  * No prices are stated.
  */
 export const thailand: DestinationSeo = {
-  title: "Thailand Tour Packages from Mumbai & India",
+  title: "Thailand Tour Packages from Mumbai",
   description:
     "Thailand tour packages from Mumbai: Bangkok, Phuket and Krabi, direct flights of about 4 hours, a fixed Phuket + Krabi package or a custom trip.",
   h1: "Thailand tour packages from Mumbai",

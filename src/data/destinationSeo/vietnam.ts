@@ -11,7 +11,7 @@ import type { DestinationSeo } from "./types";
  * package page (/packages/vietnam-getaway). No prices are stated.
  */
 export const vietnam: DestinationSeo = {
-  title: "Vietnam Tour Packages from Mumbai & India",
+  title: "Vietnam Tour Packages from Mumbai",
   description:
     "Vietnam tour packages from Mumbai and across India: Hanoi, Da Nang and Ho Chi Minh City, as a fixed 7-night package or a trip built around your dates.",
   h1: "Vietnam tour packages from Mumbai",

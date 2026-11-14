@@ -11,7 +11,7 @@ import type { DestinationSeo } from "./types";
  * the Dubai destination page. No prices are stated.
  */
 export const dubai: DestinationSeo = {
-  title: "Dubai Tour Packages from Mumbai & India",
+  title: "Dubai Tour Packages from Mumbai",
   description:
     "Dubai tour packages from Mumbai: direct flights of about 3 hours 15 minutes, 4 to 7 night trips for families and couples, with visa guidance.",
   h1: "Dubai tour packages from Mumbai",

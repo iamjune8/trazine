@@ -8,7 +8,7 @@ import type { DestinationSeo } from "./types";
  *   "europe tour package price from india"  ~110/mo,  difficulty 16
  */
 export const europe: DestinationSeo = {
-  title: "Europe Tour Packages from Mumbai & India",
+  title: "Europe Tour Packages from Mumbai",
   description:
     "Europe tour packages from Mumbai: private itineraries, Schengen visa filing, flights and a named consultant. Itemised proposal within one working day.",
   answerLead:

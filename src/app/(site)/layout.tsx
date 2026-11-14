@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: "Travel Magazine Tours & Travels (Travzine): Europe & Asia Tour Packages",
-    template: `%s | ${site.name}`,
+    template: `%s | ${site.shortName}`,
   },
   description:
     "A travel house designing a Premium Luxury circuit across the whole of Europe and Easy & Affordable journeys to Dubai, Bali, Thailand, Vietnam, Malaysia, Singapore, the Maldives, Sri Lanka, Nepal and Kenya. Itinerary design, visa assistance, IATA ticketing and support throughout.",

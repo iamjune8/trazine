@@ -65,6 +65,21 @@ export default async function PackagesPage() {
           title="Packages ready to book"
           lede={`Flights, stay and sightseeing bundled ${showPackagePrices ? "into one price" : "together"}, with real departure dates and seat counts — pick one and enquire, and we confirm it within a working day.`}
         />
+        <div className="prose-body mt-10 max-w-3xl text-lg text-ink-2">
+          <p>
+            Fixed departures are group trips with set dates, a set itinerary and a
+            limited number of seats. They suit travellers who would rather not plan
+            every detail, and they make it easy to compare what is included before
+            you commit. Each package lists its departure dates and the flights, stay
+            and sightseeing that come with it.
+          </p>
+          <p>
+            Enquire about any departure and we confirm within a working day, with
+            the hotels named and any extras stated plainly. If none of the listed
+            dates suit you, tell us your dates and the people travelling, and we can
+            look at a private itinerary instead.
+          </p>
+        </div>
 
         {packages.length === 0 ? (
           <p className="mt-16 text-ink-2">No packages published yet — check back soon.</p>
@@ -80,6 +95,24 @@ export default async function PackagesPage() {
             ))}
           </Stagger>
         )}
+
+        <div className="mt-20 max-w-3xl">
+          <h2 className="font-display text-[length:var(--step-h2)]">Common questions</h2>
+          <dl className="mt-8 space-y-8 text-ink-2">
+            <div>
+              <dt className="font-display text-xl text-ink">What is included?</dt>
+              <dd className="mt-2">Each package lists its flights, stay and sightseeing. We name the hotels in our reply to your enquiry, and state any extras that are not covered.</dd>
+            </div>
+            <div>
+              <dt className="font-display text-xl text-ink">How quickly will I hear back?</dt>
+              <dd className="mt-2">We confirm within one working day. Include your travel dates, the number of people and your budget range, so the reply is specific.</dd>
+            </div>
+            <div>
+              <dt className="font-display text-xl text-ink">What if none of the departures suit me?</dt>
+              <dd className="mt-2">Tell us your dates and we will look at a private itinerary built around them. Our Kurla West office is open to visitors during working hours.</dd>
+            </div>
+          </dl>
+        </div>
       </Container>
     </Section>
   );

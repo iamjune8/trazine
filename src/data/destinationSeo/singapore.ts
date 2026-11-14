@@ -12,7 +12,7 @@ import type { DestinationSeo } from "./types";
  * creating a new page.
  */
 export const singapore: DestinationSeo = {
-  title: "Singapore Tour Packages from Mumbai & India",
+  title: "Singapore Tour Packages from Mumbai",
   description:
     "Singapore tour packages from Mumbai: direct flights of about 5.5 hours, 4 to 6 night trips, or paired with Malaysia or Bali. We file the e-Visa for you.",
   h1: "Singapore tour packages from Mumbai",

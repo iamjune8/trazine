@@ -18,8 +18,7 @@ import { Icon } from "@/components/ui/Icon";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title:
-    "Travel Magazine Tours & Travels (Travzine): Europe & Asia Tour Packages",
+  title: "Europe & Asia Tour Packages from Mumbai | Travel Magazine Tours",
   description:
     "A travel house designing Premium Luxury circuits across Europe and Easy & Affordable journeys across Asia and the Gulf, with one consultant from visa to ticket.",
   path: "/",

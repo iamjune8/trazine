@@ -44,6 +44,22 @@ export default function GuidesPage() {
 
       <Section>
         <Container>
+          <div className="prose-body mx-auto mb-16 max-w-3xl text-lg text-ink-2">
+            <p>
+              Most of what travellers ask us before they book comes down to a few
+              questions: how long a Schengen visa takes, what the paperwork
+              looks like, how many countries a first Europe trip should include,
+              and how to tell a realistic itinerary from one that will have you
+              on a coach at five in the morning. These guides answer those
+              questions in plain language.
+            </p>
+            <p>
+              Where a rule comes from an official source, we say so and point to
+              it. Where a point is our own judgement from planning trips, we label
+              it that way. Each guide ends with the next step, in case you would
+              rather we handled it for you.
+            </p>
+          </div>
           <Stagger className="grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
             {guides.map((guide) => (
               <StaggerItem key={guide.slug}>
