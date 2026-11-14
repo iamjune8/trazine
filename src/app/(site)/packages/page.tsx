@@ -9,6 +9,8 @@ import { getSiteSettings } from "@/lib/content/siteSettings";
 import { pageCard } from "@/lib/ogCards";
 import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { jsonLdScript } from "@/lib/utils";
+import { photo } from "@/lib/images";
+import { packageAudiences } from "@/data/packageAudiences";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { showPackagePrices } = await getSiteSettings();
@@ -80,6 +82,47 @@ export default async function PackagesPage() {
             look at a private itinerary instead.
           </p>
         </div>
+
+        <section className="mt-20" aria-labelledby="who-its-for">
+          <h2 id="who-its-for" className="font-display text-[length:var(--step-h2)]">
+            Which trip suits your group?
+          </h2>
+          <p className="mt-5 max-w-3xl text-lg text-ink-2">
+            The same destinations can feel very different depending on who is
+            travelling. Find the group that sounds like yours.
+          </p>
+          <ul className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {packageAudiences.map((audience) => (
+              <li key={audience.slug} className="flex flex-col">
+                <div className="aspect-[4/3] overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photo(audience.image, 800)}
+                    alt={audience.imageAlt}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <h3 className="font-display mt-6 text-2xl text-ink">{audience.title}</h3>
+                <p className="mt-2 text-sm font-medium uppercase tracking-[0.14em] text-brass-deep">
+                  {audience.forWhom}
+                </p>
+                <p className="mt-4 text-ink-2">{audience.body}</p>
+                <ul className="mt-5 space-y-2 text-ink-2">
+                  {audience.points.map((point) => (
+                    <li key={point} className="flex gap-3">
+                      <span aria-hidden="true" className="text-brass">—</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={audience.cta.href} className="link-underline mt-6 self-start text-brass-deep">
+                  {audience.cta.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {packages.length === 0 ? (
           <p className="mt-16 text-ink-2">No packages published yet — check back soon.</p>

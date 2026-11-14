@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Hero } from "@/components/sections/Hero";
 import { StatsBand } from "@/components/sections/StatsBand";
+import { SeasonalPlanner } from "@/components/sections/SeasonalPlanner";
 import { DestinationsShowcase } from "@/components/sections/DestinationsShowcase";
 import { Approach } from "@/components/sections/Approach";
 import { ServicesSection } from "@/components/sections/ServicesSection";
@@ -40,6 +41,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <SeasonalPlanner />
       <StatsBand />
       <DestinationsShowcase />
 
