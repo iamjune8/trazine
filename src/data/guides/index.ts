@@ -1,11 +1,17 @@
 import type { Guide, GuideBlock } from "./types";
 import { schengenVisaFromIndia } from "./schengen-visa-from-india";
 import { howManyCountriesFirstEuropeTrip } from "./how-many-countries-first-europe-trip";
+import { schengenTravelInsuranceRules } from "./schengen-travel-insurance-rules";
+import { fixedDepartureOrPrivateTour } from "./fixed-departure-or-private-tour";
+import { questionsBeforePayingTravelAgent } from "./questions-before-paying-travel-agent";
 
 export type { Guide, GuideBlock, GuideFaq, GuideSource } from "./types";
 
 /** Newest first. Add a guide here and it appears in the index, sitemap and llms.txt. */
 export const guides: readonly Guide[] = [
+  questionsBeforePayingTravelAgent,
+  fixedDepartureOrPrivateTour,
+  schengenTravelInsuranceRules,
   howManyCountriesFirstEuropeTrip,
   schengenVisaFromIndia,
 ];
